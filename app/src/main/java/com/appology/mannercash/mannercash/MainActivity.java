@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
-
+// 공모전 대상
     private final long FINSH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
