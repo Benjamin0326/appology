@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MannerCash</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="point_section1">적립 내역</string>
+    <string name="point_section2">사용 내역</string>
+    <string name="title_activity_point_status">PointStatusActivity</string>
+    <string name="title_activity_ranking">RankingActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
