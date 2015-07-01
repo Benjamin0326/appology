@@ -1,8 +1,8 @@
 package com.appology.mannercash.mannercash;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -16,9 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -36,8 +33,12 @@ public class MainActivity extends ActionBarActivity {
     Intent intent;
 
     ToggleButton toggleButton;
-    TextView textView;   // 네트워킹 테스트
+    Context mContext;
     MainFunctionTask mainFunctionTask;
+    TextView textView;   // 네트워킹 테스트
+
+    TextView textView2;   // 속도 테스트
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,20 +84,22 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
+        textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
+        textView2 = (TextView) findViewById(R.id.text_view2);   // 속도 테스트
+        mContext = this;
         toggleButton = (ToggleButton) findViewById(R.id.toggle_button);
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(toggleButton.isChecked()) {
-                    mainFunctionTask = new MainFunctionTask();
-                    mainFunctionTask.execute(100);
+                if (toggleButton.isChecked()) {
+                    mainFunctionTask = new MainFunctionTask(mContext, textView, textView2);
+                    mainFunctionTask.execute();
                 } else {
                     mainFunctionTask.cancel(true);
                 }
             }
         });
-
-        textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
     }
 
     @Override
@@ -124,81 +127,6 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public class MainFunctionTask extends AsyncTask<Integer , Integer , Integer> {
-
-        int value;   // 네트워킹 테스트
-        int count;   // 네트워킹 테스트
-        public String Url = "http://m.naver.com";   // 네트워킹 테스트
-
-        public MainFunctionTask() {
-            value = 0;   // 네트워킹 테스트
-            count = 0;   // 네트워킹 테스트
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            while (isCancelled() == false) {
-
-                value = request(Url);   // 네트워킹 테스트
-
-                if (value >= 100) {   // 네트워킹 테스트
-                    break;   // 네트워킹 테스트
-                } else {   // 네트워킹 테스트
-                    publishProgress(value);
-                }
-
-                try {
-                    Thread.sleep(200);   // 네트워킹 테스트
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            return value;   // 네트워킹 테스트
-        }
-
-        private int request(String urlStr) {   // 네트워킹 테스트
-            try {
-                URL url = new URL(urlStr);
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                if (conn != null) {
-                    conn.setConnectTimeout(10000);
-                    conn.setRequestMethod("GET");
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    int resCode = conn.getResponseCode();
-                    if (resCode == HttpURLConnection.HTTP_OK) {
-
-                        count++;   // 네트워킹 테스트
-
-                        conn.disconnect();
-                    }
-                }
-            } catch(Exception ex) {
-                ex.printStackTrace();
-            }
-
-            return count;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            textView.setText(values[0].toString());   // 네트워킹 테스트
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-        }
-
-        @Override
-        protected void onCancelled() {
-        }
     }
 
     @Override
