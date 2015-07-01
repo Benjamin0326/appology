@@ -7,12 +7,37 @@
     android:id="@+id/dl_activity_main"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view"
+            android:text="0"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_above="@+id/toggle_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="60dp" />
+
+        <ToggleButton
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/toggle_button"
+            android:textOn="START"
+            android:textOff="STOP"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:padding="25dp"
+            android:layout_marginBottom="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
     <ListView android:id="@+id/lv_activity_main"
         android:background="#EDEDED"
