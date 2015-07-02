@@ -9,17 +9,32 @@ import android.os.Bundle;
  */
 public class GpsManager implements LocationListener {
 
-    int mySpeed;
+    int mSpeed;
+    double latitude;
+    double longitude;
 
-    public GpsManager(int mySpeed) {
-        this.mySpeed = mySpeed;
+    public GpsManager() {
     }
 
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            mySpeed = (int) location.getSpeed();
+            mSpeed = (int) location.getSpeed();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
         }
+    }
+
+    public int getMSpeed() {
+        return mSpeed;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     @Override

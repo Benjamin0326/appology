@@ -1,7 +1,6 @@
 package com.appology.mannercash.mannercash;
 
 import android.content.Context;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.widget.TextView;
@@ -18,35 +17,34 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     TextView textView;   // 네트워킹 테스트
     TextView textView2;   // 속도 테스트
-    int value;   // 네트워킹 테스트
-    int count;   // 네트워킹 테스트
-    int mSpeed;   // 속도 테스트
+    TextView textView3;   // 속도 테스트
+    Integer requestCount;   // 네트워킹 테스트
     public String Url = "http://m.naver.com";   // 네트워킹 테스트
 
     LocationManager locationManager;   // 속도 테스트
-    LocationListener locationListener;   // 속도 테스트
+    GpsManager locationListener;   // 속도 테스트
 
 
-    public MainFunctionTask(Context mContext, TextView textView, TextView textView2) {
+    public MainFunctionTask(Context mContext, LocationManager locationManager,
+                            TextView textView, TextView textView2, TextView textView3) {
         this.mContext = mContext;
+        this.locationManager = locationManager;
         this.textView = textView;
         this.textView2 = textView2;
-
-        value = 0;   // 네트워킹 테스트
-        count = 0;   // 네트워킹 테스트
-        mSpeed = 0;   // 속도 테스트
+        this.textView3 = textView3;
+        requestCount = new Integer(0);   // 네트워킹 테스트
     }
 
     @Override
     protected Void doInBackground(Void... params) {
         while (isCancelled() == false) {
 
-            value = request(Url);   // 네트워킹 테스트
+            request(Url);   // 네트워킹 테스트
 
-            publishProgress(value, mSpeed);
+            publishProgress();
 
             try {
-                Thread.sleep(200);   // 네트워킹 테스트
+                Thread.sleep(3000);   // 네트워킹 테스트
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -55,7 +53,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         return null;
     }
 
-    private int request(String urlStr) {   // 네트워킹 테스트
+    private void request(String urlStr) {   // 네트워킹 테스트
         try {
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -67,7 +65,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 int resCode = conn.getResponseCode();
                 if (resCode == HttpURLConnection.HTTP_OK) {
 
-                    count++;   // 네트워킹 테스트
+                    requestCount++;   // 네트워킹 테스트
 
                     conn.disconnect();
                 }
@@ -75,25 +73,26 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
-
-        return count;
     }
 
-    private void gpsSpeedRequest() {
-        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);   // 속도 테스트
-        locationListener = new GpsManager(mSpeed);   // 속도 테스트
+    private void gpsConfiguration() {
+        locationListener = new GpsManager();   // 속도 테스트
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);   // 속도 테스트
     }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
-        textView.setText(values[0].toString());   // 네트워킹 테스트
-        textView2.setText("현재속도 : " + values[1].toString());   // 속도 테스트
+        textView.setText(requestCount.toString());   // 네트워킹 테스트
+        textView2.setText("현재속도 : " + locationListener.getMSpeed());   // 속도 테스트
+        textView3.setText("위도 : " + locationListener.getLatitude() + "\n" + "경도 : " + locationListener.getLongitude());
+/*        Toast.makeText(mContext.getApplicationContext(), "속도:" + locationListener.getMSpeed() +
+                                                        "\n위도:" + locationListener.getLatitude() +
+                                                        "\n경도:" + locationListener.getLongitude(), Toast.LENGTH_SHORT).show();*/
     }
 
     @Override
     protected void onPreExecute() {
-        gpsSpeedRequest();   // 속도 테스트
+        gpsConfiguration();   // 속도 테스트
     }
 
     @Override
@@ -102,5 +101,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onCancelled() {
+        locationManager.removeUpdates(locationListener);
     }
 }

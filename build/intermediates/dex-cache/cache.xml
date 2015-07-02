@@ -2,20 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Jeong\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
-        jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
-        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-e8d594d3874344a19481856084d76e5597a9d0f4.jar" />
-    </item>
-    <item
-        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-a02b29d0c085b7e9fc58e184f542afc10503b376.jar" />
-    </item>
-    <item
         jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="23.0.0 rc2"
@@ -23,11 +9,25 @@
         <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-8c5e0039f3d374fc355c4abd6dd9729ffc548d94.jar" />
     </item>
     <item
+        jar="C:\Users\Jeong\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc2"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-e8d594d3874344a19481856084d76e5597a9d0f4.jar" />
+    </item>
+    <item
         jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.0 rc2"
         sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
         <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-e8cbf4dad7cdd83e0572ce0d81fdcef8ccc3bf63.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-a02b29d0c085b7e9fc58e184f542afc10503b376.jar" />
     </item>
 
 </items>
