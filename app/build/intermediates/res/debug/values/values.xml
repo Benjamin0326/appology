@@ -209,6 +209,7 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <!-- From: file:/C:/Users/Benjamin03/AndroidStudioProjects/MannerCash/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_point_status">PointStatusActivity</string>
     <string name="title_activity_ranking">RankingActivity</string>
     <string name="title_activity_tutorial">TutorialActivity</string>

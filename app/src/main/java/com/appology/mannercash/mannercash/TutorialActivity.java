@@ -1,5 +1,6 @@
 package com.appology.mannercash.mannercash;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
@@ -19,12 +20,17 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
     CheckBox chkbox;
     ImageView tutorial;
 
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
+
     int flag=0;
     int x;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+
+        mHelper = new WordDBHelper(this);
 
         dots[0]=(ImageView)findViewById(R.id.tutorial_dot1);
         dots[1]=(ImageView)findViewById(R.id.tutorial_dot2);
@@ -109,12 +115,14 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
         switch(v.getId()){
             case R.id.tutorial_close:
                 if(chkbox.isChecked()){
-                    setResult(RESULT_OK);
+                    db = mHelper.getWritableDatabase();
+                    db.execSQL("UPDATE flags SET tutorial = 0 WHERE tutorial = 1;");
+                    mHelper.close();
+
                     finish();
                     break;
                 }
                 else{
-                    setResult(RESULT_CANCELED);
                     finish();
                     break;
                 }

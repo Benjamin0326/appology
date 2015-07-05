@@ -40,6 +40,10 @@
             android:name="com.appology.mannercash.mannercash.TutorialActivity"
             android:label="@string/title_activity_tutorial" >
         </activity>
+        <activity
+            android:name="com.appology.mannercash.mannercash.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>
