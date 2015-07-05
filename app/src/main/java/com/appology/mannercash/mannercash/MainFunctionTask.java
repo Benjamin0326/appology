@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 /**
  * Created by Jeong on 2015-07-01.
  */
@@ -24,16 +23,21 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     LocationManager locationManager;   // 속도 테스트
     GpsManager locationListener;   // 속도 테스트
 
+    Data[] data = new Data[408];
 
     public MainFunctionTask(Context mContext, LocationManager locationManager,
-                            TextView textView, TextView textView2, TextView textView3) {
+                            TextView textView, TextView textView2, TextView textView3, Data[] data) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.textView = textView;
         this.textView2 = textView2;
         this.textView3 = textView3;
+        this.data = data;
+
         requestCount = new Integer(0);   // 네트워킹 테스트
+
     }
+
 
     @Override
     protected Void doInBackground(Void... params) {
@@ -42,6 +46,13 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             request(Url);   // 네트워킹 테스트
 
             publishProgress();
+
+            for(int i=0;i<407;i++){
+                if(data[i].Enter(locationListener.getLatitude(), locationListener.getLongitude())){ // IC or JCT 에 진입했는지 알아봄
+                    //Toast.makeText(mContext.getApplicationContext(), "Entered "+data[i].GetrouteName()+data[i].GetrouteNo()+data[i].GeticName()+data[i].GeticCode(), Toast.LENGTH_LONG).show();
+                    break;
+                }
+            }
 
             try {
                 Thread.sleep(3000);   // 네트워킹 테스트
@@ -80,6 +91,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);   // 속도 테스트
     }
 
+
     @Override
     protected void onProgressUpdate(Integer... values) {
         textView.setText(requestCount.toString());   // 네트워킹 테스트
@@ -103,4 +115,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     protected void onCancelled() {
         locationManager.removeUpdates(locationListener);
     }
+
+
 }
+
