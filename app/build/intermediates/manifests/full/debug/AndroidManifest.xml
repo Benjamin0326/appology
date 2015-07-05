@@ -36,6 +36,10 @@
             android:name="com.appology.mannercash.mannercash.RankingActivity"
             android:label="@string/title_activity_ranking" >
         </activity>
+        <activity
+            android:name="com.appology.mannercash.mannercash.TutorialActivity"
+            android:label="@string/title_activity_tutorial" >
+        </activity>
     </application>
 
 </manifest>
