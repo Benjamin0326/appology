@@ -118,7 +118,6 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
                     db = mHelper.getWritableDatabase();
                     db.execSQL("UPDATE flags SET tutorial = 0 WHERE tutorial = 1;");
                     mHelper.close();
-
                     finish();
                     break;
                 }
