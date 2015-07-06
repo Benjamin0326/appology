@@ -1,6 +1,7 @@
 package com.appology.mannercash.mannercash;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
@@ -20,9 +21,6 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
     CheckBox chkbox;
     ImageView tutorial;
 
-    WordDBHelper mHelper;
-    SQLiteDatabase db;
-
     int flag=0;
     int x;
     @Override
@@ -30,7 +28,10 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
-        mHelper = new WordDBHelper(this);
+        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+        if (settings.getString("tutorialRead", "").toString().equals("tutorialRead")) { // 튜토리얼 다시보지않기 체크 시
+            startMainActivity();
+        }
 
         dots[0]=(ImageView)findViewById(R.id.tutorial_dot1);
         dots[1]=(ImageView)findViewById(R.id.tutorial_dot2);
@@ -114,41 +115,24 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
     public void onClick(View v){
         switch(v.getId()){
             case R.id.tutorial_close:
-                if(chkbox.isChecked()){
-                    db = mHelper.getWritableDatabase();
-                    db.execSQL("UPDATE flags SET tutorial = 0 WHERE tutorial = 1;");
-                    mHelper.close();
-                    finish();
+                if(chkbox.isChecked()) {
+                    SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("tutorialRead", "tutorialRead");   // 튜토리얼 다시보지않기 체크 시 tutorialRead 에 저장
+                    editor.commit();
+                    startMainActivity();
                     break;
                 }
-                else{
-                    finish();
+                else {
+                    startMainActivity();
                     break;
                 }
         }
     }
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_tutorial, menu);
-        return true;
+    public void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    */
 }

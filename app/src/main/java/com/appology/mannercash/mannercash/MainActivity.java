@@ -3,11 +3,9 @@ package com.appology.mannercash.mannercash;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -36,12 +34,9 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends ActionBarActivity {
 
-    WordDBHelper mHelper;   // for login, tutorial flag check
-    SQLiteDatabase db;
     Data[] data;
     AssetManager assManager;
     InputStream is;
-    BufferedReader bufferReader;
     String str;
     String[] input;
     int index=0;
@@ -96,38 +91,6 @@ public class MainActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
         }
 
-        //////////// Flags 확인을 위한 DB 부분 ////////////////////////////////////////////////////////
-        mHelper = new WordDBHelper(this);
-        db=mHelper.getReadableDatabase();
-
-        int login, tutorial;
-
-        Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM flags", null);
-        if (cursor.moveToFirst()) {
-            login = cursor.getInt(1);
-            tutorial = cursor.getInt(2);
-        } else {
-            db = mHelper.getWritableDatabase();
-            db.execSQL("INSERT INTO flags VALUES (null, 1, 1);");
-            mHelper.close();
-            login = 1;
-            tutorial = 1;
-        }
-        if(login == 1) {
-            // login activity로 intent
-            intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("tutorial", tutorial);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-        }
-        else if (login==0 && tutorial == 1) {
-            // tutorial activity로 intent
-            intent = new Intent(this, TutorialActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_main);
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
@@ -171,22 +134,16 @@ public class MainActivity extends ActionBarActivity {
 
         mContext = this;
         textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
-        textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
 
-        textView.setOnClickListener(new View.OnClickListener(){
+        textView.setOnClickListener(new View.OnClickListener(){    // 로그인 및 튜토리얼 정보 초기화
             @Override
             public void onClick(View v){
-                switch(v.getId()){
-                    case R.id.text_view:
-                        db = mHelper.getWritableDatabase();
-                        db.execSQL("UPDATE flags SET tutorial = 1 WHERE tutorial=0;");
-                        mHelper.close();
-                        db = mHelper.getWritableDatabase();
-                        db.execSQL("UPDATE flags SET login = 1 WHERE login=0;");
-                        mHelper.close();
-                        Toast.makeText(getApplicationContext(), "Set Flags (login=1, tutorial=1)", Toast.LENGTH_SHORT).show();
-                        break;
-                }
+                SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("logged", "");
+                editor.putString("tutorialRead", "");
+                editor.commit();
+                Toast.makeText(getApplicationContext(), "로그인 및 튜토리얼 정보 초기화", Toast.LENGTH_LONG).show();
             }
         });
         
@@ -287,7 +244,7 @@ public class MainActivity extends ActionBarActivity {
         }
         else {
             backPressedTime = tempTime;
-            Toast.makeText(getApplicationContext(), "'뒤로'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -300,21 +257,6 @@ public class MainActivity extends ActionBarActivity {
     }
 }
 
-
-class WordDBHelper extends SQLiteOpenHelper {
-    public WordDBHelper(Context context){
-        super(context, "MannerCash.db", null, 1);
-    }
-
-    public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE flags ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + "login INTEGER not null, " + "tutorial INTEGER not null);");
-    }
-
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS flags");
-        onCreate(db);
-    }
-}
 
 class Data{
     String routeName;
