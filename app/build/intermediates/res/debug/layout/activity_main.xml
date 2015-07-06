@@ -15,8 +15,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="위도 : \n경도 : "
-            android:id="@+id/textView3"
+            android:text="GPS Enabled\n\n\nGPS 수신 상태"
+            android:id="@+id/textView4"
+            android:gravity="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
@@ -30,28 +31,33 @@
             android:layout_alignParentEnd="true" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위도 : \n경도 : "
+            android:id="@+id/textView3"
+            android:layout_above="@+id/text_view2"
+            android:layout_marginBottom="50dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/text_view2"
             android:text="현재속도 :"
             android:textSize="30dp"
-            android:gravity="center"
             android:layout_above="@+id/text_view"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="60dp" />
+            android:layout_marginBottom="50dp"
+            android:layout_centerHorizontal="true" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/text_view"
             android:text="0"
             android:textSize="30dp"
-            android:gravity="center"
             android:layout_above="@+id/toggle_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="60dp" />
+            android:layout_marginBottom="50dp"
+            android:layout_centerHorizontal="true" />
 
         <ToggleButton
             android:layout_width="250dp"
@@ -61,7 +67,7 @@
             android:textOff="STOP"
             android:textSize="20dp"
             android:gravity="center"
-            android:padding="25dp"
+            android:padding="15dp"
             android:layout_marginBottom="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
@@ -74,4 +80,4 @@
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 
-</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/Benjamin03/AndroidStudioProjects/MannerCash/app/src/main/res/layout/activity_main.xml -->
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/Jeong/AndroidStudioProjects/MannerCash/app/src/main/res/layout/activity_main.xml -->

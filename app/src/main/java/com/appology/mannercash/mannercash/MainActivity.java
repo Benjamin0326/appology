@@ -45,6 +45,7 @@ public class MainActivity extends ActionBarActivity {
     LocationManager locationManager;
     TextView textView2;   // 속도 테스트
     TextView textView3;   // 속도 테스트
+    TextView textView4;
 
 
     @Override
@@ -96,6 +97,7 @@ public class MainActivity extends ActionBarActivity {
         textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
         textView2 = (TextView) findViewById(R.id.text_view2);   // 속도 테스트
         textView3 = (TextView) findViewById(R.id.textView3);   // 속도 테스트
+        textView4 = (TextView) findViewById(R.id.textView4);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 속도 테스트
 
 
@@ -144,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (toggleButton.isChecked()) {
-                    mainFunctionTask = new MainFunctionTask(mContext, locationManager, textView, textView2, textView3);
+                    mainFunctionTask = new MainFunctionTask(mContext, locationManager, textView, textView2, textView3, textView4);
                     mainFunctionTask.execute();
                 } else {
                     mainFunctionTask.cancel(true);

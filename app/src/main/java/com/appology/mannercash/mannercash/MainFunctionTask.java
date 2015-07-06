@@ -17,6 +17,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     TextView textView;   // 네트워킹 테스트
     TextView textView2;   // 속도 테스트
     TextView textView3;   // 속도 테스트
+    TextView textView4;   // 속도 테스트
     Integer requestCount;   // 네트워킹 테스트
     public String Url = "http://m.naver.com";   // 네트워킹 테스트
 
@@ -26,16 +27,16 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     Data[] data = new Data[408];
 
     public MainFunctionTask(Context mContext, LocationManager locationManager,
-                            TextView textView, TextView textView2, TextView textView3, Data[] data) {
+                            TextView textView, TextView textView2, TextView textView3, TextView textView4, Data[] data) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.textView = textView;
         this.textView2 = textView2;
         this.textView3 = textView3;
+        this.textView4 = textView4;
         this.data = data;
 
         requestCount = new Integer(0);   // 네트워킹 테스트
-
     }
 
 
@@ -55,7 +56,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             }
 
             try {
-                Thread.sleep(3000);   // 네트워킹 테스트
+                Thread.sleep(2000);   // 네트워킹 테스트
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -89,6 +90,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     private void gpsConfiguration() {
         locationListener = new GpsManager();   // 속도 테스트
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);   // 속도 테스트
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            locationListener.setIsProviderEnabled(true);
+        }
     }
 
 
@@ -97,6 +101,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         textView.setText(requestCount.toString());   // 네트워킹 테스트
         textView2.setText("현재속도 : " + locationListener.getMSpeed());   // 속도 테스트
         textView3.setText("위도 : " + locationListener.getLatitude() + "\n" + "경도 : " + locationListener.getLongitude());
+        textView4.setText("GPS Enabled" + "\n" + locationListener.isProviderEnabled() + "\n\n" +
+                            "GPS 수신 상태" + "\n" + locationListener.getGpsStatus());
 /*        Toast.makeText(mContext.getApplicationContext(), "속도:" + locationListener.getMSpeed() +
                                                         "\n위도:" + locationListener.getLatitude() +
                                                         "\n경도:" + locationListener.getLongitude(), Toast.LENGTH_SHORT).show();*/
