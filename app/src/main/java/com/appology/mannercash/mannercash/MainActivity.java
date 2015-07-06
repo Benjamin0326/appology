@@ -3,7 +3,12 @@ package com.appology.mannercash.mannercash;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -21,8 +26,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 
 public class MainActivity extends ActionBarActivity {
+
+    WordDBHelper mHelper;   // for login, tutorial flag check
+    SQLiteDatabase db;
+    Data[] data;
+    AssetManager assManager;
+    InputStream is;
+    BufferedReader bufferReader;
+    String str;
+    String[] input;
+    int index=0;
+
 
     private final long FINSH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
@@ -52,6 +75,59 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+///////////////////////// data /////////////////////////////////////////////////////////////////////
+        assManager = getApplicationContext().getAssets();
+        BufferedReader bufferReader;
+        input = new String[6];
+        data = new Data[408];
+        try {
+            is = assManager.open("data.txt");
+            bufferReader = new BufferedReader(new InputStreamReader(is));
+            while( (str = bufferReader.readLine()) != null ) {
+                input = str.split(",");
+                data[index]=new Data();
+                data[index++].Reset(input[0], input[1], input[2], input[3], Double.parseDouble(input[4]), Double.parseDouble(input[5]));
+            }
+            data[407]=new Data();
+            data[407].Reset("TestRouteName", "TestRouteNo", "TestIcCode", "TestIcName", 0.0, 0.0);
+        }
+        catch(IOException ex){
+            Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
+        }
+
+        //////////// Flags 확인을 위한 DB 부분 ////////////////////////////////////////////////////////
+        mHelper = new WordDBHelper(this);
+        db=mHelper.getReadableDatabase();
+
+        int login, tutorial;
+
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM flags", null);
+        if (cursor.moveToFirst()) {
+            login = cursor.getInt(1);
+            tutorial = cursor.getInt(2);
+        } else {
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO flags VALUES (null, 1, 1);");
+            mHelper.close();
+            login = 1;
+            tutorial = 1;
+        }
+        if(login == 1) {
+            // login activity로 intent
+            intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("tutorial", tutorial);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        }
+        else if (login==0 && tutorial == 1) {
+            // tutorial activity로 intent
+            intent = new Intent(this, TutorialActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_main);
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
@@ -95,6 +171,25 @@ public class MainActivity extends ActionBarActivity {
 
         mContext = this;
         textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
+        textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
+
+        textView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                switch(v.getId()){
+                    case R.id.text_view:
+                        db = mHelper.getWritableDatabase();
+                        db.execSQL("UPDATE flags SET tutorial = 1 WHERE tutorial=0;");
+                        mHelper.close();
+                        db = mHelper.getWritableDatabase();
+                        db.execSQL("UPDATE flags SET login = 1 WHERE login=0;");
+                        mHelper.close();
+                        Toast.makeText(getApplicationContext(), "Set Flags (login=1, tutorial=1)", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        
         textView2 = (TextView) findViewById(R.id.text_view2);   // 속도 테스트
         textView3 = (TextView) findViewById(R.id.textView3);   // 속도 테스트
         textView4 = (TextView) findViewById(R.id.textView4);
@@ -146,7 +241,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (toggleButton.isChecked()) {
-                    mainFunctionTask = new MainFunctionTask(mContext, locationManager, textView, textView2, textView3, textView4);
+                    mainFunctionTask = new MainFunctionTask(mContext, locationManager, textView, textView2, textView3, textView4, data);
                     mainFunctionTask.execute();
                 } else {
                     mainFunctionTask.cancel(true);
@@ -202,5 +297,69 @@ public class MainActivity extends ActionBarActivity {
         if(mainFunctionTask != null) {
             mainFunctionTask.cancel(true);
         }
+    }
+}
+
+
+class WordDBHelper extends SQLiteOpenHelper {
+    public WordDBHelper(Context context){
+        super(context, "MannerCash.db", null, 1);
+    }
+
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE flags ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + "login INTEGER not null, " + "tutorial INTEGER not null);");
+    }
+
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS flags");
+        onCreate(db);
+    }
+}
+
+class Data{
+    String routeName;
+    String routeNo;
+    String icCode;
+    String icName;
+    Double xValue;
+    Double yValue;
+
+    void Reset(String _routeName, String _routeNo, String _icCode, String _icName, Double _xValue, Double _yValue){
+        routeName=_routeName;
+        routeNo = _routeNo;
+        icCode=_icCode;
+        icName = _icName;
+        xValue=_xValue;
+        yValue=_yValue;
+    }
+
+    String GetrouteName(){
+        return routeName;
+    }
+
+    String GeticName(){
+        return icName;
+    }
+
+    String GetrouteNo(){
+        return routeNo;
+    }
+
+    String GeticCode(){
+        return icCode;
+    }
+
+    boolean Enter(Double _xValue, Double _yValue){
+        float[] results=new float[3];
+
+        LatLng Data_Point = new LatLng(xValue,yValue);
+        LatLng Point = new LatLng(_xValue, _yValue);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+
+        if(results[0]<10) {
+            return true;
+        }
+        else
+            return false;
     }
 }
