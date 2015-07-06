@@ -46,12 +46,12 @@ public class TutorialActivity extends ActionBarActivity implements View.OnClickL
         tutorial.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                Animation ani =new TranslateAnimation(200.0f, 0.0f, 0.0f, 0.0f);
-                ani.setDuration(2500);
+                Animation ani =new TranslateAnimation(100.0f, 0.0f, 0.0f, 0.0f);
+                ani.setDuration(1500);
                 ani.setInterpolator(new DecelerateInterpolator());
-                Animation rani = new TranslateAnimation(-200.0f, 0.0f, 0.0f, 0.0f);
+                Animation rani = new TranslateAnimation(-100.0f, 0.0f, 0.0f, 0.0f);
                 rani.setInterpolator(new DecelerateInterpolator());
-                rani.setDuration(2500);
+                rani.setDuration(1500);
 
                 switch(event.getAction()){
                     case MotionEvent.ACTION_DOWN:

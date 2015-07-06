@@ -131,7 +131,6 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         mContext = this;
         textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
 
@@ -146,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "로그인 및 튜토리얼 정보 초기화", Toast.LENGTH_LONG).show();
             }
         });
-        
+
         textView2 = (TextView) findViewById(R.id.text_view2);   // 속도 테스트
         textView3 = (TextView) findViewById(R.id.textView3);   // 속도 테스트
         textView4 = (TextView) findViewById(R.id.textView4);
