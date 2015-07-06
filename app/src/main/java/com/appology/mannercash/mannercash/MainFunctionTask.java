@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -62,12 +63,18 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 }
             }
             else if(flag==1) {
+                if(locationListener.getMSpeed()>100){
+                    //제한속도를 지키지 못한 경우 (임의로 기준 속도를 100km/h 로 둠)
+                    Toast.makeText(mContext.getApplicationContext(), "제한속도 초과, 포인트 적립 실패", Toast.LENGTH_SHORT).show();
+                    flag=0;     // flag 및 index 초기화
+                    index=999;
+                }
                 for (int i = 0; i < 407; i++) {
                     if (i == index)
                         continue;
                     else if (data[i].Enter(locationListener.getLatitude(), locationListener.getLongitude())) { // 다른 IC or JCT 에 진입했는지 알아봄
-                        //point+=50; //계속 속도를 잘 유지했으면 point 적립,
-
+                        Toast.makeText(mContext.getApplicationContext(), "포인트가 적립되었습니다.", Toast.LENGTH_SHORT).show();
+                            //계속 속도를 잘 유지했으면 point 적립
                         char chk=data[index].GeticName().charAt(data[index].GeticName().length());
                                 // IcName 의 끝이 C일 경우 IC, T일 경우 JCT 이므로
                         if(chk=='C'){
