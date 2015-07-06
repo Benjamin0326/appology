@@ -1,5 +1,6 @@
 package com.appology.mannercash.mannercash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,7 @@ public class LoadingActivity extends ActionBarActivity {
 
             @Override
             public void run() {
+                startActivity(new Intent(getApplication(), LoginActivity.class));
                 finish();
             }
         }, 3000);   // 3초
