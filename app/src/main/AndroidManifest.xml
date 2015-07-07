@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appology.mannercash.mannercash" >
-
     option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets"
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -43,6 +41,10 @@
         <activity
             android:name=".RankingActivity"
             android:label="@string/title_activity_ranking" >
+        </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/title_activity_signup" >
         </activity>
     </application>
 

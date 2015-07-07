@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -43,6 +44,17 @@ public class LoginActivity extends ActionBarActivity {
                         startTutorialActivity();
                     }
                 }
+            }
+        });
+
+
+        TextView signUp = (TextView) findViewById(R.id.login_join);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

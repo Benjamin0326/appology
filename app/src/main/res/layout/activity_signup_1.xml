@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.appology.mannercash.mannercash.SignupActivity">
+
+    <TextView
+        android:text="Manner\nCash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/signup_textView" />
+
+    <EditText
+        android:id="@+id/signup_email"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="   이메일 주소"
+        android:layout_below="@+id/signup_textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <EditText
+        android:id="@+id/signup_password"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="   비밀번호"
+        android:layout_below="@+id/signup_email"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/signup_phone_num"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:hint="   휴대폰 번호"
+        android:layout_below="@+id/signup_password"
+        android:layout_alignLeft="@+id/signup_password"
+        android:layout_marginTop="40dp"/>
+
+    <Button
+        android:id="@+id/signup_btn_phone"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="인증"
+        android:layout_alignRight="@+id/signup_password"
+        android:layout_alignBottom="@id/signup_phone_num" />
+
+    <EditText
+        android:id="@+id/signup_auth_num"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:hint="   인증 번호 입력"
+        android:layout_below="@+id/signup_phone_num"
+        android:layout_alignLeft="@+id/signup_password"
+        android:layout_marginTop="15dp"/>
+
+    <Button
+        android:id="@+id/signup_btn_auth"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        android:layout_alignRight="@+id/signup_password"
+        android:layout_alignBottom="@id/signup_auth_num" />
+
+    <Button
+        android:id="@+id/signup_ok"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        android:layout_alignLeft="@+id/signup_password"
+        android:layout_below="@id/signup_auth_num"
+        android:layout_marginTop="40dp"/>
+
+    <Button
+        android:id="@+id/signup_cancel"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="취소"
+        android:layout_alignRight="@+id/signup_btn_auth"
+        android:layout_below="@id/signup_btn_auth"
+        android:layout_marginTop="40dp"/>
+
+
+</RelativeLayout>

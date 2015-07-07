@@ -14,4 +14,7 @@
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_loading">LoadingActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
+
+    <string name="login_signup"><u>회원 가입</u></string>
 </resources>

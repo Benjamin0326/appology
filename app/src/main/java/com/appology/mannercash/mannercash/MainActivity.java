@@ -146,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        textView2 = (TextView) findViewById(R.id.text_view2);   // 속도 테스트
+        textView2 = (TextView) findViewById(R.id.speed);   // 속도 테스트
         textView3 = (TextView) findViewById(R.id.textView3);   // 속도 테스트
         textView4 = (TextView) findViewById(R.id.textView4);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 속도 테스트
@@ -157,38 +157,7 @@ public class MainActivity extends ActionBarActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                if(!(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))) {
-                    builder.setMessage("단말기의 설정에서 '위치 서비스(GPS)' 사용을 허용해 주세요.").
-                            setCancelable(false).
-                            setPositiveButton("설정하기",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                        startActivity(gpsOptionsIntent);
-                                    }
-                                }).
-                            setNegativeButton("취소",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                    AlertDialog alert = builder.create();
-                    alert.setTitle("위치 서비스 사용");
-                    alert.show();
-                } else {
-                    builder.setMessage("현재 '위치 서비스(GPS)' 사용이 허용된 상태입니다.").
-                            setCancelable(false).
-                            setPositiveButton("확인",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                        }
-                                    });
-                    AlertDialog alert = builder.create();
-                    alert.setTitle("위치 서비스 사용");
-                    alert.show();
-                }
+                showGpsSwitchDialog();
             }
         });
 
@@ -204,6 +173,42 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+
+    public void showGpsSwitchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        if(!(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))) {
+            builder.setMessage("단말기의 설정에서 '위치 서비스(GPS)' 사용을 허용해 주세요.").
+                    setCancelable(false).
+                    setPositiveButton("설정하기",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(gpsOptionsIntent);
+                                }
+                            }).
+                    setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.setTitle("위치 서비스 사용");
+            alert.show();
+        } else {
+            builder.setMessage("현재 '위치 서비스(GPS)' 사용이 허용된 상태입니다.").
+                    setCancelable(false).
+                    setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.setTitle("위치 서비스 사용");
+            alert.show();
+        }
     }
 
     @Override
