@@ -139,9 +139,9 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
         @Override
         public Fragment getItem(int position) {
             if (position == 0)
-                return new PointSavingFragment().newInstance();
+                return new PointRecentFragment().newInstance();
             else
-                return new PointUsingFragment().newInstance();
+                return new PointSearchFragment().newInstance();
         }
 
         @Override
