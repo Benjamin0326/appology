@@ -44,6 +44,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     }
     @Override
     protected Void doInBackground(Void... params) {
+
         while (isCancelled() == false) {
             request(Url);   // 네트워킹 테스트
             publishProgress();
