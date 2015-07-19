@@ -33,20 +33,17 @@ public class LoginActivity extends ActionBarActivity {
 
                 if (emailString.length() > 0 && passwordString.length() > 0) {
                     if (emailString.equals("1") && passwordString.equals("1")) {    // 테스트 (아이디 : 1, 비번 : 1)
-
                         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("logged", "logged");   // 자동 로그인을 위해 logged 기록
                         editor.putString("email", emailString);
                         editor.putString("password", passwordString);
                         editor.commit();
-
                         startTutorialActivity();
                     }
                 }
             }
         });
-
 
         TextView signUp = (TextView) findViewById(R.id.login_join);
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +51,7 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }

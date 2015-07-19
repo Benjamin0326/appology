@@ -2,7 +2,7 @@ package com.appology.mannercash.mannercash;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class SignupActivity extends ActionBarActivity {
 
@@ -32,8 +43,8 @@ public class SignupActivity extends ActionBarActivity {
             signUpFrag2 = new SignUpFragment2();
 
             getSupportFragmentManager().beginTransaction()
-                                        .add(R.id.container, signUpFrag1)
-                                        .commit();
+                    .add(R.id.container, signUpFrag1)
+                    .commit();
         }
     }
 
@@ -71,9 +82,13 @@ public class SignupActivity extends ActionBarActivity {
 
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if(passWord.getText().toString().length()<8)
+                        Toast.makeText(mContext.getApplicationContext(),  "비밀번호는 8자리 이상이여야 합니다.", Toast.LENGTH_LONG).show();
+                    else {
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
                 }
             });
 
@@ -82,6 +97,10 @@ public class SignupActivity extends ActionBarActivity {
 
         public EditText getEmail() {
             return email;
+        }
+
+        public EditText getPhoneNum() {
+            return phoneNum;
         }
 
         public EditText getPasswd() {
@@ -99,6 +118,9 @@ public class SignupActivity extends ActionBarActivity {
         EditText cardNum3;
         EditText cardNum4;
         EditText passWord;
+        EditText phoneNum;
+
+        Signup task;
 
         public SignUpFragment2() {
         }
@@ -117,26 +139,86 @@ public class SignupActivity extends ActionBarActivity {
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    EditText phoneNum = signUpFrag1.getPhoneNum();
                     EditText email = signUpFrag1.getEmail();
                     EditText password = signUpFrag1.getPasswd();
 
+                    String phoneNumString = phoneNum.getText().toString();
                     String emailString = email.getText().toString();
                     String passwordString = password.getText().toString();
+                    String cardNumString = cardNum1.getText().toString() + cardNum2.getText().toString() + cardNum3.getText().toString() + cardNum4.getText().toString();
 
-                    SharedPreferences settings = mContext.getSharedPreferences("MannerCash", MODE_PRIVATE);
+
+
+                    task = new Signup();
+                    task.execute(emailString, passwordString, phoneNumString, cardNumString);
+
+                    /*SharedPreferences settings = mContext.getSharedPreferences("MannerCash", MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("logged", "logged");   // 자동 로그인을 위해 logged 기록
                     editor.putString("email", emailString);
                     editor.putString("password", passwordString);
                     editor.commit();
-
-                    Intent intent = new Intent(mContext, TutorialActivity.class);
-                    startActivity(intent);
+                    */
+                    //Intent intent = new Intent(mContext, TutorialActivity.class);
+                    //startActivity(intent);
                     getActivity().finish();
+
                 }
             });
-
             return rootView;
+        }
+
+    }
+
+    // BackGround Test
+    private static class Signup extends AsyncTask<String, Void, String> {
+
+        protected void onPreExcute() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... arg) {
+            try {
+                String id = (String) arg[0];
+                String password = (String) arg[1];
+                String phoneNum = (String) arg[2];
+                String cardNum = (String) arg[3];
+                String link = "http://10.0.2.2/mannercash_server.php?code=1&id="+URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode(phoneNum, "UTF-8") + "&cardNum=" + URLEncoder.encode(cardNum, "UTF-8");
+
+                URL url = new URL(link);
+                HttpClient client = new DefaultHttpClient();
+                HttpGet request = new HttpGet();
+                request.setURI(new URI(link));
+                HttpResponse response = client.execute(request);
+                BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                in.close();
+                return sb.toString();
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            if(result.equals("OK"))
+                Toast.makeText(mContext.getApplicationContext(),  "회원가입에 성공하였습니다.", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(mContext.getApplicationContext(),  "회원가입에 실패하였습니다.", Toast.LENGTH_LONG).show();
+
         }
     }
 }
+
+
+
+

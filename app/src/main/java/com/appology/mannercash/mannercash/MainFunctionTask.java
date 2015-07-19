@@ -42,23 +42,34 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
         requestCount = new Integer(0);   // 네트워킹 테스트
     }
-
-
     @Override
     protected Void doInBackground(Void... params) {
         while (isCancelled() == false) {
-
             request(Url);   // 네트워킹 테스트
-
             publishProgress();
-
             if(flag==0) {
-                for (int i = 0; i < 407; i++) {
-                    if (data[i].Enter(locationListener.getLatitude(), locationListener.getLongitude())) { // IC or JCT 에 진입했는지 알아봄
-                        //Toast.makeText(mContext.getApplicationContext(), "Entered "+data[i].GetrouteName()+data[i].GetrouteNo()+data[i].GeticName()+data[i].GeticCode(), Toast.LENGTH_LONG).show();
-                        index = i;
-                        flag=1;
-                        break;
+                if(index!=999) {
+                    for (int i = 0; i < 407; i++) {
+                        if (data[i].Enter(locationListener.getLatitude(), locationListener.getLongitude())) { // IC or JCT 에 진입했는지 알아봄
+                            //Toast.makeText(mContext.getApplicationContext(), "Entered "+data[i].GetrouteName()+data[i].GetrouteNo()+data[i].GeticName()+data[i].GeticCode(), Toast.LENGTH_LONG).show();
+                            index = i;
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+                else{
+                    for (int i = 0; i < 407; i++) {
+                        if(i==index)
+                            continue;
+                        else {
+                            if (data[i].Enter(locationListener.getLatitude(), locationListener.getLongitude())) { // IC or JCT 에 진입했는지 알아봄
+                                //Toast.makeText(mContext.getApplicationContext(), "Entered "+data[i].GetrouteName()+data[i].GetrouteNo()+data[i].GeticName()+data[i].GeticCode(), Toast.LENGTH_LONG).show();
+                                index = i;
+                                flag = 1;
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -77,8 +88,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             //계속 속도를 잘 유지했으면 point 적립
                         char chk=data[index].GeticName().charAt(data[index].GeticName().length());
                                 // IcName 의 끝이 C일 경우 IC, T일 경우 JCT 이므로
-                        if(chk=='C'){
-                            index=999;  // IC통과 시 고속도로를 벗어나게 된 것이므로 index 초기화 및 flag=0으로 set
+                        if(chk=='C'){  // IC통과 시 고속도로를 벗어나게 된 것이므로 index 초기화 및 flag=0으로 set
                             flag=0;
                         }
                         else if(chk=='T'){  // JCT 통과 시 고속도로를 다시 달리는 것이므로 index 재설정 및 flag 1로 유지
@@ -95,7 +105,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 ex.printStackTrace();
             }
         }
-
         return null;
     }
 
@@ -110,9 +119,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 conn.setDoOutput(true);
                 int resCode = conn.getResponseCode();
                 if (resCode == HttpURLConnection.HTTP_OK) {
-
                     requestCount++;   // 네트워킹 테스트
-
                     conn.disconnect();
                 }
             }
@@ -128,7 +135,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             locationListener.setIsProviderEnabled(true);
         }
     }
-
 
     @Override
     protected void onProgressUpdate(Integer... values) {
@@ -155,7 +161,4 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     protected void onCancelled() {
         locationManager.removeUpdates(locationListener);
     }
-
-
 }
-

@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
 public class MainActivity extends ActionBarActivity {
 
     Data[] data;
@@ -40,7 +39,6 @@ public class MainActivity extends ActionBarActivity {
     String str;
     String[] input;
     int index=0;
-
 
     private final long FINSH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
