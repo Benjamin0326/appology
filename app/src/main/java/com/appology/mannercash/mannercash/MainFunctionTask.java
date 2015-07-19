@@ -1,17 +1,29 @@
 package com.appology.mannercash.mannercash;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
+
 /**
  * Created by Jeong on 2015-07-01.
  */
 public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
+
+    String id;
+    String password;
 
     Context mContext;
 
@@ -41,6 +53,11 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         this.data = data;
 
         requestCount = new Integer(0);   // 네트워킹 테스트
+
+        SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
+        id=settings.getString("email", "email");
+        password=settings.getString("password", "password");
+        Toast.makeText(mContext.getApplicationContext(), "(회원정보) ID : "+id+" Password : "+password, Toast.LENGTH_LONG).show();
     }
     @Override
     protected Void doInBackground(Void... params) {
@@ -87,6 +104,22 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     else if (data[i].Enter(locationListener.getLatitude(), locationListener.getLongitude())) { // 다른 IC or JCT 에 진입했는지 알아봄
                         Toast.makeText(mContext.getApplicationContext(), "포인트가 적립되었습니다.", Toast.LENGTH_SHORT).show();
                             //계속 속도를 잘 유지했으면 point 적립
+
+                        /**************************************************************************************************************************************/
+                        try{
+                            String link = "http://10.0.2.2/mannercash_server.php?code=3&id="+ URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode("", "UTF-8") + "&cardNum=" + URLEncoder.encode("", "UTF-8")
+                                    +"&point=" + URLEncoder.encode("100", "UTF-8");
+                            URL url = new URL(link);
+                            HttpClient client = new DefaultHttpClient();
+                            HttpGet request = new HttpGet();
+                            request.setURI(new URI(link));
+                            HttpResponse response = client.execute(request);
+                        }
+                        catch(Exception e){
+                            Toast.makeText(mContext.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                        /**************************************************************************************************************************************/
+
                         char chk=data[index].GeticName().charAt(data[index].GeticName().length());
                                 // IcName 의 끝이 C일 경우 IC, T일 경우 JCT 이므로
                         if(chk=='C'){  // IC통과 시 고속도로를 벗어나게 된 것이므로 index 초기화 및 flag=0으로 set
@@ -102,6 +135,15 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             }
             try {
                 Thread.sleep(2000);   // 네트워킹 테스트
+                /*
+                String link = "http://10.0.2.2/mannercash_server.php?code=3&id="+ URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode("", "UTF-8") + "&cardNum=" + URLEncoder.encode("", "UTF-8")
+                        +"&point=" + URLEncoder.encode("100", "UTF-8");
+                URL url = new URL(link);
+                HttpClient client = new DefaultHttpClient();
+                HttpGet request = new HttpGet();
+                request.setURI(new URI(link));
+                HttpResponse response = client.execute(request);
+                */
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

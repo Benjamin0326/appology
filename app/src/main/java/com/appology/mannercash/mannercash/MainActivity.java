@@ -63,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
     TextView textView3;   // 속도 테스트
     TextView textView4;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
