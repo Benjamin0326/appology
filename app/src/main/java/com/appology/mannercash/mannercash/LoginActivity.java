@@ -48,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
 
                 task = new BackgroundLogin();
                 task.execute(emailString, passwordString);
-                /*if (emailString.length() > 0 && passwordString.length() > 0) {
+                if (emailString.length() > 0 && passwordString.length() > 0) {
                     if (emailString.equals("1") && passwordString.equals("1")) {    // 테스트 (아이디 : 1, 비번 : 1)
                         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
@@ -58,7 +58,7 @@ public class LoginActivity extends ActionBarActivity {
                         editor.commit();
                         startTutorialActivity();
                     }
-                }*/
+                }
             }
         });
 
