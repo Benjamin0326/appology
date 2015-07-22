@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 
 
 public class LoadingActivity extends ActionBarActivity {
@@ -23,5 +24,14 @@ public class LoadingActivity extends ActionBarActivity {
                 finish();
             }
         }, 3000);   // 3초
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

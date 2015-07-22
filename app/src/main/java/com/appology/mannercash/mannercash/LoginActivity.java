@@ -23,7 +23,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class LoginActivity extends ActionBarActivity {
+
     BackgroundLogin task;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private class BackgroundLogin extends AsyncTask<String, Void, String>{
+
         String id;
         String password;
 
@@ -88,7 +91,7 @@ public class LoginActivity extends ActionBarActivity {
                 id = (String) arg[0];
                 password = (String) arg[1];
                 String link = "http://10.0.2.2/mannercash_server.php?code=2&id=" +
-                        URLEncoder.encode(id, "UTF-8")+"&password=" +
+                        URLEncoder.encode(id, "UTF-8") + "&password=" +
                         URLEncoder.encode(password, "UTF-8") + "&phoneNum=" +
                         URLEncoder.encode("", "UTF-8") + "&cardNum=" +
                         URLEncoder.encode("", "UTF-8") + "&point=" +

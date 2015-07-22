@@ -1,6 +1,8 @@
 package com.appology.mannercash.mannercash;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -24,6 +26,11 @@ public class PointRecentFragment extends Fragment {
     SwipeRefreshLayout swipeView;
     TextView textView;
 
+    String curDate;
+    String endDate;
+
+    PointRecentTask task;
+
     public PointRecentFragment newInstance() {
         PointRecentFragment fragment = new PointRecentFragment();
         return fragment;
@@ -43,12 +50,14 @@ public class PointRecentFragment extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.listView);
         ArrayList<String> item = new ArrayList<String>();
-        for(Integer i = 0; i < 100; i++) {      // 이부분을 수정하여 리스트뷰에 넣을 DB 데이터 불러오면 됨.
-            item.add("Item" + Integer.toString(i));
-        }
+
+        // 이부분을 수정하여 리스트뷰에 넣을 DB 데이터 불러오면 됨.
+        task = new PointRecentTask();
+        task.execute();
+        // 이부분을 수정하여 리스트뷰에 넣을 DB 데이터 불러오면 됨.
+
         ArrayAdapter<String> adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
         listView.setAdapter(adp);
-
 
         swipeView = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         swipeView.setEnabled(false);
@@ -59,16 +68,19 @@ public class PointRecentFragment extends Fragment {
                 swipeView.setRefreshing(true);
 
                 // 여기에 새로고침 했을 시 동작하는 부분 삽입
+                task = new PointRecentTask();
+                task.execute();
+                // 여기에 새로고침 했을 시 동작하는 부분 삽입
 
-                swipeView.setRefreshing(false);
+                //swipeView.setRefreshing(false);
 
-                /*Handler hd = new Handler();
+                Handler hd = new Handler();
                 hd.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         swipeView.setRefreshing(false);
                     }
-                }, 3000);*/
+                }, 3000);
             }
         });
 
@@ -94,15 +106,40 @@ public class PointRecentFragment extends Fragment {
         Date date = new Date();
 
         SimpleDateFormat curDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-        String curDate = curDateFormat.format(date);
+        curDate = curDateFormat.format(date);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, 30);
 
         SimpleDateFormat endDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-        String endDate = endDateFormat.format(cal.getTime());
+        endDate = endDateFormat.format(cal.getTime());
 
         textView.setText("조회기간 (최근 30일)     " + curDate + " ~ " + endDate);
+    }
+
+
+    private class PointRecentTask extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }

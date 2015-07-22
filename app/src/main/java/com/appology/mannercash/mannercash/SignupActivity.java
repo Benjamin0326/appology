@@ -84,13 +84,13 @@ public class SignupActivity extends ActionBarActivity {
             btnOk.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if(!isValidEmail(email.getText().toString()))
-                        Toast.makeText(mContext.getApplicationContext(),  "메일주소를 정확히 입력해주세요.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext.getApplicationContext(), "메일주소를 정확히 입력해주세요.", Toast.LENGTH_LONG).show();
                     else if(!isValidPasswordLength(passWord.getText().toString()))
                         Toast.makeText(mContext.getApplicationContext(), "비밀번호는 8자리 이상이여야 합니다.", Toast.LENGTH_LONG).show();
                     else if(!isValidPasswordConfirm(passWord.getText().toString(), passWord2.getText().toString()))
                         Toast.makeText(mContext.getApplicationContext(), "비밀번호가 같지 않습니다.", Toast.LENGTH_LONG).show();
                     else if(phoneNum.getText().toString().isEmpty())
-                        Toast.makeText(mContext.getApplicationContext(),  "휴대폰 번호를 입력해주세요.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext.getApplicationContext(), "휴대폰 번호를 입력해주세요.", Toast.LENGTH_LONG).show();
                     else
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, signUpFrag2).commit();
                 }
