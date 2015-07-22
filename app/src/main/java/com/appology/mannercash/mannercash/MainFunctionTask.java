@@ -3,6 +3,8 @@ package com.appology.mannercash.mannercash;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +66,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     protected Void doInBackground(Void... params) {
 
         while (isCancelled() == false) {
+            soundTurnOn(R.raw.test);    // 사운드 출력 예 -> raw 폴더에 출력할 사운드 파일 넣고 왼쪽과 같이 메소드 호출하면 됨.
+
             request(Url);   // 네트워킹 테스트
             publishProgress();
             if(flag==0) {
@@ -182,6 +186,16 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationListener.setIsProviderEnabled(true);
         }
+    }
+
+    void soundTurnOn(int resId) {
+        SoundPool soundPool;
+        int soundId;
+
+        soundPool = new  SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        soundId = soundPool.load(mContext, resId, 1);
+
+        soundPool.play(soundId, 1, 1, 0, 0, 1);
     }
 
     @Override
