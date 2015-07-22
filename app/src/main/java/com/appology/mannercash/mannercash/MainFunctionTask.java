@@ -182,7 +182,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         textView.setText(requestCount.toString());   // 네트워킹 테스트
-        textView2.setText("현재속도 : " + locationListener.getMSpeed());   // 속도 테스트
+        textView2.setText("" + locationListener.getMSpeed());   // 속도 테스트
         textView3.setText("위도 : " + locationListener.getLatitude() + "\n" + "경도 : " + locationListener.getLongitude());
         textView4.setText("GPS Enabled" + "\n" + locationListener.isProviderEnabled() + "\n\n" +
                             "GPS 수신 상태" + "\n" + locationListener.getGpsStatus());

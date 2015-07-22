@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 
+
 public class SignupActivity extends ActionBarActivity {
 
     private static SignUpFragment1 signUpFrag1;
@@ -54,10 +55,13 @@ public class SignupActivity extends ActionBarActivity {
 
         EditText email;
         EditText passWord;
+        EditText passWord2;
         EditText phoneNum;
         EditText authNum;
         Button btnOk;
         Button btnCancel;
+        Button btnPhone;
+        Button btnAuth;
 
         public SignUpFragment1() {
         }
@@ -68,18 +72,23 @@ public class SignupActivity extends ActionBarActivity {
 
             email = (EditText) rootView.findViewById(R.id.signup_email);
             passWord = (EditText) rootView.findViewById(R.id.signup_password);
+            passWord2 = (EditText) rootView.findViewById(R.id.signup_password2);
             phoneNum = (EditText) rootView.findViewById(R.id.signup_phone_num);
             authNum = (EditText) rootView.findViewById(R.id.signup_auth_num);
 
             btnOk = (Button) rootView.findViewById(R.id.signup_ok);
             btnCancel = (Button) rootView.findViewById(R.id.signup_cancel);
+            btnPhone = (Button) rootView.findViewById(R.id.signup_btn_phone);
+            btnAuth = (Button) rootView.findViewById(R.id.signup_btn_auth);
 
             btnOk.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if(passWord.getText().toString().length()<8)
+                    if(isValidEmail(email.getText().toString()))
+                        Toast.makeText(mContext.getApplicationContext(),  "메일주소를 정확히 입력해주세요.", Toast.LENGTH_LONG).show();
+                    else if(isValidPasswordLength(passWord.getText().toString()))
                         Toast.makeText(mContext.getApplicationContext(), "비밀번호는 8자리 이상이여야 합니다.", Toast.LENGTH_LONG).show();
-                    else if(email.getText().toString().isEmpty())
-                        Toast.makeText(mContext.getApplicationContext(),  "메일주소를 입력해주세요.", Toast.LENGTH_LONG).show();
+                    else if(isValidPasswordConfirm(passWord.getText().toString(), passWord2.getText().toString()))
+                        Toast.makeText(mContext.getApplicationContext(), "비밀번호가 같지 않습니다.", Toast.LENGTH_LONG).show();
                     else if(phoneNum.getText().toString().isEmpty())
                         Toast.makeText(mContext.getApplicationContext(),  "휴대폰 번호를 입력해주세요.", Toast.LENGTH_LONG).show();
                     else
@@ -94,10 +103,55 @@ public class SignupActivity extends ActionBarActivity {
                     getActivity().finish();
                 }
             });
-
+/*
+            btnPhone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    phoNumStr = phoneNum.getText().toString();
+                    if(phoneNum != null) {
+                        smsSend(phoNumStr);
+                    } else {
+                        Toast.makeText(mContext.getApplicationContext(), "휴대폰 번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+*/
             return rootView;
         }
 
+        boolean isValidEmail(CharSequence target) {
+            if (target == null)
+                return false;
+
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+
+        boolean isValidPasswordLength(String pass) {
+            if (pass != null && pass.length() > 7)
+                return true;
+
+            return false;
+        }
+
+        boolean isValidPasswordConfirm(String password, String confirmPassword)
+        {
+            if (confirmPassword != null && password != null) {
+                if (password.equals(confirmPassword)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+/*
+        void smsSend(String phoneNum) {
+            SmsManager mSmsManager = SmsManager.getDefault();
+            Random rand = new Random();
+            Integer randNum = rand.nextInt(8999) + 1000;
+            String smsText = randNum.toString();
+
+            mSmsManager.sendTextMessage(phoneNum, null, smsText, null, null);
+        }
+*/
         public EditText getEmail() {
             return email;
         }
@@ -121,7 +175,6 @@ public class SignupActivity extends ActionBarActivity {
         EditText cardNum3;
         EditText cardNum4;
         EditText passWord;
-        EditText phoneNum;
 
         Signup task;
 
@@ -142,16 +195,22 @@ public class SignupActivity extends ActionBarActivity {
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EditText phoneNum = signUpFrag1.getPhoneNum();
                     EditText email = signUpFrag1.getEmail();
                     EditText password = signUpFrag1.getPasswd();
+                    EditText phoneNum = signUpFrag1.getPhoneNum();
 
-                    String phoneNumString = phoneNum.getText().toString();
                     String emailString = email.getText().toString();
                     String passwordString = password.getText().toString();
-                    String cardNumString = cardNum1.getText().toString() + cardNum2.getText().toString() + cardNum3.getText().toString() + cardNum4.getText().toString();
+                    String phoneNumString = phoneNum.getText().toString();
+                    String cardNumString = cardNum1.getText().toString() +
+                                        cardNum2.getText().toString() +
+                                        cardNum3.getText().toString() +
+                                        cardNum4.getText().toString();
 
-                    if(cardNum1.getText().toString().isEmpty() || cardNum2.getText().toString().isEmpty() || cardNum3.getText().toString().isEmpty() || cardNum4.getText().toString().isEmpty())
+                    if(cardNum1.getText().toString().isEmpty() ||
+                                cardNum2.getText().toString().isEmpty() ||
+                                cardNum3.getText().toString().isEmpty() ||
+                                cardNum4.getText().toString().isEmpty())
                         Toast.makeText(mContext.getApplicationContext(),  "카드번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                     else {
                         task = new Signup();
@@ -189,7 +248,12 @@ public class SignupActivity extends ActionBarActivity {
                 String password = (String) arg[1];
                 String phoneNum = (String) arg[2];
                 String cardNum = (String) arg[3];
-                String link = "http://10.0.2.2/mannercash_server.php?code=1&id="+URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode(phoneNum, "UTF-8") + "&cardNum=" + URLEncoder.encode(cardNum, "UTF-8") + "&point=" + URLEncoder.encode("", "UTF-8");
+                String link = "http://10.0.2.2/mannercash_server.php?code=1&id=" +
+                        URLEncoder.encode(id, "UTF-8") + "&password=" +
+                        URLEncoder.encode(password, "UTF-8") + "&phoneNum=" +
+                        URLEncoder.encode(phoneNum, "UTF-8") + "&cardNum=" +
+                        URLEncoder.encode(cardNum, "UTF-8") + "&point=" +
+                        URLEncoder.encode("", "UTF-8");
 
                 URL url = new URL(link);
                 HttpClient client = new DefaultHttpClient();

@@ -36,6 +36,7 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/signup2_point_textview"
+        android:inputType="number"
         android:layout_marginTop="10dp"
         android:layout_alignLeft="@+id/signup2_point_textview"/>
 
@@ -44,6 +45,7 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/signup2_point_num1"
+        android:inputType="number"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_alignBottom="@+id/signup2_point_num1"/>
@@ -53,6 +55,7 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/signup2_point_num2"
+        android:inputType="number"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_alignBottom="@+id/signup2_point_num1"/>
@@ -62,6 +65,7 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/signup2_point_num3"
+        android:inputType="number"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_alignBottom="@+id/signup2_point_num1"/>
@@ -81,6 +85,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/signup2_passwd_textview"
+        android:inputType="textPassword"
         android:layout_marginTop="10dp"
         android:layout_alignLeft="@+id/signup2_passwd_textview"/>
 

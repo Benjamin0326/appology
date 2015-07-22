@@ -67,6 +67,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
+
 
 ///////////////////////// data /////////////////////////////////////////////////////////////////////
         assManager = getApplicationContext().getAssets();
@@ -87,6 +89,7 @@ public class MainActivity extends ActionBarActivity {
         catch(IOException ex){
             Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
         }
+
 
 
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_main);
@@ -128,7 +131,6 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mContext = this;
         textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
 
         textView.setOnClickListener(new View.OnClickListener(){    // 로그인 및 튜토리얼 정보 초기화
