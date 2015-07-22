@@ -59,6 +59,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         password=settings.getString("password", "password");
         Toast.makeText(mContext.getApplicationContext(), "(회원정보) ID : "+id+" Password : "+password, Toast.LENGTH_LONG).show();
     }
+
     @Override
     protected Void doInBackground(Void... params) {
 
@@ -107,8 +108,12 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
                         /**************************************************************************************************************************************/
                         try{
-                            String link = "http://10.0.2.2/mannercash_server.php?code=3&id="+ URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode("", "UTF-8") + "&cardNum=" + URLEncoder.encode("", "UTF-8")
-                                    +"&point=" + URLEncoder.encode("100", "UTF-8");
+                            String link = "http://10.0.2.2/mannercash_server.php?code=3&id=" +
+                                    URLEncoder.encode(id, "UTF-8")+"&password=" +
+                                    URLEncoder.encode(password, "UTF-8") + "&phoneNum=" +
+                                    URLEncoder.encode("", "UTF-8") + "&cardNum=" +
+                                    URLEncoder.encode("", "UTF-8") +"&point=" +
+                                    URLEncoder.encode("100", "UTF-8");
                             URL url = new URL(link);
                             HttpClient client = new DefaultHttpClient();
                             HttpGet request = new HttpGet();

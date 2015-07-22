@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,6 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
-
 
 
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
@@ -82,13 +82,18 @@ public class LoginActivity extends ActionBarActivity {
     private class BackgroundLogin extends AsyncTask<String, Void, String>{
         String id;
         String password;
+
         @Override
         protected String doInBackground(String... arg) {
             try{
                 id = (String) arg[0];
                 password = (String) arg[1];
-                String link = "http://10.0.2.2/mannercash_server.php?code=2&id="+URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode("", "UTF-8") + "&cardNum=" + URLEncoder.encode("", "UTF-8") + "&point=" + URLEncoder.encode("", "UTF-8");
-
+                String link = "http://10.0.2.2/mannercash_server.php?code=2&id=" +
+                        URLEncoder.encode(id, "UTF-8")+"&password=" +
+                        URLEncoder.encode(password, "UTF-8") + "&phoneNum=" +
+                        URLEncoder.encode("", "UTF-8") + "&cardNum=" +
+                        URLEncoder.encode("", "UTF-8") + "&point=" +
+                        URLEncoder.encode("", "UTF-8");
                 URL url = new URL(link);
                 HttpClient client = new DefaultHttpClient();
                 HttpGet request = new HttpGet();
@@ -121,9 +126,7 @@ public class LoginActivity extends ActionBarActivity {
                 editor.putString("password", password);
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "로그인 되었습니다.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LoginActivity.this, TutorialActivity.class);
-                startActivity(intent);
-                finish();
+                startTutorialActivity();
             }
             else{
                 Toast.makeText(getApplicationContext(), "로그인에 실패했습니다..", Toast.LENGTH_LONG).show();
