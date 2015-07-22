@@ -36,20 +36,13 @@
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/listView"
         android:layout_below="@+id/inquiry"
-        android:layout_margin="10dp"
-        android:id="@+id/swipe">
+        android:layout_margin="10dp" >
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listView" >
-
-        </ListView>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </ListView>
 
 </RelativeLayout>

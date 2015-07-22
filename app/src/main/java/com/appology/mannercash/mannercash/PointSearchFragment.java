@@ -3,13 +3,10 @@ package com.appology.mannercash.mannercash;
 import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,10 +36,7 @@ public class PointSearchFragment extends Fragment {
     Calendar c1;
     Calendar c2;
 
-    SwipeRefreshLayout swipeView;
-
     PointSearchTask task;
-    ArrayList<String> item;
 
 
     public PointSearchFragment newInstance() {
@@ -85,46 +79,6 @@ public class PointSearchFragment extends Fragment {
 
         ArrayAdapter<String> adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
         listView.setAdapter(adp);
-
-        swipeView = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-        swipeView.setEnabled(false);
-
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeView.setRefreshing(true);
-
-                // 여기에 새로고침 했을 시 동작하는 부분 삽입
-                task = new PointSearchTask();
-                task.execute();
-                // 여기에 새로고침 했을 시 동작하는 부분 삽입
-
-                //swipeView.setRefreshing(false);
-
-                Handler hd = new Handler();
-                hd.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeView.setRefreshing(false);
-                    }
-                }, 3000);
-            }
-        });
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem == 0)
-                    swipeView.setEnabled(true);
-                else
-                    swipeView.setEnabled(false);
-            }
-        });
 
 
         startDate.setOnClickListener(new View.OnClickListener() {
