@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
     MainFunctionTask mainFunctionTask;
     TextView textView;   // 네트워킹 테스트
 
-    ImageButton imageButton;
+    ImageView imageView;
     LocationManager locationManager;
     TextView textView2;   // 속도 테스트
     TextView textView3;   // 속도 테스트
@@ -159,8 +159,8 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        imageButton = (ImageButton) findViewById(R.id.imageButton);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        imageView = (ImageView) findViewById(R.id.gpsImage);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showGpsSwitchDialog();
@@ -171,12 +171,20 @@ public class MainActivity extends ActionBarActivity {
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (toggleButton.isChecked()) {
-                    mainFunctionTask = new MainFunctionTask(mContext, locationManager, textView, textView2, textView3, textView4, data);
-                    mainFunctionTask.execute();
+                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    if (toggleButton.isChecked()) {
+                        mainFunctionTask = new MainFunctionTask(mContext, locationManager,
+                                                                textView, textView2, textView3, textView4,
+                                                                toggleButton, data);
+                        mainFunctionTask.execute();
+                    } else {
+                        mainFunctionTask.cancel(true);
+                    }
                 } else {
-                    mainFunctionTask.cancel(true);
+                    toggleButton.setChecked(false);
+                    showGpsSwitchDialog();
                 }
+
             }
         });
     }

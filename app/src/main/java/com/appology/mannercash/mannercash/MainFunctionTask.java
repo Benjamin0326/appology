@@ -8,6 +8,7 @@ import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,11 +34,14 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     TextView textView2;   // 속도 테스트
     TextView textView3;   // 속도 테스트
     TextView textView4;   // 속도 테스트
+    ToggleButton toggleButton;
     Integer requestCount;   // 네트워킹 테스트
     public String Url = "http://m.naver.com";   // 네트워킹 테스트
 
     LocationManager locationManager;   // 속도 테스트
     GpsManager locationListener;   // 속도 테스트
+
+    boolean gpsOffFlag = false;
 
     Data[] data = new Data[408];
 
@@ -45,13 +49,15 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     int flag=0; //flag는 현재 IC or JCT를 진입했는지 벗어났는지 chk
 
     public MainFunctionTask(Context mContext, LocationManager locationManager,
-                            TextView textView, TextView textView2, TextView textView3, TextView textView4, Data[] data) {
+                            TextView textView, TextView textView2, TextView textView3, TextView textView4,
+                            ToggleButton toggleButton, Data[] data) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.textView = textView;
         this.textView2 = textView2;
         this.textView3 = textView3;
         this.textView4 = textView4;
+        this.toggleButton = toggleButton;
         this.data = data;
 
         requestCount = new Integer(0);   // 네트워킹 테스트
@@ -67,6 +73,11 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
         while (isCancelled() == false) {
             soundTurnOn(R.raw.test);    // 사운드 출력 예 -> raw 폴더에 출력할 사운드 파일 넣고 왼쪽과 같이 메소드 호출하면 됨.
+
+            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                gpsOffFlag = true;
+                cancel(true);
+            }
 
             request(Url);   // 네트워킹 테스트
             publishProgress();
@@ -221,6 +232,10 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onCancelled() {
+        if(gpsOffFlag) {
+            toggleButton.setChecked(false);
+            Toast.makeText(mContext, "위치 서비스(GPS) 기능이 꺼졌습니다.\n사용 허용 후 다시 시작해주세요.", Toast.LENGTH_LONG).show();
+        }
         locationManager.removeUpdates(locationListener);
     }
 }
