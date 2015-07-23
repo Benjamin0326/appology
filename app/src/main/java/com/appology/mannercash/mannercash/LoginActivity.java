@@ -1,5 +1,6 @@
 package com.appology.mannercash.mannercash;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -25,11 +26,14 @@ import java.net.URLEncoder;
 public class LoginActivity extends ActionBarActivity {
 
     BackgroundLogin task;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
+
+        mContext = this;
 
 
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
@@ -46,18 +50,23 @@ public class LoginActivity extends ActionBarActivity {
 
                 String emailString = email.getText().toString();
                 String passwordString = password.getText().toString();
-
-                task = new BackgroundLogin();
-                task.execute(emailString, passwordString);
-                if (emailString.length() > 0 && passwordString.length() > 0) {
-                    if (emailString.equals("1") && passwordString.equals("1")) {    // 테스트 (아이디 : 1, 비번 : 1)
-                        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("logged", "logged");   // 자동 로그인을 위해 logged 기록
-                        editor.putString("email", emailString);
-                        editor.putString("password", passwordString);
-                        editor.commit();
-                        startTutorialActivity();
+                if(emailString.isEmpty()) {
+                    Toast.makeText(mContext, "Email을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else if(passwordString.isEmpty()) {
+                    Toast.makeText(mContext, "Password를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    task = new BackgroundLogin();
+                    task.execute(emailString, passwordString);
+                    if (emailString.length() > 0 && passwordString.length() > 0) {
+                        if (emailString.equals("1") && passwordString.equals("1")) {    // 테스트 (아이디 : 1, 비번 : 1)
+                            SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("logged", "logged");   // 자동 로그인을 위해 logged 기록
+                            editor.putString("email", emailString);
+                            editor.putString("password", passwordString);
+                            editor.commit();
+                            startTutorialActivity();
+                        }
                     }
                 }
             }

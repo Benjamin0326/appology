@@ -1,5 +1,6 @@
 package com.appology.mannercash.mannercash;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,11 +64,15 @@ public class MainActivity extends ActionBarActivity {
     TextView textView3;   // 속도 테스트
     TextView textView4;
 
+    public static Activity mainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mContext = this;
+        mainActivity = MainActivity.this;
 
 
 ///////////////////////// data /////////////////////////////////////////////////////////////////////
@@ -139,6 +144,8 @@ public class MainActivity extends ActionBarActivity {
                 SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("logged", "");
+                editor.putString("email", "");
+                editor.putString("password", "");
                 editor.putString("tutorialRead", "");
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "로그인 및 튜토리얼 정보 초기화", Toast.LENGTH_LONG).show();
@@ -225,13 +232,22 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_point_status, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.infoModify:
+                intent = new Intent(this, InfoModifyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                break;
+        }
+
         if(dtToggle.onOptionsItemSelected(item)){
+            Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
