@@ -1,17 +1,22 @@
 package com.appology.mannercash.mannercash;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class RankingActivity extends ActionBarActivity {
@@ -21,14 +26,24 @@ public class RankingActivity extends ActionBarActivity {
 
     ListView lvDrawerList;
     ArrayAdapter<String> adtDrawerList;
+    LinearLayout dlLayout;
     String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴사 안내", "보호구역 안내"};
     Intent intent;
+
+    ImageView userPhoto;
+    TextView carNumber;
+    Button infoModify;
+
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
+        mContext = this;
+
+        dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_ranking);
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
         lvDrawerList.setAdapter(adtDrawerList);
@@ -36,7 +51,7 @@ public class RankingActivity extends ActionBarActivity {
         lvDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
                         intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -57,7 +72,7 @@ public class RankingActivity extends ActionBarActivity {
                     case 4:
                         break;
                 }
-                dlDrawer.closeDrawer(lvDrawerList);
+                dlDrawer.closeDrawer(dlLayout);
             }
         });
 
@@ -67,6 +82,23 @@ public class RankingActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        userPhoto = (ImageView) findViewById(R.id.userPhoto);
+
+        carNumber = (TextView) findViewById(R.id.carNumber);
+
+        infoModify = (Button) findViewById(R.id.infoModify);
+        infoModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(mContext, InfoModifyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override

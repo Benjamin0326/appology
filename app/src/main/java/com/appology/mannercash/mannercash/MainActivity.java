@@ -19,7 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,9 +51,14 @@ public class MainActivity extends ActionBarActivity {
 
     ListView lvDrawerList;
     ArrayAdapter<String> adtDrawerList;
+    LinearLayout dlLayout;
     String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴사 안내", "보호구역 안내"};
 
     Intent intent;
+
+    ImageView userPhoto;
+    TextView carNumber;
+    Button infoModify;
 
     ToggleButton toggleButton;
     Context mContext;
@@ -96,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-
+        dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_main);
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
         lvDrawerList.setAdapter(adtDrawerList);
@@ -125,7 +132,7 @@ public class MainActivity extends ActionBarActivity {
                     case 4:
                         break;
                 }
-                dlDrawer.closeDrawer(lvDrawerList);
+                dlDrawer.closeDrawer(dlLayout);
             }
         });
 
@@ -135,6 +142,22 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        userPhoto = (ImageView) findViewById(R.id.userPhoto);
+
+        carNumber = (TextView) findViewById(R.id.carNumber);
+
+        infoModify = (Button) findViewById(R.id.infoModify);
+        infoModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(mContext, InfoModifyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
 
@@ -247,15 +270,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-            case R.id.infoModify:
-                intent = new Intent(this, InfoModifyActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
+            case R.id.action_settings:
                 break;
         }
 
         if(dtToggle.onOptionsItemSelected(item)){
-            Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

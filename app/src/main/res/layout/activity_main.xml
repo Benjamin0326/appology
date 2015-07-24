@@ -72,10 +72,57 @@
 
     </RelativeLayout>
 
-    <ListView android:id="@+id/lv_activity_main"
-        android:background="#EDEDED"
-        android:layout_width="240dp"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start" />
+        android:id="@+id/dlLayout"
+        android:orientation="vertical"
+        android:layout_gravity="start" >
+
+        <RelativeLayout
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:background="#1EDDFF">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:id="@+id/userPhoto"
+                android:src="@drawable/user"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carNumber"
+                android:text="12가3456"
+                android:textSize="20dp"
+                android:layout_toRightOf="@+id/userPhoto"
+                android:layout_alignTop="@+id/userPhoto"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/infoModify"
+                android:text="수정"
+                android:layout_alignLeft="@+id/carNumber"
+                android:layout_below="@+id/carNumber"
+                android:layout_marginTop="10dp"/>
+
+        </RelativeLayout>
+
+        <ListView android:id="@+id/lv_activity_main"
+            android:background="#EDEDED"
+            android:layout_width="240dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

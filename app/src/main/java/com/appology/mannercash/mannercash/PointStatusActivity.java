@@ -1,5 +1,6 @@
 package com.appology.mannercash.mannercash;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -27,11 +32,18 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
 
-    ListView lvDrawerList2;
+    ListView lvDrawerList;
     ArrayAdapter<String> adtDrawerList;
+    LinearLayout dlLayout;
     String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴사 안내", "보호구역 안내"};
 
     Intent intent;
+
+    ImageView userPhoto;
+    TextView carNumber;
+    Button infoModify;
+
+    Context mContext;
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -42,14 +54,17 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_status);
 
-        lvDrawerList2 = (ListView) findViewById(R.id.lv_activity_point_status);
-        adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
-        lvDrawerList2.setAdapter(adtDrawerList);
+        mContext = this;
 
-        lvDrawerList2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
+        lvDrawerList = (ListView) findViewById(R.id.lv_activity_point_status);
+        adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
+        lvDrawerList.setAdapter(adtDrawerList);
+
+        lvDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
                         intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -70,7 +85,7 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
                     case 4:
                         break;
                 }
-                dlDrawer.closeDrawer(lvDrawerList2);
+                dlDrawer.closeDrawer(dlLayout);
             }
         });
 
@@ -80,6 +95,22 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        userPhoto = (ImageView) findViewById(R.id.userPhoto);
+
+        carNumber = (TextView) findViewById(R.id.carNumber);
+
+        infoModify = (Button) findViewById(R.id.infoModify);
+        infoModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(mContext, InfoModifyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
