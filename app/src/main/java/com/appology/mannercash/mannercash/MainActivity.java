@@ -154,7 +154,6 @@ public class MainActivity extends ActionBarActivity {
                 intent = new Intent(mContext, InfoModifyActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
-                finish();
             }
         });
 
