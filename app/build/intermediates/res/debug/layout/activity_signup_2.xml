@@ -1,0 +1,105 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.appology.mannercash.mannercash.SignupActivity">
+
+    <TextView
+        android:text="Manner\nCash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/signup2_textView" />
+
+    <TextView
+        android:id="@+id/signup2_point_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="포인트 카드 번호"
+        android:layout_below="@+id/signup2_textView"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp"/>
+
+    <EditText
+        android:id="@+id/signup2_point_num1"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signup2_point_textview"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/signup2_point_textview"/>
+
+    <EditText
+        android:id="@+id/signup2_point_num2"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/signup2_point_num1"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/signup2_point_num1"/>
+
+    <EditText
+        android:id="@+id/signup2_point_num3"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/signup2_point_num2"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/signup2_point_num1"/>
+
+    <EditText
+        android:id="@+id/signup2_point_num4"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/signup2_point_num3"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/signup2_point_num1"/>
+
+
+    <TextView
+        android:id="@+id/signup2_passwd_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀 번호"
+        android:layout_below="@+id/signup2_point_num1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"/>
+
+    <EditText
+        android:id="@+id/signup2_passwd"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signup2_passwd_textview"
+        android:inputType="textPassword"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/signup2_passwd_textview"/>
+
+    <Button
+        android:id="@+id/signup2_btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signup2_passwd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="등록"
+        android:textSize="20dp"/>
+
+
+
+</RelativeLayout>
+</ScrollView><!-- From: file:/C:/Users/Jeong/AndroidStudioProjects/MannerCash/app/src/main/res/layout/activity_signup_2.xml -->

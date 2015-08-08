@@ -2,6 +2,8 @@ package com.appology.mannercash.mannercash;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -19,6 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Jeong on 2015-07-01.
@@ -34,6 +38,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     TextView textView2;   // 속도 테스트
     TextView textView3;   // 속도 테스트
     TextView textView4;   // 속도 테스트
+    String address;
     ToggleButton toggleButton;
     Integer requestCount;   // 네트워킹 테스트
     public String Url = "http://m.naver.com";   // 네트워킹 테스트
@@ -78,6 +83,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 gpsOffFlag = true;
                 cancel(true);
             }
+
+            address = getAddress(locationListener.getLatitude(), locationListener.getLongitude());
+            //address = getAddress(37.448491, 127.053826);
 
             request(Url);   // 네트워킹 테스트
             publishProgress();
@@ -154,7 +162,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 }
             }
             try {
-                Thread.sleep(2000);   // 네트워킹 테스트
+                //Thread.sleep(2000);   // 네트워킹 테스트
                 /*
                 String link = "http://10.0.2.2/mannercash_server.php?code=3&id="+ URLEncoder.encode(id, "UTF-8")+"&password=" + URLEncoder.encode(password, "UTF-8") + "&phoneNum=" + URLEncoder.encode("", "UTF-8") + "&cardNum=" + URLEncoder.encode("", "UTF-8")
                         +"&point=" + URLEncoder.encode("100", "UTF-8");
@@ -193,7 +201,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     private void gpsConfiguration() {
         locationListener = new GpsManager();   // 속도 테스트
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);   // 속도 테스트
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);   // 속도 테스트
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationListener.setIsProviderEnabled(true);
         }
@@ -203,17 +211,51 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         SoundPool soundPool;
         int soundId;
 
-        soundPool = new  SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         soundId = soundPool.load(mContext, resId, 1);
 
         soundPool.play(soundId, 1, 1, 0, 0, 1);
     }
 
+    String getAddress(double lat, double lng){
+        String address = null;
+        Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+        List<Address> list = null;
+
+        try {
+            list = geocoder.getFromLocation(lat, lng, 5);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(list == null) {
+            address = "주소 데이터 얻기 실패";
+            return address;
+        }
+
+        if(list.size() > 0) {
+            Address addr = list.get(0);
+            address = addr.getCountryName() + " "
+                    + addr.getAdminArea() + " "
+                    + addr.getLocality() + " "
+                    + addr.getThoroughfare() + " "
+                    + addr.getSubThoroughfare() + " "
+                    + addr.getFeatureName() + "\n"
+                    + addr.getAddressLine(0);
+        }
+
+        return address;
+    }
+
+    StringBuilder sb = new StringBuilder("");
+
     @Override
     protected void onProgressUpdate(Integer... values) {
+        sb.append(String.valueOf(locationListener.getLatitude()) + String.valueOf(locationListener.getLongitude()) + " \n");
         textView.setText(requestCount.toString());   // 네트워킹 테스트
         textView2.setText("" + locationListener.getMSpeed());   // 속도 테스트
-        textView3.setText("위도 : " + locationListener.getLatitude() + "\n" + "경도 : " + locationListener.getLongitude());
+        //textView3.setText("위도 : " + locationListener.getLatitude() + "\n" + "경도 : " + locationListener.getLongitude() + "\n" + address);
+        textView3.setText(sb.toString());
         textView4.setText("GPS Enabled" + "\n" + locationListener.isProviderEnabled() + "\n\n" +
                             "GPS 수신 상태" + "\n" + locationListener.getGpsStatus());
 /*        Toast.makeText(mContext.getApplicationContext(), "속도:" + locationListener.getMSpeed() +

@@ -2,39 +2,214 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.5.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-eb9482986899de441d4ce54850ecd25e89bc068a.jar" />
+        revision="23.0.0 rc3"
+        sha1="8d736fefa22d896e84a268354b3ed48a42663150">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-82787e4a6f2527b6b0e462fa84640bcb28a1cd9c.jar" />
     </item>
     <item
-        jar="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\7.5.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
-        <dex dex="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-53be1dd4a47d626080ed7a4da8fe00c489a7f1bd.jar" />
+        revision="23.0.0 rc3"
+        sha1="63ec6e9f4fe5482a7447d0f3091b8e543a02554c">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-432d0ebf8ac3e524c1e43596b1d93cd507036a81.jar" />
     </item>
     <item
-        jar="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.5.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-1e92055a692c171c95a8de211ffba8b6dc75b6a7.jar" />
+        revision="23.0.0 rc3"
+        sha1="1e98ef3f124bb7a11f8575f9ff5dfea330b61b6f">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-5205ac3cbaf85708aa5b05bac5ad6b6e91e73bf9.jar" />
     </item>
     <item
-        jar="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\jars\classes.jar"
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.5.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
-        <dex dex="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-c85caa953b3b16483781ac9e0383316a10cc951d.jar" />
+        revision="23.0.0 rc3"
+        sha1="e7b35244f50663b3f8d150714bca9ecd7a290da1">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-62c7cf07d4eb12788f01093ab1847388def8e8ec.jar" />
     </item>
     <item
-        jar="C:\Users\Benjamin03\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\MannerCash\tmapopenapi\unspecified\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
-        <dex dex="C:\Users\Benjamin03\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-6df2b8c38a1e684a2efe5f95d4f189c7c20276ef.jar" />
+        revision="23.0.0 rc3"
+        sha1="6c4abd264f2e2dfd548a855154df35b822388807">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-b5149f2c7fd30477d1422ca82c4ea1e3830912ee.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.1-c217ae88e42c5d85aa9c99f31306ab86ec1b9afc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\MannerCash\tmapopenapi\unspecified\jars\libs\annotations.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="c98f326a55c0be2ecaa914df46fb539db300bc12">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\annotations-baba86eda2721ba1cb3aeac5f17235e7b529e299.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="8e3a972f28b8bae817e382257ba177a31bcadbbc">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-1acfde02c119712aed54f4738abda9fbd4e670a9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.0.0\jars\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="ba3df4eb0a630d7de294f0e48d3f9267d279b784">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-ea5b5c8ce78c66aca5fc947c57d036607709fee1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="02bac2dc792d78241077861566f2c82da955e7fa">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-960598eee0c540a74c9dee1d3a14e1d65cb19537.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="6836d188602ec5382d1967c58b00960eb8ff8773">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-6350a90dda2ba11e5a00d0dbf4c5b2a14ab60ebe.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="1a6411087ab88ce5542f593e63a2752b6b0d6f1a">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-3b90b655a05d5d3ef8543dde4e58f2aec6e64ecd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="29ebc7e04d877062317c8cc0e68b20f0c1fcda66">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-df940f8fd17fbcba08f65fbb8cbcd268b5acba53.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="06a42becc33232ec0ee125161da68c1829c9f8fd">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-ed94b1b82e16d36992bc5507bda719abd4bf6817.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.1\support-annotations-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.1-77a92ea4cc9b95e49ce75cc1a50d68d031ed0b77.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="a1372c17fccacca753d3951d3ad820571cbce075">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-ed19c62ce0bf627b62fc0009d78790d9ec981e80.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="69dd177337ead693c408c8dddc9546bb6f1244fa">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-b83f076b3ca07956dc51f8d9481ac0210e4ab363.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="272bc5d7063f24bc3a33ea1d318cde8f31f5ec4c">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-26e8527827f71ba23a74ef1e95064ea23253dcc8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\MannerCash\tmapopenapi\unspecified\jars\libs\httpclient-4.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="872a71eac51131524f72f3100781dd88a42c9ccc">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\httpclient-4.2.2-e2bd3571ce2e4b894222d85d9ed81fbc1efbc5b7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\MannerCash\tmapopenapi\unspecified\jars\libs\httpmime-4.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="92b7ae91cb55150192341962dd7254ef898768ca">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\httpmime-4.2.2-9a25f8059c5d7aa1cce8370667cc76244f0cf228.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="a78183f30e769a98ab4820794f597763088d3065">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-3fc9547983dd58a9f2b8ba84b89dc0ad35ce5426.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="f44d03c138cb6488fdbaa65e3a7e5878861a56d8">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-a41c087c2a661b2055222e83edd43d1808066b1d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="ba207be21987c11b37d9f8faa08ed6e722569f30">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-f5ce80ffc8a238ca830b0e88d3bdad2180261abb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="d405025c600055237c171a0bbabaa49d69696573">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-2f95321aaaaae51dcee26c8679809061029c9ce0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="6440e5e5cfe368f9bff3c537fb8988048069cb33">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-35f9ec7d0e154ef9fc7bafa8fa1c598027cf43ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="f02127a85abd52a2cd526d4c2409f21969f80ee8">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-4db6ce6000985a29fa185c284de6bfdb7cc526a5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-6248849dc2a9469f5cc9a026b417838affb44dd8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-1dc7a0fc25d0015a2677a34f955ac850296e19ad.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="68c140702c7242d914655bcb3164d9e8c45b84cb">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-ae758f95ae3473650b0cecf3fc5d8ed6ec87b0c0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.5.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="a172852a35ff919e85b9b7f14bbc15c5bee25520">
+        <dex dex="C:\Users\Jeong\AndroidStudioProjects\MannerCash\app\build\intermediates\pre-dexed\debug\classes-ff80af25e775863ea6a462bb1e099f508af1e98a.jar" />
     </item>
 
 </items>
