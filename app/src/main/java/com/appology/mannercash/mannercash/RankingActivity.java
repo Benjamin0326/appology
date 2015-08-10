@@ -130,10 +130,10 @@ public class RankingActivity extends ActionBarActivity {
     APIRequest api;
     RequestBundle requestBundle;
     String URL = "https://apis.skplanetx.com/tmap/multiViaPointRoute?" +
-            "startX=" + "126.891398" +
-            "&startY=" + "37.459036" +
-            "&endX=" + "126.891794" +
-            "&endY=" + "37.458387" +
+            "startX=" + "127.017689" +
+            "&startY=" + "37.521711" +
+            "&endX=" + "127.017582" +
+            "&endY=" + "37.519665" +
             "&passList=&reqCoordType=WGS84GEO" +
             "&callback=&endPoiId=&bizAppId=1af75c43-93f7-4fd6-b8ad-6f1d7debc519&endRpFlag=&resCoordType=WGS84GEO&version=1";
 

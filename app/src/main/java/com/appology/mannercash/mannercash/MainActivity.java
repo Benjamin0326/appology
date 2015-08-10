@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.location.Location;
@@ -25,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -60,16 +58,10 @@ public class MainActivity extends ActionBarActivity {
     TextView carNumber;
     Button infoModify;
 
-    ToggleButton toggleButton;
     Context mContext;
     MainFunctionTask mainFunctionTask;
-    TextView textView;   // 네트워킹 테스트
-
-    ImageView imageView;
+    TextView debugTextView;
     LocationManager locationManager;
-    TextView textView2;   // 속도 테스트
-    TextView textView3;   // 속도 테스트
-    TextView textView4;
 
     public static Activity mainActivity;
 
@@ -158,92 +150,42 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
-        textView = (TextView) findViewById(R.id.text_view);   // 네트워킹 테스트
-
-        textView.setOnClickListener(new View.OnClickListener(){    // 로그인 및 튜토리얼 정보 초기화
-            @Override
-            public void onClick(View v){
-                SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("logged", "");
-                editor.putString("email", "");
-                editor.putString("password", "");
-                editor.putString("tutorialRead", "");
-                editor.commit();
-                Toast.makeText(getApplicationContext(), "로그인 및 튜토리얼 정보 초기화", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        textView2 = (TextView) findViewById(R.id.speed);   // 속도 테스트
-        textView3 = (TextView) findViewById(R.id.textView3);   // 속도 테스트
-        textView4 = (TextView) findViewById(R.id.textView4);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 속도 테스트
+        debugTextView = (TextView) findViewById(R.id.debugTextView);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-
-        imageView = (ImageView) findViewById(R.id.gpsImage);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showGpsSwitchDialog();
-            }
-        });
-
-        toggleButton = (ToggleButton) findViewById(R.id.toggle_button);
-        toggleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    if (toggleButton.isChecked()) {
-                        mainFunctionTask = new MainFunctionTask(mContext, locationManager,
-                                                                textView, textView2, textView3, textView4,
-                                                                toggleButton, data);
-                        mainFunctionTask.execute();
-                    } else {
-                        mainFunctionTask.cancel(true);
-                    }
-                } else {
-                    toggleButton.setChecked(false);
-                    showGpsSwitchDialog();
-                }
-
-            }
-        });
+        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data);
+        mainFunctionTask.execute();
     }
-
 
     public void showGpsSwitchDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        if(!(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))) {
-            builder.setMessage("단말기의 설정에서 '위치 서비스(GPS)' 사용을 허용해 주세요.").
-                    setCancelable(false).
-                    setPositiveButton("설정하기",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                    startActivity(gpsOptionsIntent);
-                                }
-                            }).
-                    setNegativeButton("취소",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-            AlertDialog alert = builder.create();
-            alert.setTitle("위치 서비스 사용");
-            alert.show();
-        } else {
-            builder.setMessage("현재 '위치 서비스(GPS)' 사용이 허용된 상태입니다.").
-                    setCancelable(false).
-                    setPositiveButton("확인",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                }
-                            });
-            AlertDialog alert = builder.create();
-            alert.setTitle("위치 서비스 사용");
-            alert.show();
+        builder.setMessage("단말기의 설정에서 '위치 서비스(GPS)' 사용을 허용해 주세요.").
+                setCancelable(false).
+                setPositiveButton("설정",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(gpsOptionsIntent);
+                            }
+                        }).
+                setNegativeButton("종료",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.setTitle("위치 서비스 사용");
+        alert.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            showGpsSwitchDialog();
         }
     }
 
