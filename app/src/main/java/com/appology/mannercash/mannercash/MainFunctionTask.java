@@ -9,15 +9,6 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
-
 /**
  * Created by Jeong on 2015-07-01.
  */
@@ -34,16 +25,21 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     boolean gpsOffFlag = false;
 
-    Data[] data = new Data[408];
+    Data[] data = new Data[446];
+    IC[] ic = new IC[36];
+    JCT[] jct = new JCT[228];
 
     int index; // index = 진입한 Data정보와 일치하는 index값 저장
     int flag=0; //flag는 현재 IC or JCT를 진입했는지 벗어났는지 chk
 
-    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data) {
+    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, IC[] ic, JCT[] jct) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.debugTextView = debugTextView;
         this.data = data;
+        this.ic = ic;
+        this.jct=jct;
+
 
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
         id=settings.getString("email", "email");
@@ -65,6 +61,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             }*/
 
             publishProgress();
+            /*
             if(flag==0) {
                 if(index!=999) {
                     for (int i = 0; i < 407; i++) {
@@ -106,6 +103,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             //계속 속도를 잘 유지했으면 point 적립
 
                         /**************************************************************************************************************************************/
+                       /*
                         try{
                             String link = "http://10.0.2.2/mannercash_server.php?code=3&id=" +
                                     URLEncoder.encode(id, "UTF-8")+"&password=" +
@@ -123,7 +121,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             Toast.makeText(mContext.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                         /**************************************************************************************************************************************/
-
+/*
                         char chk=data[index].GeticName().charAt(data[index].GeticName().length());
                                 // IcName 의 끝이 C일 경우 IC, T일 경우 JCT 이므로
                         if(chk=='C'){  // IC통과 시 고속도로를 벗어나게 된 것이므로 index 초기화 및 flag=0으로 set
@@ -137,6 +135,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     }
                 }
             }
+            */
             try {
                 //Thread.sleep(2000);
             } catch (Exception ex) {
@@ -210,5 +209,23 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             Toast.makeText(mContext, "위치 서비스(GPS) 기능이 꺼졌습니다.\n사용 허용 후 다시 시작해주세요.", Toast.LENGTH_LONG).show();
         }
         locationManager.removeUpdates(locationListener);
+    }
+
+
+    boolean Enter(int code, Double x, Double y){    //code==0 : IC, code==1 : JCT
+        char flag;
+        if(code==0)
+            flag='C';
+        else
+            flag='T';
+
+        for(int i=0;i<446;i++){
+            if(data[i].icName.charAt(data[i].icName.length()-1)!=flag)
+                continue;
+            if(data[i].Enter(x,y)){
+                return true;
+            }
+        }
+        return false;
     }
 }

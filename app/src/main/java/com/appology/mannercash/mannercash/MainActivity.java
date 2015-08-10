@@ -35,6 +35,8 @@ import java.io.InputStreamReader;
 public class MainActivity extends ActionBarActivity {
 
     Data[] data;
+    IC[] ic;
+    JCT[] jct;
     AssetManager assManager;
     InputStream is;
     String str;
@@ -78,7 +80,7 @@ public class MainActivity extends ActionBarActivity {
         assManager = getApplicationContext().getAssets();
         BufferedReader bufferReader;
         input = new String[6];
-        data = new Data[408];
+        data = new Data[446];
         try {
             is = assManager.open("data.txt");
             bufferReader = new BufferedReader(new InputStreamReader(is));
@@ -87,11 +89,48 @@ public class MainActivity extends ActionBarActivity {
                 data[index]=new Data();
                 data[index++].Reset(input[0], input[1], input[2], input[3], Double.parseDouble(input[4]), Double.parseDouble(input[5]));
             }
-            data[407]=new Data();
-            data[407].Reset("TestRouteName", "TestRouteNo", "TestIcCode", "TestIcName", 0.0, 0.0);
         }
         catch(IOException ex){
             Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
+        }
+
+        index=0;
+        assManager = getApplicationContext().getAssets();
+        input = new String[8];
+        ic = new IC[36];
+        try {
+            is = assManager.open("ic.txt");
+            bufferReader = new BufferedReader(new InputStreamReader(is));
+            while( (str = bufferReader.readLine()) != null ) {
+                input = str.split(",");
+                ic[index]=new IC();
+                if(input[0].equals("0"))
+                    ic[index++].Reset0(input[0],input[1],input[2], Integer.parseInt(input[3]));
+                else if(input[0].equals("1"))
+                    ic[index++].Reset1(input[0],input[1],input[2],Double.parseDouble(input[3]),Double.parseDouble(input[4]),Double.parseDouble(input[5]),Double.parseDouble(input[6]), Integer.parseInt(input[7]));
+            }
+        }
+        catch(IOException ex){
+            Toast.makeText(getApplicationContext(), "(IC)No File", Toast.LENGTH_LONG).show();
+        }
+
+
+        index=0;
+        assManager = getApplicationContext().getAssets();
+        input = new String[8];
+        jct = new JCT[228];
+        try {
+            is = assManager.open("jct.txt");
+            bufferReader = new BufferedReader(new InputStreamReader(is));
+            while( (str = bufferReader.readLine()) != null ) {
+                input = str.split(",");
+                jct[index]=new JCT();
+                jct[index++].Reset(Integer.parseInt(input[0]), input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]), input[5],input[6], Integer.parseInt(input[7]));
+            }
+            //Toast.makeText(MainActivity.this,jct[227].getRouteName()+" "+jct[227].getIcCode()+" "+jct[227].getLimitSpeed(),Toast.LENGTH_LONG).show();
+        }
+        catch(IOException ex){
+            Toast.makeText(getApplicationContext(), "(JCT)No File", Toast.LENGTH_LONG).show();
         }
 
 
@@ -154,7 +193,7 @@ public class MainActivity extends ActionBarActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data);
+        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, ic, jct);
         mainFunctionTask.execute();
     }
 
@@ -245,6 +284,7 @@ public class MainActivity extends ActionBarActivity {
 }
 
 
+
 class Data{
     String routeName;
     String routeNo;
@@ -278,14 +318,131 @@ class Data{
         return icCode;
     }
 
-    boolean Enter(Double _xValue, Double _yValue){
+    boolean Enter(Double _yValue, Double _xValue){
         float[] results=new float[3];
 
-        LatLng Data_Point = new LatLng(xValue,yValue);
-        LatLng Point = new LatLng(_xValue, _yValue);
+        LatLng Data_Point = new LatLng(yValue,xValue);
+        LatLng Point = new LatLng(_yValue, _xValue);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+        if(icName.charAt(icName.length()-1)=='T') {
+            if (results[0] < 350) {
+                return true;
+            } else
+                return false;
+        }
+        else{
+            if (results[0] < 30) {
+                return true;
+            } else
+                return false;
+        }
+    }
+}
+
+class IC{
+    String code;
+    String routeName;
+    String routeNo;
+    Double xValue1;
+    Double yValue1;
+    Double xValue2;
+    Double yValue2;
+    int limitSpeed=100;
+
+    void Reset0(String _code, String _routeName, String _routeNo, int _limitSpeed){
+        code=_code;
+        routeName=_routeName;
+        routeNo=_routeNo;
+        limitSpeed=_limitSpeed;
+    }
+
+    void Reset1(String _code, String _routeName, String _routeNo, Double _xValue1, Double _yValue1, Double _xValue2, Double _yValue2, int _limitSpeed){
+        code=_code;
+        routeName=_routeName;
+        routeNo=_routeNo;
+        xValue1=_xValue1;
+        yValue1=_yValue1;
+        xValue2=_xValue2;
+        yValue2=_yValue2;
+        limitSpeed=_limitSpeed;
+    }
+
+    boolean Enter1(Double _yValue, Double _xValue){
+        float[] results=new float[3];
+
+        LatLng Data_Point = new LatLng(yValue1,xValue1);
+        LatLng Point = new LatLng(_yValue, _xValue);
         Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
 
-        if(results[0]<10) {
+        if(results[0]<15) {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    boolean Enter2(Double _yValue, Double _xValue){
+        float[] results=new float[3];
+
+        LatLng Data_Point = new LatLng(yValue2,xValue2);
+        LatLng Point = new LatLng(_yValue, _xValue);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+
+        if(results[0]<15) {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int getLimitSpeed() {return limitSpeed;}
+
+    String getRouteName(){
+        return routeName;
+    }
+
+    String getRouteNo(){
+        return routeNo;
+    }
+
+    String getCode(){return code;}
+}
+
+class JCT{
+    int num;
+    String icCode;
+    String icName;
+    Double xValue;
+    Double yValue;
+    String routeName;
+    String routeNo;
+    int limitSpeed;
+
+    void Reset(int _num, String _icCode, String _icName, Double _xValue, Double _yValue, String _routeName, String _routeNo, int _limitSpeed){
+        num=_num;
+        icCode=_icCode;
+        icName=_icName;
+        xValue=_xValue;
+        yValue=_yValue;
+        routeName=_routeName;
+        routeNo=_routeNo;
+        limitSpeed=_limitSpeed;
+    }
+
+    int getNum(){   return num;}
+    String getIcCode(){ return icCode;}
+    String getRouteName(){    return routeName;}
+    String getRouteNo(){  return routeNo;}
+    int getLimitSpeed(){    return limitSpeed;}
+
+    boolean Enter(Double _yValue, Double _xValue){
+        float[] results=new float[3];
+
+        LatLng Data_Point = new LatLng(yValue,xValue);
+        LatLng Point = new LatLng(_yValue, _xValue);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+
+        if(results[0]<30) {
             return true;
         }
         else
