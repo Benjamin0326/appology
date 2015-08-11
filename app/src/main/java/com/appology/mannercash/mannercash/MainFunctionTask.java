@@ -11,7 +11,6 @@ import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -56,7 +55,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
         id=settings.getString("email", "email");
         password=settings.getString("password", "password");
-        Toast.makeText(mContext.getApplicationContext(), "(회원정보) ID : "+id+" Password : "+password, Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext.getApplicationContext(), "(회원정보) ID : "+id+" Password : "+password, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -96,8 +95,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         sb.append("prevLon:" + prevLon + "\n");
         sb.append("curLat:" + curLat + "\n");
         sb.append("curLon:" + curLon + "\n");
-        sb.append("위도:" + String.valueOf(locationListener.getLatitude()) + "\n");
-        sb.append("경도:" + String.valueOf(locationListener.getLongitude()) + "\n");
+        //sb.append("위도:" + String.valueOf(locationListener.getLatitude()) + "\n");
+        //sb.append("경도:" + String.valueOf(locationListener.getLongitude()) + "\n");
         sb.append("속도:" + String.valueOf(speedListener.getMSpeed()) + "\n");
         debugTextView.setText(sb.toString());
         sb.setLength(0);
@@ -107,7 +106,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         }
     }
 
-    boolean Enter(int code, Double x, Double y){    //code==0 : IC, code==1 : JCT
+    boolean Enter(int code, Double x, Double y) {   //code==0 : IC, code==1 : JCT
         char flag;
         if(code == 0)
             flag = 'C';

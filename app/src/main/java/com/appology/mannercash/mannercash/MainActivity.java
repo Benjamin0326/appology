@@ -99,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
         input = new String[10];
         limitSpeed = new LimitSpeed[2];
         try {
-            is = assManager.open("ic.txt");
+            is = assManager.open("speed.txt");
             bufferReader = new BufferedReader(new InputStreamReader(is));
             while( (str = bufferReader.readLine()) != null ) {
                 input = str.split(",");
