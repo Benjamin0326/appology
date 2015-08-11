@@ -1,12 +1,15 @@
 package com.appology.mannercash.mannercash;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +28,17 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     TextView debugTextView;
     LocationManager locationManager;
     GpsManager locationListener;
+    GpsManager speedListener;
 
     double prevLat = 0;
     double prevLon = 0;
     double curLat = 0;
     double curLon = 0;
 
-    float totalDistance=0.0f;
+    float totalDistance = 0.0f;
 
     boolean gpsOffFlag = false;
+    boolean showGpsDialog = false;
 
     Data[] data = new Data[446];
     LimitSpeed[] limitSpeed = new LimitSpeed[36];
@@ -56,30 +61,27 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        while(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        }
 
         while (isCancelled() == false) {
+            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                soundTurnOn(R.raw.test);    // 사운드 출력 예 -> raw 폴더에 출력할 사운드 파일 넣고 왼쪽과 같이 메소드 호출하면 됨.
+                setLatLon();
 
-            soundTurnOn(R.raw.test);    // 사운드 출력 예 -> raw 폴더에 출력할 사운드 파일 넣고 왼쪽과 같이 메소드 호출하면 됨.
-/*
-            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+                publishProgress();
+                try {
+                    Thread.sleep(500);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                if(!gpsOffFlag) {
+                    showGpsDialog = true;
+                    publishProgress();
+                }
                 gpsOffFlag = true;
-                cancel(true);
-                ((Activity) mContext).finish();
-            }*/
-
-            if(locationListener.getLatitude() != curLat && locationListener.getLongitude() != curLon) {
-                prevLat = curLat;
-                prevLon = curLon;
-                curLat = locationListener.getLatitude();
-                curLon = locationListener.getLongitude();
-            }
-
-
-            publishProgress();
-            try {
-                Thread.sleep(500);
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
         }
         return null;
@@ -88,7 +90,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     StringBuilder sb = new StringBuilder("");
     @Override
     protected void onProgressUpdate(Integer... values) {
-        sb.append("GPS Enabled" + "\n" + locationListener.isProviderEnabled() + "\n");
+        sb.append("GPS Enabled:" + locationListener.isProviderEnabled() + "\n");
         sb.append("GPS 수신 상태" + "\n" + locationListener.getGpsStatus() + "\n");
         sb.append("prevLat:" + prevLat + "\n");
         sb.append("prevLon:" + prevLon + "\n");
@@ -96,26 +98,47 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         sb.append("curLon:" + curLon + "\n");
         sb.append("위도:" + String.valueOf(locationListener.getLatitude()) + "\n");
         sb.append("경도:" + String.valueOf(locationListener.getLongitude()) + "\n");
-        sb.append("속도:" + String.valueOf(locationListener.getMSpeed()) + "\n");
+        sb.append("속도:" + String.valueOf(speedListener.getMSpeed()) + "\n");
         debugTextView.setText(sb.toString());
         sb.setLength(0);
+
+        if(showGpsDialog) {
+            showGpsDialog();
+        }
     }
 
     boolean Enter(int code, Double x, Double y){    //code==0 : IC, code==1 : JCT
         char flag;
-        if(code==0)
-            flag='C';
+        if(code == 0)
+            flag = 'C';
         else
-            flag='T';
+            flag = 'T';
 
-        for(int i=0;i<446;i++){
-            if(data[i].icName.charAt(data[i].icName.length()-1) != flag)
+        for(int i = 0; i < 446; i++) {
+            if(data[i].icName.charAt(data[i].icName.length() - 1) != flag)
                 continue;
-            if(data[i].Enter(x,y)){
+            if(data[i].Enter(x, y)) {
                 return true;
             }
         }
         return false;
+    }
+
+    void getDistance() {
+        float[] results = new float[3];
+        LatLng Data_Point = new LatLng(prevLat, prevLon);
+        LatLng Point = new LatLng(curLat, curLon);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+        totalDistance += results[0];
+    }
+
+    void setLatLon() {
+        if(locationListener.getLatitude() != curLat && locationListener.getLongitude() != curLon) {
+            prevLat = curLat;
+            prevLon = curLon;
+            curLat = locationListener.getLatitude();
+            curLon = locationListener.getLongitude();
+        }
     }
 
     void soundTurnOn(int resId) {
@@ -128,20 +151,30 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         soundPool.play(soundId, 1, 1, 0, 0, 1);
     }
 
+    public void showGpsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("'위치 서비스(GPS)' 사용 해제로 인하여 서비스를 종료합니다.").
+                setCancelable(false).
+                setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                ((Activity) mContext).finish();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.setTitle("위치 서비스 사용");
+        alert.show();
+    }
+
     private void gpsConfiguration() {
         locationListener = new GpsManager();
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        speedListener = new GpsManager();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 300, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, speedListener);
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationListener.setIsProviderEnabled(true);
         }
-    }
-
-    void getDistance(){
-        float[] results=new float[3];
-        LatLng Data_Point = new LatLng(prevLat, prevLon);
-        LatLng Point = new LatLng(curLat, curLon);
-        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
-        totalDistance+=results[0];
     }
 
     @Override
@@ -155,10 +188,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onCancelled() {
-        if(gpsOffFlag) {
-            Toast.makeText(mContext, "위치 서비스(GPS) 기능이 꺼졌습니다.\n사용 허용 후 다시 시작해주세요.", Toast.LENGTH_LONG).show();
-        }
         locationManager.removeUpdates(locationListener);
+        locationManager.removeUpdates(speedListener);
     }
 
     /*private void request(String urlStr) {
