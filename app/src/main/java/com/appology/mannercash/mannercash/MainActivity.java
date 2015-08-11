@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
 public class MainActivity extends ActionBarActivity {
 
     Data[] data;
-    IC[] ic;
+    LimitSpeed[] limitSpeed;
     JCT[] jct;
     AssetManager assManager;
     InputStream is;
@@ -96,18 +96,15 @@ public class MainActivity extends ActionBarActivity {
 
         index=0;
         assManager = getApplicationContext().getAssets();
-        input = new String[8];
-        ic = new IC[36];
+        input = new String[10];
+        limitSpeed = new LimitSpeed[2];
         try {
             is = assManager.open("ic.txt");
             bufferReader = new BufferedReader(new InputStreamReader(is));
             while( (str = bufferReader.readLine()) != null ) {
                 input = str.split(",");
-                ic[index]=new IC();
-                if(input[0].equals("0"))
-                    ic[index++].Reset0(input[0],input[1],input[2], Integer.parseInt(input[3]));
-                else if(input[0].equals("1"))
-                    ic[index++].Reset1(input[0],input[1],input[2],Double.parseDouble(input[3]),Double.parseDouble(input[4]),Double.parseDouble(input[5]),Double.parseDouble(input[6]), Integer.parseInt(input[7]));
+                limitSpeed[index]=new LimitSpeed();
+                limitSpeed[index++].Reset(Integer.parseInt(input[0]),Integer.parseInt(input[1]),input[2],input[3],Double.parseDouble(input[4]),Double.parseDouble(input[5]),Double.parseDouble(input[6]),Double.parseDouble(input[7]), Integer.parseInt(input[8]), Integer.parseInt(input[9]));
             }
         }
         catch(IOException ex){
@@ -193,7 +190,7 @@ public class MainActivity extends ActionBarActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, ic, jct);
+        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct);
         mainFunctionTask.execute();
     }
 
@@ -339,73 +336,31 @@ class Data{
     }
 }
 
-class IC{
-    String code;
+class LimitSpeed{
+    int code;
+    int index;
     String routeName;
-    String routeNo;
-    Double xValue1;
-    Double yValue1;
-    Double xValue2;
-    Double yValue2;
-    int limitSpeed=100;
-
-    void Reset0(String _code, String _routeName, String _routeNo, int _limitSpeed){
+    String icName;
+    double xValue;
+    double yValue;
+    double xValue2;
+    double yValue2;
+    int speed1=100;
+    int speed2=100;
+    void Reset(int _code, int _index, String _routeName, String _icName, double _xValue, double _yValue, double _xValue2, double _yValue2, int _speed1, int _speed2){
         code=_code;
+        index=_index;
         routeName=_routeName;
-        routeNo=_routeNo;
-        limitSpeed=_limitSpeed;
-    }
-
-    void Reset1(String _code, String _routeName, String _routeNo, Double _xValue1, Double _yValue1, Double _xValue2, Double _yValue2, int _limitSpeed){
-        code=_code;
-        routeName=_routeName;
-        routeNo=_routeNo;
-        xValue1=_xValue1;
-        yValue1=_yValue1;
+        icName=_icName;
+        xValue=_xValue;
+        yValue=_yValue;
         xValue2=_xValue2;
         yValue2=_yValue2;
-        limitSpeed=_limitSpeed;
+        speed1=_speed1;
+        speed2=_speed2;
     }
 
-    boolean Enter1(Double _yValue, Double _xValue){
-        float[] results=new float[3];
 
-        LatLng Data_Point = new LatLng(yValue1,xValue1);
-        LatLng Point = new LatLng(_yValue, _xValue);
-        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
-
-        if(results[0]<15) {
-            return true;
-        }
-        else
-            return false;
-    }
-
-    boolean Enter2(Double _yValue, Double _xValue){
-        float[] results=new float[3];
-
-        LatLng Data_Point = new LatLng(yValue2,xValue2);
-        LatLng Point = new LatLng(_yValue, _xValue);
-        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
-
-        if(results[0]<15) {
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int getLimitSpeed() {return limitSpeed;}
-
-    String getRouteName(){
-        return routeName;
-    }
-
-    String getRouteNo(){
-        return routeNo;
-    }
-
-    String getCode(){return code;}
 }
 
 class JCT{

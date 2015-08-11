@@ -2,12 +2,15 @@ package com.appology.mannercash.mannercash;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by Jeong on 2015-07-01.
@@ -28,19 +31,21 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     double curLat = 0;
     double curLon = 0;
 
+    float totalDistance=0.0f;
+
     boolean gpsOffFlag = false;
 
     Data[] data = new Data[446];
-    IC[] ic = new IC[36];
+    LimitSpeed[] limitSpeed = new LimitSpeed[36];
     JCT[] jct = new JCT[228];
 
 
-    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, IC[] ic, JCT[] jct) {
+    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, LimitSpeed[] limitSpeed, JCT[] jct) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.debugTextView = debugTextView;
         this.data = data;
-        this.ic = ic;
+        this.limitSpeed = limitSpeed;
         this.jct=jct;
 
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
@@ -129,6 +134,14 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationListener.setIsProviderEnabled(true);
         }
+    }
+
+    void getDistance(){
+        float[] results=new float[3];
+        LatLng Data_Point = new LatLng(prevLat, prevLon);
+        LatLng Point = new LatLng(curLat, curLon);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+        totalDistance+=results[0];
     }
 
     @Override
