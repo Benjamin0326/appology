@@ -140,6 +140,35 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         }
     }
 
+    int getLimitSpeed(int dir, String routeName, double lat, double lon){   //dir : 0은 정방향, 1은 역방향, routeName : 고속도로이름
+        for(int i=0;i<46;i++){  // 46은 고쳐야함.
+            if(routeName.equals(limitSpeed[i].routeName)){
+                int index=limitSpeed[i].index;
+                if(limitSpeed[i].index==1){
+                    if(dir==0)
+                        return limitSpeed[i].speed1;
+                    else if(dir==1)
+                        return limitSpeed[i].speed2;
+                }
+                for(int j=0;j<index;j++){
+                    if(j==index-1){
+                        if(dir==0)
+                            return limitSpeed[i+j].speed1;
+                        else if(dir==1)
+                            return limitSpeed[i+j].speed2;
+                    }
+                    else if(limitSpeed[i+j].curDistance(lat, lon)<limitSpeed[i+j].pointDistance()){
+                        if(dir==0)
+                            return limitSpeed[i+j].speed1;
+                        else if(dir==1)
+                            return limitSpeed[i+j].speed2;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     void soundTurnOn(int resId) {
         SoundPool soundPool;
         int soundId;

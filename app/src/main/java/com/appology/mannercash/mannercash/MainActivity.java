@@ -341,25 +341,44 @@ class LimitSpeed{
     int index;
     String routeName;
     String icName;
-    double xValue;
-    double yValue;
-    double xValue2;
-    double yValue2;
+    double latValue;
+    double lonValue;
+    double latValue2;
+    double lonValue2;
     int speed1=100;
     int speed2=100;
-    void Reset(int _code, int _index, String _routeName, String _icName, double _xValue, double _yValue, double _xValue2, double _yValue2, int _speed1, int _speed2){
+    void Reset(int _code, int _index, String _routeName, String _icName, double _latValue, double _lonValue, double _latValue2, double _lonValue2, int _speed1, int _speed2){
         code=_code;
         index=_index;
         routeName=_routeName;
         icName=_icName;
-        xValue=_xValue;
-        yValue=_yValue;
-        xValue2=_xValue2;
-        yValue2=_yValue2;
+        latValue=_latValue;
+        lonValue=_lonValue;
+        latValue2=_latValue2;
+        lonValue2=_lonValue2;
         speed1=_speed1;
         speed2=_speed2;
     }
 
+    float curDistance(double curLat, double curLon){
+        float[] results=new float[3];
+
+        LatLng Data_Point = new LatLng(latValue,lonValue);
+        LatLng Point = new LatLng(curLat, curLon);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+
+        return results[0];
+    }
+
+    float pointDistance(){
+        float[] results=new float[3];
+
+        LatLng Data_Point = new LatLng(latValue,lonValue);
+        LatLng Point = new LatLng(latValue2, lonValue2);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+
+        return results[0];
+    }
 
 }
 
