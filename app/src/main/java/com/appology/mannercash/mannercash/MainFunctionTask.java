@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.AudioManager;
@@ -13,6 +15,9 @@ import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Jeong on 2015-07-01.
@@ -106,7 +111,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         }
     }
 
-    boolean Enter(int code, Double x, Double y) {   //code==0 : IC, code==1 : JCT
+    boolean Enter(int code, double x, double y) {   //code==0 : IC, code==1 : JCT
         char flag;
         if(code == 0)
             flag = 'C';
@@ -167,6 +172,37 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             }
         }
         return 0;
+    }
+
+    void savePoint(float distance, String RouteName){
+        SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
+        String id=settings.getString("email", "email");
+        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
+
+        int point;
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user", null);
+        if (cursor.moveToFirst()) {
+            point = cursor.getInt(2);
+        }
+        else{
+            point=0;
+        }
+        point=point+(int)(distance*6);
+        db = mHelper.getWritableDatabase();
+        db.execSQL("UPDATE user set Point=" + point + " where ID='" + id + "';");
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat CurTimeFormat = new SimpleDateFormat("HH:mm:ss");
+        String strCurDate = CurDateFormat.format(date);
+        String strCurTime = CurTimeFormat.format(date);
+
+        db = mHelper.getWritableDatabase();
+        db.execSQL("INSERT INTO point VALUES ('"+id+"','"+point+"','"+strCurDate+"','"+strCurTime+",'"+RouteName+"');");
+        mHelper.close();
     }
 
     void soundTurnOn(int resId) {

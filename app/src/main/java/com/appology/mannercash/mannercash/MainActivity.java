@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -33,6 +36,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class MainActivity extends ActionBarActivity {
+
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
 
     Data[] data;
     LimitSpeed[] limitSpeed;
@@ -67,69 +73,24 @@ public class MainActivity extends ActionBarActivity {
 
     public static Activity mainActivity;
 
+    TextView pointText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mHelper = new WordDBHelper(this);
+        db=mHelper.getReadableDatabase();
+
         mContext = this;
         mainActivity = MainActivity.this;
 
+        getData();  // IC, JCT, LimitSpeed Data 불러와서 저장
 
-///////////////////////// data /////////////////////////////////////////////////////////////////////
-        assManager = getApplicationContext().getAssets();
-        BufferedReader bufferReader;
-        input = new String[6];
-        data = new Data[446];
-        try {
-            is = assManager.open("data.txt");
-            bufferReader = new BufferedReader(new InputStreamReader(is));
-            while( (str = bufferReader.readLine()) != null ) {
-                input = str.split(",");
-                data[index]=new Data();
-                data[index++].Reset(input[0], input[1], input[2], input[3], Double.parseDouble(input[4]), Double.parseDouble(input[5]));
-            }
-        }
-        catch(IOException ex){
-            Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
-        }
-
-        index=0;
-        assManager = getApplicationContext().getAssets();
-        input = new String[10];
-        limitSpeed = new LimitSpeed[2];
-        try {
-            is = assManager.open("speed.txt");
-            bufferReader = new BufferedReader(new InputStreamReader(is));
-            while( (str = bufferReader.readLine()) != null ) {
-                input = str.split(",");
-                limitSpeed[index]=new LimitSpeed();
-                limitSpeed[index++].Reset(Integer.parseInt(input[0]),Integer.parseInt(input[1]),input[2],input[3],Double.parseDouble(input[4]),Double.parseDouble(input[5]),Double.parseDouble(input[6]),Double.parseDouble(input[7]), Integer.parseInt(input[8]), Integer.parseInt(input[9]));
-            }
-        }
-        catch(IOException ex){
-            Toast.makeText(getApplicationContext(), "(IC)No File", Toast.LENGTH_LONG).show();
-        }
-
-
-        index=0;
-        assManager = getApplicationContext().getAssets();
-        input = new String[8];
-        jct = new JCT[228];
-        try {
-            is = assManager.open("jct.txt");
-            bufferReader = new BufferedReader(new InputStreamReader(is));
-            while( (str = bufferReader.readLine()) != null ) {
-                input = str.split(",");
-                jct[index]=new JCT();
-                jct[index++].Reset(Integer.parseInt(input[0]), input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]), input[5],input[6], Integer.parseInt(input[7]));
-            }
-            //Toast.makeText(MainActivity.this,jct[227].getRouteName()+" "+jct[227].getIcCode()+" "+jct[227].getLimitSpeed(),Toast.LENGTH_LONG).show();
-        }
-        catch(IOException ex){
-            Toast.makeText(getApplicationContext(), "(JCT)No File", Toast.LENGTH_LONG).show();
-        }
-
+        int point = getPoint(); //point 불러옴. (error ㅠㅠ)
+        pointText=(TextView)findViewById(R.id.point);
+        pointText.setText(Integer.toString(point));
 
         dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_main);
@@ -170,6 +131,11 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //Drawable actionbarDrawable = getResources().getDrawable(R.drawable.actionbar);
+       // getSupportActionBar().setBackgroundDrawable(actionbarDrawable);
+
+
 
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
 
@@ -278,6 +244,87 @@ public class MainActivity extends ActionBarActivity {
             mainFunctionTask.cancel(true);
         }
     }
+
+    int getPoint(){
+
+        SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
+        int point;
+        point=settings.getInt("point", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("point", point+1);
+        editor.commit();
+        point=settings.getInt("point", 0);
+/*
+        db=mHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM test", null);
+        if (cursor.moveToFirst()) {
+            point = cursor.getInt(0);
+        } else {
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO test VALUES (1);");
+            mHelper.close();
+            point=1;
+        }*/
+        return point;
+
+    }
+
+    void getData(){
+        assManager = getApplicationContext().getAssets();
+        BufferedReader bufferReader;
+        input = new String[6];
+        data = new Data[446];
+        try {
+            is = assManager.open("data.txt");
+            bufferReader = new BufferedReader(new InputStreamReader(is));
+            while( (str = bufferReader.readLine()) != null ) {
+                input = str.split(",");
+                data[index]=new Data();
+                data[index++].Reset(input[0], input[1], input[2], input[3], Double.parseDouble(input[4]), Double.parseDouble(input[5]));
+            }
+        }
+        catch(IOException ex){
+            Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
+        }
+
+        index=0;
+        assManager = getApplicationContext().getAssets();
+        input = new String[10];
+        limitSpeed = new LimitSpeed[46];
+        try {
+            is = assManager.open("speed.txt");
+            bufferReader = new BufferedReader(new InputStreamReader(is));
+            while( (str = bufferReader.readLine()) != null ) {
+                input = str.split(",");
+                limitSpeed[index]=new LimitSpeed();
+                limitSpeed[index++].Reset(Integer.parseInt(input[0]),Integer.parseInt(input[1]),input[2],input[3],Double.parseDouble(input[4]),Double.parseDouble(input[5]),Double.parseDouble(input[6]),Double.parseDouble(input[7]), Integer.parseInt(input[8]), Integer.parseInt(input[9]));
+            }
+        }
+        catch(IOException ex){
+            Toast.makeText(getApplicationContext(), "(IC)No File", Toast.LENGTH_LONG).show();
+        }
+
+
+        index=0;
+        assManager = getApplicationContext().getAssets();
+        input = new String[8];
+        jct = new JCT[228];
+        try {
+            is = assManager.open("jct.txt");
+            bufferReader = new BufferedReader(new InputStreamReader(is));
+            while( (str = bufferReader.readLine()) != null ) {
+                input = str.split(",");
+                jct[index]=new JCT();
+                jct[index++].Reset(Integer.parseInt(input[0]), input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]), input[5],input[6], Integer.parseInt(input[7]));
+            }
+            //Toast.makeText(MainActivity.this,jct[227].getRouteName()+" "+jct[227].getIcCode()+" "+jct[227].getLimitSpeed(),Toast.LENGTH_LONG).show();
+        }
+        catch(IOException ex){
+            Toast.makeText(getApplicationContext(), "(JCT)No File", Toast.LENGTH_LONG).show();
+        }
+    }
 }
 
 
@@ -287,8 +334,8 @@ class Data{
     String routeNo;
     String icCode;
     String icName;
-    Double xValue;
-    Double yValue;
+    double xValue;
+    double yValue;
 
     void Reset(String _routeName, String _routeNo, String _icCode, String _icName, Double _xValue, Double _yValue){
         routeName=_routeName;
@@ -315,20 +362,20 @@ class Data{
         return icCode;
     }
 
-    boolean Enter(Double _yValue, Double _xValue){
+    boolean Enter(double _yValue, double _xValue){
         float[] results=new float[3];
 
         LatLng Data_Point = new LatLng(yValue,xValue);
-        LatLng Point = new LatLng(_yValue, _xValue);
-        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude, results);
+        LatLng Point = new LatLng(_xValue, _yValue);
+        Location.distanceBetween(Data_Point.latitude, Data_Point.longitude, Point.latitude, Point.longitude,results);
         if(icName.charAt(icName.length()-1)=='T') {
-            if (results[0] < 350) {
+            if (results[0] < 350.0f) {
                 return true;
             } else
                 return false;
         }
         else{
-            if (results[0] < 30) {
+            if (results[0] < 30.0f) {
                 return true;
             } else
                 return false;
@@ -422,4 +469,20 @@ class JCT{
         else
             return false;
     }
+}
+
+class WordDBHelper extends SQLiteOpenHelper {
+    public WordDBHelper(Context context){
+        super(context, "MannerCash.db", null, 1);
+    }
+
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE test (point INTEGER);");
+    }
+
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS test");
+        onCreate(db);
+    }
+
 }

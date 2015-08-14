@@ -29,6 +29,8 @@ public class PointSearchFragment extends Fragment {
     String startDateStr = "";
     String endDateStr = "";
 
+
+
     int initYear;
     int initMonth;
     int initDay;
