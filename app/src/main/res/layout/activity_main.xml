@@ -26,13 +26,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/limitspeed"
+                android:src="@drawable/limitspeedbackground"
                 android:id="@+id/limitspeedBackground"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100"
+                android:text=""
                 android:textSize="65dp"
                 android:textColor="#ffffff"
                 android:layout_gravity="center_vertical|center_horizontal"

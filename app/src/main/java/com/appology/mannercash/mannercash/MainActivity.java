@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
@@ -249,24 +250,25 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
         int point;
-        point=settings.getInt("point", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("point", point+1);
-        editor.commit();
-        point=settings.getInt("point", 0);
-/*
+        String id=settings.getString("emailt", "email");
+        String pw=settings.getString("password","password");
+        //SharedPreferences.Editor editor = settings.edit();
+        //editor.putInt("point", point+1);
+        //editor.commit();
+        //point=settings.getInt("point", 0);
+
         db=mHelper.getReadableDatabase();
 
         Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM test", null);
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
-            point = cursor.getInt(0);
+            point = cursor.getInt(2);
         } else {
             db = mHelper.getWritableDatabase();
-            db.execSQL("INSERT INTO test VALUES (1);");
+            db.execSQL("INSERT INTO user VALUES ('"+id+"', '"+pw+"',0);");
             mHelper.close();
-            point=1;
-        }*/
+            point=0;
+        }
         return point;
 
     }
@@ -473,15 +475,18 @@ class JCT{
 
 class WordDBHelper extends SQLiteOpenHelper {
     public WordDBHelper(Context context){
-        super(context, "MannerCash.db", null, 1);
+        super(context, "mannercash.db", null, 3);
     }
 
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE test (point INTEGER);");
+        db.execSQL("CREATE TABLE user (id VARCHAR PRIMARY KEY not null, password VARCHAR not null, point INTEGER);");
+        db.execSQL("CREATE TABLE point (id VARCHAR not null, point INTEGER not null, routeName VARCHAR, date DATE, time TIME);");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS test");
+        db.execSQL("DROP TABLE IF EXISTS user");
+        db.execSQL("DROP TABLE IF EXISTS point");
+
         onCreate(db);
     }
 
