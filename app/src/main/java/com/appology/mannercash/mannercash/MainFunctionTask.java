@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -29,6 +30,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     Context mContext;
 
+    TextView pointText;
+    TextView speedText;
+    ImageView speedImage;
     TextView debugTextView;
     LocationManager locationManager;
     GpsManager locationListener;
@@ -49,10 +53,13 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     JCT[] jct = new JCT[228];
 
 
-    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, LimitSpeed[] limitSpeed, JCT[] jct) {
+    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, LimitSpeed[] limitSpeed, JCT[] jct, TextView pointText, TextView speedText, ImageView speedImage) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.debugTextView = debugTextView;
+        this.pointText=pointText;
+        this.speedText=speedText;
+        this.speedImage=speedImage;
         this.data = data;
         this.limitSpeed = limitSpeed;
         this.jct=jct;
@@ -128,6 +135,17 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         return false;
     }
 
+    void enter(int speed){
+        speedImage.setImageResource(R.drawable.limitspeed);
+        speedText.setText(speed);
+    }
+
+    void exit(){
+        speedImage.setImageResource(R.drawable.limitspeedbackground);
+        speedText.setText("");
+    }
+
+
     void getDistance() {
         float[] results = new float[3];
         LatLng Data_Point = new LatLng(prevLat, prevLon);
@@ -182,7 +200,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
         int point;
         Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM user", null);
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             point = cursor.getInt(2);
         }
@@ -190,8 +208,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             point=0;
         }
         point=point+(int)(distance*6);
+        pointText.setText(point);
         db = mHelper.getWritableDatabase();
-        db.execSQL("UPDATE user set Point=" + point + " where ID='" + id + "';");
+        db.execSQL("UPDATE user set point=" + point + " where id='" + id + "';");
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -201,7 +220,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         String strCurTime = CurTimeFormat.format(date);
 
         db = mHelper.getWritableDatabase();
-        db.execSQL("INSERT INTO point VALUES ('"+id+"','"+point+"','"+strCurDate+"','"+strCurTime+",'"+RouteName+"');");
+        db.execSQL("INSERT INTO point VALUES ('"+id+"','"+point+"','"+RouteName+"','"+strCurDate+",'"+strCurTime+"');");
         mHelper.close();
     }
 

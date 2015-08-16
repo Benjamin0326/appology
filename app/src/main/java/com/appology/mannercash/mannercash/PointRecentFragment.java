@@ -1,5 +1,8 @@
 package com.appology.mannercash.mannercash;
 
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +33,9 @@ public class PointRecentFragment extends Fragment {
     String endDate;
 
     PointRecentTask task;
+    ArrayAdapter<String> adp;
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
 
     public PointRecentFragment newInstance() {
         PointRecentFragment fragment = new PointRecentFragment();
@@ -44,6 +50,10 @@ public class PointRecentFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_point_recent, container, false);
 
+        mHelper = new WordDBHelper(MainActivity.mainActivity);
+        db=mHelper.getReadableDatabase();
+
+
         textView = (TextView) view.findViewById(R.id.textView);
         setDateTextView();
 
@@ -56,7 +66,7 @@ public class PointRecentFragment extends Fragment {
         task.execute();
         // 이부분을 수정하여 리스트뷰에 넣을 DB 데이터 불러오면 됨.
 
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
+        adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
         listView.setAdapter(adp);
 
         swipeView = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
@@ -70,6 +80,7 @@ public class PointRecentFragment extends Fragment {
                 // 여기에 새로고침 했을 시 동작하는 부분 삽입
                 task = new PointRecentTask();
                 task.execute();
+                testPrint();
                 // 여기에 새로고침 했을 시 동작하는 부분 삽입
 
                 //swipeView.setRefreshing(false);
@@ -102,6 +113,27 @@ public class PointRecentFragment extends Fragment {
         return view;
     }
 
+    void testPrint(){
+        SharedPreferences settings = MainActivity.mainActivity.getSharedPreferences("MannerCash", MainActivity.mainActivity.MODE_PRIVATE);
+        String id=settings.getString("email", "email");
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM point where id='"+id+"'", null);
+        int point;
+        while (true) {
+            if(!cursor.moveToFirst())
+                break;
+            point = cursor.getInt(1);
+            String routeName = cursor.getString(2);
+            String date = cursor.getString(3);
+            String time = cursor.getString(4);
+            adp.add(point+" "+routeName+" "+date+" "+time);
+            adp.notifyDataSetChanged();
+            if(cursor.moveToNext()==false){
+                break;
+            }
+        }
+    }
+
     void setDateTextView() {
         Date date = new Date();
 
@@ -124,6 +156,7 @@ public class PointRecentFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
+            testPrint();
             return null;
         }
 

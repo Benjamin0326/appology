@@ -72,9 +72,13 @@ public class MainActivity extends ActionBarActivity {
     TextView debugTextView;
     LocationManager locationManager;
 
+
+
     public static Activity mainActivity;
 
+    TextView speedText;
     TextView pointText;
+    ImageView speedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,8 @@ public class MainActivity extends ActionBarActivity {
         getData();  // IC, JCT, LimitSpeed Data 불러와서 저장
 
         int point = getPoint(); //point 불러옴. (error ㅠㅠ)
+        speedText=(TextView)findViewById(R.id.limitspeed);
+        speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
         pointText=(TextView)findViewById(R.id.point);
         pointText.setText(Integer.toString(point));
 
@@ -157,7 +163,7 @@ public class MainActivity extends ActionBarActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct);
+        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct, pointText, speedText, speedImage);
         mainFunctionTask.execute();
     }
 
