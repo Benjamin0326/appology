@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -195,6 +196,7 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showGpsSwitchDialog();
+            Log.i("1111111111", "showGpsSwitchDialog() called");
         }
     }
 
@@ -292,6 +294,7 @@ public class MainActivity extends ActionBarActivity {
                 data[index]=new Data();
                 data[index++].Reset(input[0], input[1], input[2], input[3], Double.parseDouble(input[4]), Double.parseDouble(input[5]));
             }
+            is.close();
         }
         catch(IOException ex){
             Toast.makeText(getApplicationContext(), "No File", Toast.LENGTH_LONG).show();
@@ -300,7 +303,7 @@ public class MainActivity extends ActionBarActivity {
         index=0;
         assManager = getApplicationContext().getAssets();
         input = new String[10];
-        limitSpeed = new LimitSpeed[46];
+        limitSpeed = new LimitSpeed[StaticVariable.limitSpeedCount];
         try {
             is = assManager.open("speed.txt");
             bufferReader = new BufferedReader(new InputStreamReader(is));
@@ -309,6 +312,7 @@ public class MainActivity extends ActionBarActivity {
                 limitSpeed[index]=new LimitSpeed();
                 limitSpeed[index++].Reset(Integer.parseInt(input[0]),Integer.parseInt(input[1]),input[2],input[3],Double.parseDouble(input[4]),Double.parseDouble(input[5]),Double.parseDouble(input[6]),Double.parseDouble(input[7]), Integer.parseInt(input[8]), Integer.parseInt(input[9]));
             }
+            is.close();
         }
         catch(IOException ex){
             Toast.makeText(getApplicationContext(), "(IC)No File", Toast.LENGTH_LONG).show();
@@ -327,6 +331,7 @@ public class MainActivity extends ActionBarActivity {
                 jct[index]=new JCT();
                 jct[index++].Reset(Integer.parseInt(input[0]), input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]), input[5],input[6], Integer.parseInt(input[7]));
             }
+            is.close();
             //Toast.makeText(MainActivity.this,jct[227].getRouteName()+" "+jct[227].getIcCode()+" "+jct[227].getLimitSpeed(),Toast.LENGTH_LONG).show();
         }
         catch(IOException ex){

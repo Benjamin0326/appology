@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,17 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.skp.openplatform.android.sdk.api.APIRequest;
-import com.skp.openplatform.android.sdk.common.PlanetXSDKConstants;
-import com.skp.openplatform.android.sdk.common.PlanetXSDKException;
-import com.skp.openplatform.android.sdk.common.RequestBundle;
-import com.skp.openplatform.android.sdk.common.RequestListener;
-import com.skp.openplatform.android.sdk.common.ResponseMessage;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class RankingActivity extends ActionBarActivity {
@@ -46,9 +33,6 @@ public class RankingActivity extends ActionBarActivity {
     ImageView userPhoto;
     TextView carNumber;
     Button infoModify;
-
-    TextView tvResult;
-    Button btn;
 
     Context mContext;
 
@@ -113,93 +97,9 @@ public class RankingActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-
-
-        btn = (Button) findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                test();
-            }
-        });
-
-        tvResult = (TextView) findViewById(R.id.tv);
     }
 
 
-    APIRequest api;
-    RequestBundle requestBundle;
-    String URL = "https://apis.skplanetx.com/tmap/multiViaPointRoute?" +
-            "startX=" + "127.017689" +
-            "&startY=" + "37.521711" +
-            "&endX=" + "127.017582" +
-            "&endY=" + "37.519665" +
-            "&passList=&reqCoordType=WGS84GEO" +
-            "&callback=&endPoiId=&bizAppId=1af75c43-93f7-4fd6-b8ad-6f1d7debc519&endRpFlag=&resCoordType=WGS84GEO&version=1";
-
-    void test() {
-        api = new APIRequest();
-        APIRequest.setAppKey("d269e7ae-48c6-3b25-b61d-0fbf564eb865");
-
-        requestBundle = new RequestBundle();
-        requestBundle.setUrl(URL);
-        requestBundle.setHttpMethod(PlanetXSDKConstants.HttpMethod.GET);
-        requestBundle.setRequestType(PlanetXSDKConstants.CONTENT_TYPE.JSON);
-        requestBundle.setResponseType(PlanetXSDKConstants.CONTENT_TYPE.JSON);
-
-        try {
-            api.request(requestBundle, reqListener);
-        } catch (PlanetXSDKException e) {
-            e.printStackTrace();
-        }
-    }
-
-    String hndResult = "";
-    String roadName = "";
-    Handler msgHandler = new Handler(){
-        @Override
-        public void dispatchMessage(Message msg) {
-            tvResult.setText(roadName);
-        }
-    };
-
-    RequestListener reqListener = new RequestListener() {
-        @Override
-        public void onPlanetSDKException(PlanetXSDKException e) {
-            hndResult = e.toString();
-            msgHandler.sendEmptyMessage(0);
-        }
-
-        @Override
-        public void onComplete(ResponseMessage result) {
-            //hndResult = result.getStatusCode() + "\n" + result.toString();
-            hndResult = result.toString();
-            JSONparse();
-            msgHandler.sendEmptyMessage(0);
-        }
-    };
-
-    void JSONparse() {
-        try {
-            JSONObject jsonObject = new JSONObject(hndResult);
-            JSONArray features = jsonObject.getJSONArray("features");
-
-            //StringBuilder sb = new StringBuilder(String.valueOf(features.length()) + "\n");
-            for (int i = 0; i < features.length(); i++) {
-                JSONObject insideObj = features.getJSONObject(i);
-                JSONObject properties = insideObj.getJSONObject("properties");
-                if(properties.has("nextRoadName")) {
-                    //sb.append(properties.getString("nextRoadName") + "\n");
-                    roadName = String.valueOf(features.length()) + "\n" + properties.getString("nextRoadName");
-                    break;
-                }
-            }
-            //roadName = sb.toString();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState){
