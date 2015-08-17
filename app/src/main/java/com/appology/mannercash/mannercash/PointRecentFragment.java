@@ -142,12 +142,12 @@ public class PointRecentFragment extends Fragment {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, 30);
+        cal.add(Calendar.DATE, -30);
 
         SimpleDateFormat endDateFormat = new SimpleDateFormat("yyyy.MM.dd");
         endDate = endDateFormat.format(cal.getTime());
 
-        textView.setText("조회기간 (최근 30일)     " + curDate + " ~ " + endDate);
+        textView.setText("조회기간 (최근 30일)     " + endDate + " ~ " + curDate);
     }
 
 
