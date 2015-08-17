@@ -145,7 +145,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
                 publishProgress();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -207,7 +207,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             changePointDistance = calculDistance(roadStartLat, roadStartLon,
                                     limitSpeed[lineIndex + j].latValue2, limitSpeed[lineIndex + j].lonValue2);
 
-                            Log.i("1111111111", j + " " + roadStartToCurDistance + " " + changePointDistance);
+                            Log.i("mannercash", j + " " + roadStartToCurDistance + " " + changePointDistance);
                             if(roadStartToCurDistance <= changePointDistance) {
                                 lineIndex += j;
                                 break;
@@ -215,7 +215,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                         }
 
                         if(j == limitSpeed[lineIndex].index) {
-                            Log.i("1111111111", String.valueOf(j));
+                            Log.i("mannercash", String.valueOf(j));
                             continue;
                         }
 
@@ -254,9 +254,11 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             if((forwardCount / (forwardCount + reverseCount)) >= 0.5) {
                                 direction = forwardDirection;
                                 speedLimit = limitSpeed[lineIndex].speed1;
+                                Log.i("mannercash", "speedLimit = speed1");
                             } else {
                                 direction = reverseDirection;
                                 speedLimit = limitSpeed[lineIndex].speed2;
+                                Log.i("mannercash", "speedLimit = speed2");
                             }
                         }
                     }
