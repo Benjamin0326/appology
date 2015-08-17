@@ -174,20 +174,21 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     isExpressWay = true;
                 } else {
                     speedLimit = 0;
+                    initDirectionData();
                 }
 
                 if(isExpressWay) {
+                    getAccumulateDistance();
+                    if(accumulateDistance >= StaticVariable.pointSaveStandardDistance) {
+                        isPointSave = true;
+                    }
+
                     if(isChangeRoadName) {
                         if(changeRoadCheckCount < StaticVariable.changeRoadStandByCount) {
                             changeRoadCheckCount++;
                             continue;
                         }
                         initDirectionData();
-                    }
-
-                    getAccumulateDistance();
-                    if(accumulateDistance >= StaticVariable.pointSaveStandardDistance) {
-                        isPointSave = true;
                     }
 
                     for(lineIndex = 0; lineIndex < StaticVariable.limitSpeedCount-1; lineIndex++) {
@@ -265,7 +266,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 }
 
                 if(tmpSpeedLimit != speedLimit) {
-                    soundTurnOn(R.raw.test);
+                    soundTurnOn(R.raw.test2);
+                    Log.i("mannercash", "soundTurnOn() called");
                     tmpSpeedLimit = speedLimit;
                 }
 
