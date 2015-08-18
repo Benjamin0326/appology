@@ -71,6 +71,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     int changeRoadCheckCount =0;
     int speedLimit = 0;
     int tmpSpeedLimit = 0;
+    int exitCount = 0;
 
     float roadStartToCurDistance = 0.0f;
     float changePointDistance = 0.0f;
@@ -208,7 +209,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             changePointDistance = calculDistance(roadStartLat, roadStartLon,
                                     limitSpeed[lineIndex + j].latValue2, limitSpeed[lineIndex + j].lonValue2);
 
-                            Log.i("mannercash", j + " " + roadStartToCurDistance + " " + changePointDistance);
+                            //Log.i("mannercash", j + " " + roadStartToCurDistance + " " + changePointDistance);
                             if(roadStartToCurDistance <= changePointDistance) {
                                 lineIndex += j;
                                 break;
@@ -252,14 +253,16 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                                 directionData[directionIndex] = reverseDirection;
                             }
 
-                            if((forwardCount / (forwardCount + reverseCount)) >= 0.5) {
-                                direction = forwardDirection;
-                                speedLimit = limitSpeed[lineIndex].speed1;
-                                Log.i("mannercash", "speedLimit = speed1");
-                            } else {
-                                direction = reverseDirection;
-                                speedLimit = limitSpeed[lineIndex].speed2;
-                                Log.i("mannercash", "speedLimit = speed2");
+                            if((forwardCount + reverseCount) != 0) {
+                                if((forwardCount / (forwardCount + reverseCount)) >= 0.5) {
+                                    direction = forwardDirection;
+                                    speedLimit = limitSpeed[lineIndex].speed1;
+                                    Log.i("mannercash", "speedLimit = speed1");
+                                } else {
+                                    direction = reverseDirection;
+                                    speedLimit = limitSpeed[lineIndex].speed2;
+                                    Log.i("mannercash", "speedLimit = speed2");
+                                }
                             }
                         }
                     }
@@ -293,12 +296,20 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 isPointSave = false;
                 accumulateDistance = 0;
             }
-        } else {
-            exit();
 
-            if(accumulateDistance != 0) {
-                savePoint(accumulateDistance, prevRoadName);
-                accumulateDistance = 0;
+            exitCount = 0;
+        } else {
+            Log.i("mannercash", "exit() called, " + "roadName:" + roadName +
+                    " / " + prevLat + " / " + prevLon + " / " + curLat + " / " + curLon);
+
+            exitCount++;
+            if(exitCount > 2) {
+                exit();
+
+                if(accumulateDistance != 0) {
+                    savePoint(accumulateDistance, prevRoadName);
+                    accumulateDistance = 0;
+                }
             }
         }
 
@@ -307,6 +318,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         sb.append("현재속도:" + String.valueOf(speedListener.getMSpeed()) + "\n");
         sb.append("speedLimit:" + String.valueOf(speedLimit) + "\n");
         sb.append("도로:" + roadName + "\n");
+        sb.append("isExpressWay:" + isExpressWay + "\n");
         sb.append("lineIndex:" + String.valueOf(lineIndex) + "\n\n");
         sb.append("accumulateDistance:" + String.valueOf(accumulateDistance) + "\n\n");
         sb.append("changeRoadCheckCount:" + String.valueOf(changeRoadCheckCount) + "\n");
@@ -449,7 +461,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     void getAccumulateDistance() {
         float results = 0;
         results = calculDistance(prevLat, prevLon, curLat, curLon);
-        Log.i("1111111111", String.valueOf(results));
         accumulateDistance += results;
     }
 
@@ -463,13 +474,13 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     }
 
     void enter(int speed){
-        speedImage.setImageResource(R.drawable.limitspeed);
-        speedText.setText(speed);
+        //speedImage.setImageResource(R.drawable.limitspeed);
+        //speedText.setText(speed);
     }
 
     void exit(){
-        speedImage.setImageResource(R.drawable.limitspeedbackground);
-        speedText.setText("");
+        //speedImage.setImageResource(R.drawable.limitspeedbackground);
+        //speedText.setText("");
     }
 
     void savePoint(float distance, String RouteName){
@@ -498,9 +509,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         String strCurDate = CurDateFormat.format(date);
         String strCurTime = CurTimeFormat.format(date);
 
-        db = mHelper.getWritableDatabase();
-        db.execSQL("INSERT INTO point VALUES ('"+id+"','"+point+"','"+strCurDate+"','"+strCurTime+",'"+RouteName+"');");
-        mHelper.close();
+        //db = mHelper.getWritableDatabase();
+        //db.execSQL("INSERT INTO point VALUES ('"+id+"',"+point+",'"+RouteName+"',"+strCurDate+","+strCurTime+");");
+        //mHelper.close();
     }
 
     void setLatLon() {
