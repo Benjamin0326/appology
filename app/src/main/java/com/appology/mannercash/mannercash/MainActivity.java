@@ -258,7 +258,7 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
         int point;
-        String id=settings.getString("emailt", "email");
+        String id=settings.getString("email", "email");
         String pw=settings.getString("password","password");
         //SharedPreferences.Editor editor = settings.edit();
         //editor.putInt("point", point+1);
