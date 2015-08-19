@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     ImageView speedImage;
 
     TextView debugTextView;
+    TextView countTextView;
     LocationManager locationManager;
     GpsManager locationListener;
     GpsManager speedListener;
@@ -72,6 +74,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     int speedLimit = 0;
     int tmpSpeedLimit = 0;
     int exitCount = 0;
+    int speedCount = 6;
 
     float roadStartToCurDistance = 0.0f;
     float changePointDistance = 0.0f;
@@ -86,6 +89,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     boolean isExpressWay = false;
     boolean isChangeRoadName = false;
     boolean isPointSave = false;
+    boolean isSpeedExceed = false;
 
     Data[] data;
     LimitSpeed[] limitSpeed;
@@ -98,10 +102,15 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     String roadName = "";
     String prevRoadName = "";
 
+    Animation animAppear;
+    Animation animDisAppear;
+
     int j = 0;
 
 
-    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, LimitSpeed[] limitSpeed, JCT[] jct, TextView pointText, TextView speedText, ImageView speedImage) {
+    public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, LimitSpeed[] limitSpeed, JCT[] jct,
+                            TextView pointText, TextView speedText, ImageView speedImage, TextView countTextView,
+                            Animation animAppear, Animation animDisAppear) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.debugTextView = debugTextView;
@@ -111,6 +120,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         this.data = data;
         this.limitSpeed = limitSpeed;
         this.jct=jct;
+        this.countTextView = countTextView;
+        this.animAppear = animAppear;
+        this.animDisAppear = animDisAppear;
         directionData = new int[StaticVariable.directionDataCount];
 
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
@@ -146,7 +158,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
                 publishProgress();
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(1000);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -174,6 +186,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                 if(roadName.contains("고속도로")) {
                     isExpressWay = true;
                 } else {
+                    exitCount++;
                     speedLimit = 0;
                     initDirectionData();
                 }
@@ -268,9 +281,43 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     }
                 }
 
+                if(speedListener.getMSpeed() > speedLimit) {
+                    Log.i("mannercash", "속도 초과 - " + String.valueOf(speedCount));
+                    isSpeedExceed = true;
+
+                    if(speedCount == 0) {
+                        speedCount = 6;
+                        accumulateDistance = 0;
+                    }
+
+                    speedCount--;
+                } else {
+                    Log.i("mannercash", "카운트 중지");
+                    isSpeedExceed = false;
+                    speedCount = 6;
+                }
+
                 if(tmpSpeedLimit != speedLimit) {
-                    soundTurnOn(R.raw.test2);
                     Log.i("mannercash", "soundTurnOn() called");
+                    switch (speedLimit) {
+                        case 70:
+                            soundTurnOn(R.raw.test2);
+                            break;
+                        case 80:
+                            soundTurnOn(R.raw.test2);
+                            break;
+                        case 90:
+                            soundTurnOn(R.raw.test2);
+                            break;
+                        case 100:
+                            soundTurnOn(R.raw.test2);
+                            break;
+                        case 110:
+                            soundTurnOn(R.raw.test2);
+                            break;
+                        default:
+                            break;
+                    }
                     tmpSpeedLimit = speedLimit;
                 }
 
@@ -302,8 +349,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             Log.i("mannercash", "exit() called, " + "roadName:" + roadName +
                     " / " + prevLat + " / " + prevLon + " / " + curLat + " / " + curLon);
 
-            exitCount++;
-            if(exitCount > 2) {
+            if(exitCount > 1) {
                 exit();
 
                 if(accumulateDistance != 0) {
@@ -311,6 +357,12 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     accumulateDistance = 0;
                 }
             }
+        }
+
+        if(isSpeedExceed) {
+            countTextView.setText(String.valueOf(speedCount));
+        } else {
+            countTextView.setText("");
         }
 
         sb.append("GPS Enabled:" + locationListener.isProviderEnabled() + "\n");

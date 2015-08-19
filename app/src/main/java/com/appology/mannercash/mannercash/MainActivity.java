@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -71,9 +73,11 @@ public class MainActivity extends ActionBarActivity {
     Context mContext;
     MainFunctionTask mainFunctionTask;
     TextView debugTextView;
+    TextView countTextView;
     LocationManager locationManager;
 
-
+    Animation animAppear;
+    Animation animDisAppear;
 
     public static Activity mainActivity;
 
@@ -97,6 +101,21 @@ public class MainActivity extends ActionBarActivity {
         int point = getPoint(); //point 불러옴. (error ㅠㅠ)
         speedText=(TextView)findViewById(R.id.limitspeed);
         speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
+        animAppear = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        //animAppear.setFillAfter(true);
+        animDisAppear = AnimationUtils.loadAnimation(this, R.anim.alpha2);
+        //animDisAppear.setFillAfter(true);
+       // speedImage.startAnimation(animDisAppear);
+
+        try {
+            Thread.sleep(10000);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        speedImage.startAnimation(animAppear);
+
         pointText=(TextView)findViewById(R.id.point);
         pointText.setText(Integer.toString(point));
 
@@ -161,10 +180,12 @@ public class MainActivity extends ActionBarActivity {
 
 
         debugTextView = (TextView) findViewById(R.id.debugTextView);
+        countTextView = (TextView) findViewById(R.id.count);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct, pointText, speedText, speedImage);
+        mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct,
+                                                pointText, speedText, speedImage, countTextView, animAppear, animDisAppear);
         mainFunctionTask.execute();
     }
 

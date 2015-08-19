@@ -5,9 +5,9 @@ package com.appology.mannercash.mannercash;
  */
 public class StaticVariable {
     static final int limitSpeedCount = 71;
-    static final int gpsUpdateDistance = 50;
+    static final int gpsUpdateDistance = 100;
     static final int directionDataCount = 10000 / gpsUpdateDistance;
-    static final int changeRoadStandByCount = 500 / gpsUpdateDistance;
+    static final int changeRoadStandByCount = 400 / gpsUpdateDistance;
     static final int pointSaveStandardDistance = 10;
     static final int pointSaveUnit = 6;
 }
