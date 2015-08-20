@@ -102,6 +102,11 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     String roadName = "";
     String prevRoadName = "";
 
+    SoundPool soundPool;
+
+    CountThread countThread;
+    Handler mHandler;
+
     Animation animAppear;
     Animation animDisAppear;
 
@@ -123,7 +128,10 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         this.countTextView = countTextView;
         this.animAppear = animAppear;
         this.animDisAppear = animDisAppear;
+
         directionData = new int[StaticVariable.directionDataCount];
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        mHandler = new Handler();
 
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
         id=settings.getString("email", "email");
@@ -283,37 +291,40 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
                 if(speedListener.getMSpeed() > speedLimit) {
                     Log.i("mannercash", "속도 초과 - " + String.valueOf(speedCount));
-                    isSpeedExceed = true;
 
-                    if(speedCount == 0) {
-                        speedCount = 6;
-                        accumulateDistance = 0;
+                    if(!isSpeedExceed) {
+                        isSpeedExceed = true;
+                        countThread = new CountThread(true);
+                        countThread.start();
+                        Log.i("mannercash", "CountTask execute");
                     }
-
-                    speedCount--;
                 } else {
-                    Log.i("mannercash", "카운트 중지");
+                    if(countThread != null) {
+                        Log.i("mannercash", "카운트 중지");
+                        countThread.stopThread(false);
+                        countThread = null;
+                        soundTurnOn(R.raw.decreasecomplete);
+                    }
                     isSpeedExceed = false;
-                    speedCount = 6;
                 }
 
                 if(tmpSpeedLimit != speedLimit) {
-                    Log.i("mannercash", "soundTurnOn() called");
+                    Log.i("mannercash", "change speedLimit");
                     switch (speedLimit) {
                         case 70:
-                            soundTurnOn(R.raw.test2);
+                            soundTurnOn(R.raw.seventy);
                             break;
                         case 80:
-                            soundTurnOn(R.raw.test2);
+                            soundTurnOn(R.raw.eighty);
                             break;
                         case 90:
-                            soundTurnOn(R.raw.test2);
+                            soundTurnOn(R.raw.ninety);
                             break;
                         case 100:
-                            soundTurnOn(R.raw.test2);
+                            soundTurnOn(R.raw.hundred);
                             break;
                         case 110:
-                            soundTurnOn(R.raw.test2);
+                            soundTurnOn(R.raw.hundredten);
                             break;
                         default:
                             break;
@@ -332,18 +343,67 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         return null;
     }
 
+    class CountThread extends Thread {
+
+        boolean isExecute;
+
+        CountThread(boolean isExecute) {
+            this.isExecute = isExecute;
+        }
+
+        void stopThread(boolean isExecute) {
+            this.isExecute = isExecute;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            speedCount = 5;
+            soundTurnOn(R.raw.exceed);
+            try {
+                Thread.sleep(500);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            while(speedCount > 0 && isExecute) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                Log.i("mannercash", "speedCount = " + String.valueOf(speedCount));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isSpeedExceed) {
+                            countTextView.setText(String.valueOf(speedCount));
+                            if (speedListener.getMSpeed() > speedLimit && speedListener.getMSpeed() <= (speedLimit + 10)) {
+
+                            } else {
+
+                            }
+                        } else {
+                            countTextView.setText("");
+                        }
+                    }
+                });
+                soundTurnOn(R.raw.exceedwarning);
+                speedCount--;
+            }
+            isSpeedExceed = false;
+        }
+    }
+
     StringBuilder sb = new StringBuilder("");
     @Override
     protected void onProgressUpdate(Integer... values) {
         if(isExpressWay) {
             enter(speedLimit);
-
             if(isPointSave) {
                 savePoint(accumulateDistance, roadName);
                 isPointSave = false;
                 accumulateDistance = 0;
             }
-
             exitCount = 0;
         } else {
             Log.i("mannercash", "exit() called, " + "roadName:" + roadName +
@@ -351,7 +411,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
             if(exitCount > 1) {
                 exit();
-
                 if(accumulateDistance != 0) {
                     savePoint(accumulateDistance, prevRoadName);
                     accumulateDistance = 0;
@@ -359,9 +418,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             }
         }
 
-        if(isSpeedExceed) {
-            countTextView.setText(String.valueOf(speedCount));
-        } else {
+        if(!isSpeedExceed) {
             countTextView.setText("");
         }
 
@@ -526,13 +583,13 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     }
 
     void enter(int speed){
-        //speedImage.setImageResource(R.drawable.limitspeed);
-        //speedText.setText(speed);
+        speedImage.setImageResource(R.drawable.limitspeed);
+        speedText.setText(String.valueOf(speed));
     }
 
     void exit(){
-        //speedImage.setImageResource(R.drawable.limitspeedbackground);
-        //speedText.setText("");
+        speedImage.setImageResource(R.drawable.limitspeedbackground);
+        speedText.setText("");
     }
 
     void savePoint(float distance, String RouteName){
@@ -564,6 +621,13 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         //db = mHelper.getWritableDatabase();
         //db.execSQL("INSERT INTO point VALUES ('"+id+"',"+point+",'"+RouteName+"',"+strCurDate+","+strCurTime+");");
         //mHelper.close();
+
+        soundTurnOn(R.raw.pointsave);
+
+        String prevPoint = "";
+        prevPoint = pointText.getText().toString();
+        point += Integer.valueOf(prevPoint);
+        pointText.setText(String.valueOf(point));
     }
 
     void setLatLon() {
@@ -623,12 +687,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     }*/
 
     void soundTurnOn(int resId) {
-        SoundPool soundPool;
         int soundId;
-
-        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         soundId = soundPool.load(mContext, resId, 1);
-
         soundPool.play(soundId, 1, 1, 0, 0, 1);
     }
 
@@ -671,6 +731,10 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     protected void onCancelled() {
         locationManager.removeUpdates(locationListener);
         locationManager.removeUpdates(speedListener);
+        if(countThread != null) {
+            countThread.stopThread(false);
+            countThread = null;
+        }
     }
 
     /*private void request(String urlStr) {

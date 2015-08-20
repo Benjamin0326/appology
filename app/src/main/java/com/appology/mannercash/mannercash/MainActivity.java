@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -22,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -101,20 +101,13 @@ public class MainActivity extends ActionBarActivity {
         int point = getPoint(); //point 불러옴. (error ㅠㅠ)
         speedText=(TextView)findViewById(R.id.limitspeed);
         speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
-        animAppear = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        //animAppear = AnimationUtils.loadAnimation(this, R.anim.alpha);
         //animAppear.setFillAfter(true);
-        animDisAppear = AnimationUtils.loadAnimation(this, R.anim.alpha2);
+        //animDisAppear = AnimationUtils.loadAnimation(this, R.anim.alpha2);
         //animDisAppear.setFillAfter(true);
-       // speedImage.startAnimation(animDisAppear);
+        //speedImage.startAnimation(animDisAppear);
 
-        try {
-            Thread.sleep(10000);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-
-        speedImage.startAnimation(animAppear);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         pointText=(TextView)findViewById(R.id.point);
         pointText.setText(Integer.toString(point));
@@ -160,7 +153,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //Drawable actionbarDrawable = getResources().getDrawable(R.drawable.actionbar);
-       // getSupportActionBar().setBackgroundDrawable(actionbarDrawable);
+        //getSupportActionBar().setBackgroundDrawable(actionbarDrawable);
 
 
 
