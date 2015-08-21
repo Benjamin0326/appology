@@ -15,7 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.animation.Animation;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,9 +47,10 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     TextView pointText;
     TextView speedText;
     ImageView speedImage;
+    ImageView speedImage2;
+    ImageView speedExceed;
 
     TextView debugTextView;
-    TextView countTextView;
     LocationManager locationManager;
     GpsManager locationListener;
     GpsManager speedListener;
@@ -90,6 +91,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     boolean isChangeRoadName = false;
     boolean isPointSave = false;
     boolean isSpeedExceed = false;
+    boolean isSetImageExpressWay = false;
 
     Data[] data;
     LimitSpeed[] limitSpeed;
@@ -107,27 +109,22 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     CountThread countThread;
     Handler mHandler;
 
-    Animation animAppear;
-    Animation animDisAppear;
-
     int j = 0;
 
 
     public MainFunctionTask(Context mContext, LocationManager locationManager, TextView debugTextView, Data[] data, LimitSpeed[] limitSpeed, JCT[] jct,
-                            TextView pointText, TextView speedText, ImageView speedImage, TextView countTextView,
-                            Animation animAppear, Animation animDisAppear) {
+                            TextView pointText, TextView speedText, ImageView speedImage,ImageView speedImage2, ImageView speedExceed) {
         this.mContext = mContext;
         this.locationManager = locationManager;
         this.debugTextView = debugTextView;
         this.pointText=pointText;
         this.speedText=speedText;
         this.speedImage=speedImage;
+        this.speedImage2=speedImage2;
         this.data = data;
         this.limitSpeed = limitSpeed;
         this.jct=jct;
-        this.countTextView = countTextView;
-        this.animAppear = animAppear;
-        this.animDisAppear = animDisAppear;
+        this.speedExceed = speedExceed;
 
         directionData = new int[StaticVariable.directionDataCount];
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -195,7 +192,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     isExpressWay = true;
                 } else {
                     exitCount++;
-                    speedLimit = 0;
                     initDirectionData();
                 }
 
@@ -287,51 +283,50 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                             }
                         }
                     }
-                }
 
-                if(speedListener.getMSpeed() > speedLimit) {
-                    Log.i("mannercash", "속도 초과 - " + String.valueOf(speedCount));
+                    if(speedListener.getMSpeed() > speedLimit) {
+                        Log.i("mannercash", "속도 초과 - " + String.valueOf(speedCount));
 
-                    if(!isSpeedExceed) {
-                        isSpeedExceed = true;
-                        countThread = new CountThread(true);
-                        countThread.start();
-                        Log.i("mannercash", "CountTask execute");
+                        if(!isSpeedExceed) {
+                            isSpeedExceed = true;
+                            countThread = new CountThread(true);
+                            countThread.start();
+                            Log.i("mannercash", "CountTask execute");
+                        }
+                    } else {
+                        if(countThread != null) {
+                            Log.i("mannercash", "카운트 중지");
+                            countThread.stopThread(false);
+                            countThread = null;
+                            soundTurnOn(R.raw.decreasecomplete);
+                        }
+                        isSpeedExceed = false;
                     }
-                } else {
-                    if(countThread != null) {
-                        Log.i("mannercash", "카운트 중지");
-                        countThread.stopThread(false);
-                        countThread = null;
-                        soundTurnOn(R.raw.decreasecomplete);
-                    }
-                    isSpeedExceed = false;
-                }
 
-                if(tmpSpeedLimit != speedLimit) {
-                    Log.i("mannercash", "change speedLimit");
-                    switch (speedLimit) {
-                        case 70:
-                            soundTurnOn(R.raw.seventy);
-                            break;
-                        case 80:
-                            soundTurnOn(R.raw.eighty);
-                            break;
-                        case 90:
-                            soundTurnOn(R.raw.ninety);
-                            break;
-                        case 100:
-                            soundTurnOn(R.raw.hundred);
-                            break;
-                        case 110:
-                            soundTurnOn(R.raw.hundredten);
-                            break;
-                        default:
-                            break;
+                    if(tmpSpeedLimit != speedLimit) {
+                        Log.i("mannercash", "change speedLimit");
+                        switch (speedLimit) {
+                            case 70:
+                                soundTurnOn(R.raw.seventy);
+                                break;
+                            case 80:
+                                soundTurnOn(R.raw.eighty);
+                                break;
+                            case 90:
+                                soundTurnOn(R.raw.ninety);
+                                break;
+                            case 100:
+                                soundTurnOn(R.raw.hundred);
+                                break;
+                            case 110:
+                                soundTurnOn(R.raw.hundredten);
+                                break;
+                            default:
+                                break;
+                        }
+                        tmpSpeedLimit = speedLimit;
                     }
-                    tmpSpeedLimit = speedLimit;
                 }
-
             } else {
                 if(!gpsOffFlag) {
                     showGpsDialog = true;
@@ -359,12 +354,12 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         public void run() {
             super.run();
             speedCount = 5;
-            soundTurnOn(R.raw.exceed);
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            soundTurnOn(R.raw.exceed);
             while(speedCount > 0 && isExecute) {
                 try {
                     Thread.sleep(1000);
@@ -376,14 +371,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                     @Override
                     public void run() {
                         if (isSpeedExceed) {
-                            countTextView.setText(String.valueOf(speedCount));
-                            if (speedListener.getMSpeed() > speedLimit && speedListener.getMSpeed() <= (speedLimit + 10)) {
-
-                            } else {
-
-                            }
+                            speedExceed.setVisibility(View.VISIBLE);
                         } else {
-                            countTextView.setText("");
+                            speedExceed.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
@@ -419,7 +409,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         }
 
         if(!isSpeedExceed) {
-            countTextView.setText("");
+            speedExceed.setVisibility(View.INVISIBLE);
         }
 
         sb.append("GPS Enabled:" + locationListener.isProviderEnabled() + "\n");
@@ -583,13 +573,26 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     }
 
     void enter(int speed){
-        speedImage.setImageResource(R.drawable.limitspeed);
-        speedText.setText(String.valueOf(speed));
+        if(!isChangeRoadName) {
+            if(!isSetImageExpressWay) {
+                isSetImageExpressWay = true;
+                //speedImage.setImageResource(R.drawable.limitspeed);
+                //speedImage.setVisibility(View.INVISIBLE);
+                //speedImage2.setVisibility(View.VISIBLE);
+            }
+            speedText.setText(String.valueOf(speed));
+        }
     }
 
     void exit(){
-        speedImage.setImageResource(R.drawable.limitspeedbackground);
+        if(isSetImageExpressWay) {
+            isSetImageExpressWay = false;
+            //speedImage.setVisibility(View.VISIBLE);
+            //speedImage2.setVisibility(View.INVISIBLE);
+            //speedImage.setImageResource(R.drawable.limitspeed);
+        }
         speedText.setText("");
+        speedLimit = 0;
     }
 
     void savePoint(float distance, String RouteName){
@@ -603,13 +606,17 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         cursor = db.rawQuery("SELECT * FROM user", null);
         if (cursor.moveToFirst()) {
             point = cursor.getInt(2);
+            Log.i("mannercash", String.valueOf(point));
         }
         else{
             point=0;
         }
+
         point=point+(int)(distance*StaticVariable.pointSaveUnit);
         db = mHelper.getWritableDatabase();
         db.execSQL("UPDATE user set Point=" + point + " where ID='" + id + "';");
+
+        pointText.setText(String.valueOf(point));
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -623,11 +630,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         //mHelper.close();
 
         soundTurnOn(R.raw.pointsave);
-
-        String prevPoint = "";
-        prevPoint = pointText.getText().toString();
-        point += Integer.valueOf(prevPoint);
-        pointText.setText(String.valueOf(point));
     }
 
     void setLatLon() {
@@ -639,52 +641,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             locationUpdateFlag = true;
         }
     }
-
-    /*boolean Enter(int code, double x, double y) {   // code==0 : IC, code==1 : JCT
-        char flag;
-        if(code == 0)
-            flag = 'C';
-        else
-            flag = 'T';
-
-        for(int i = 0; i < 446; i++) {
-            if(data[i].icName.charAt(data[i].icName.length() - 1) != flag)
-                continue;
-            if(data[i].Enter(x, y)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    int getLimitSpeed(int dir, String routeName, double lat, double lon){   //dir : 0은 정방향, 1은 역방향, routeName : 고속도로이름
-        for(int i=0;i<46;i++){  // 46은 고쳐야함.
-            if(routeName.equals(limitSpeed[i].routeName)){
-                int index=limitSpeed[i].index;
-                if(limitSpeed[i].index==1){
-                    if(dir==0)
-                        return limitSpeed[i].speed1;
-                    else if(dir==1)
-                        return limitSpeed[i].speed2;
-                }
-                for(int j=0;j<index;j++){
-                    if(j==index-1){
-                        if(dir==0)
-                            return limitSpeed[i+j].speed1;
-                        else if(dir==1)
-                            return limitSpeed[i+j].speed2;
-                    }
-                    else if(limitSpeed[i+j].curDistance(lat, lon)<limitSpeed[i+j].pointDistance()){
-                        if(dir==0)
-                            return limitSpeed[i+j].speed1;
-                        else if(dir==1)
-                            return limitSpeed[i+j].speed2;
-                    }
-                }
-            }
-        }
-        return 0;
-    }*/
 
     void soundTurnOn(int resId) {
         int soundId;

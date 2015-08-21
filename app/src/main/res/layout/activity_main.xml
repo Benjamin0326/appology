@@ -20,117 +20,150 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="206">
 
-                <TextView
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/speedexceed"
+                            android:id="@+id/speedExceed"
+                            android:visibility="invisible"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical" >
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="36"/>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="306">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/limitspeedbackground"
+                                    android:id="@+id/limitspeedBackground"
+                                    android:visibility="visible"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/limitspeed"
+                                    android:id="@+id/limitspeedBackground2"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="65dp"
+                                    android:textColor="#ffffff"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:id="@+id/limitspeed"
+                                    />
+
+                            </FrameLayout>
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="8"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="15"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/circle1"
+                                />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="60dp"
-                    android:id="@+id/count"
-                    android:layout_gravity="center" />
+                    android:orientation="vertical"
+                    android:layout_weight="365">
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"/>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="300">
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="11"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="15"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/limitspeedbackground"
-                        android:id="@+id/limitspeedBackground"
-                        />
+                        android:src="@drawable/circle2"
+                        android:id="@+id/main_circle2"/>
 
-                    <TextView
+                    <View
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="65dp"
-                        android:textColor="#ffffff"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:id="@+id/limitspeed"
-                        />
+                        android:layout_height="0dp"
+                        android:layout_weight="10"/>
 
-                </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="74">
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/point"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="15"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/circle1"
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginLeft="25dp"
+                            android:text="0"
+                            android:textSize="40dp"
+                            android:id="@+id/point"
+                            android:textColor="#666666"
+                            android:layout_gravity="center_horizontal|center_vertical"/>
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"/>
+                    </FrameLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="15"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/circle2"
-                    android:id="@+id/main_circle2"/>
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"/>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="80">
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="64"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/point"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="32"
+                        android:src="@drawable/underbar"
+                        android:scaleType="centerCrop"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="25dp"
-                        android:text="0"
-                        android:textSize="40dp"
-                        android:id="@+id/point"
-                        android:textColor="#666666"
-                        android:layout_gravity="center_horizontal|center_vertical"/>
-
-                </FrameLayout>
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="20"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="50"
-                    android:src="@drawable/underbar"
-                    android:scaleType="centerCrop"/>
+                </LinearLayout>
 
             </LinearLayout>
 

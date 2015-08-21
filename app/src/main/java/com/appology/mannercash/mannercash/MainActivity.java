@@ -22,7 +22,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -73,17 +72,15 @@ public class MainActivity extends ActionBarActivity {
     Context mContext;
     MainFunctionTask mainFunctionTask;
     TextView debugTextView;
-    TextView countTextView;
+    ImageView speedExceed;
     LocationManager locationManager;
-
-    Animation animAppear;
-    Animation animDisAppear;
 
     public static Activity mainActivity;
 
     TextView speedText;
     TextView pointText;
     ImageView speedImage;
+    ImageView speedImage2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +97,8 @@ public class MainActivity extends ActionBarActivity {
 
         int point = getPoint(); //point 불러옴. (error ㅠㅠ)
         speedText=(TextView)findViewById(R.id.limitspeed);
-        speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
+        //speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
+        speedImage2=(ImageView)findViewById(R.id.limitspeedBackground2);
         //animAppear = AnimationUtils.loadAnimation(this, R.anim.alpha);
         //animAppear.setFillAfter(true);
         //animDisAppear = AnimationUtils.loadAnimation(this, R.anim.alpha2);
@@ -173,12 +171,12 @@ public class MainActivity extends ActionBarActivity {
 
 
         debugTextView = (TextView) findViewById(R.id.debugTextView);
-        countTextView = (TextView) findViewById(R.id.count);
+        speedExceed = (ImageView) findViewById(R.id.speedExceed);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
         mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct,
-                                                pointText, speedText, speedImage, countTextView, animAppear, animDisAppear);
+                                                pointText, speedText, speedImage, speedImage2, speedExceed);
         mainFunctionTask.execute();
     }
 
