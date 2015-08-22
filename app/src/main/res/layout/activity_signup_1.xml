@@ -19,7 +19,7 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:id="@+id/signup_textView" />
 
     <EditText
@@ -30,7 +30,7 @@
         android:inputType="textEmailAddress"
         android:layout_below="@+id/signup_textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="50dp"/>
 
     <EditText
         android:id="@+id/signup_password"
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:hint="   비밀번호"
         android:inputType="textPassword"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/signup_email"
         android:layout_centerHorizontal="true" />
 
@@ -51,39 +52,13 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/signup_phone_num"
-        android:layout_width="180dp"
+        android:id="@+id/signup_name"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:hint="   휴대폰 번호"
-        android:inputType="number"
+        android:hint="   이름"
         android:layout_below="@+id/signup_password2"
         android:layout_alignLeft="@+id/signup_password2"
         android:layout_marginTop="40dp"/>
-
-    <Button
-        android:id="@+id/signup_btn_phone"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="인증"
-        android:layout_alignRight="@+id/signup_password"
-        android:layout_alignBottom="@id/signup_phone_num" />
-
-    <EditText
-        android:id="@+id/signup_auth_num"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:hint="   인증 번호 입력"
-        android:layout_below="@+id/signup_phone_num"
-        android:layout_alignLeft="@+id/signup_password"
-        android:layout_marginTop="15dp"/>
-
-    <Button
-        android:id="@+id/signup_btn_auth"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="확인"
-        android:layout_alignRight="@+id/signup_password"
-        android:layout_alignBottom="@id/signup_auth_num" />
 
     <Button
         android:id="@+id/signup_ok"
@@ -91,17 +66,17 @@
         android:layout_height="wrap_content"
         android:text="확인"
         android:layout_alignLeft="@+id/signup_password"
-        android:layout_below="@id/signup_auth_num"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/signup_name" />
 
     <Button
         android:id="@+id/signup_cancel"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:text="취소"
-        android:layout_alignRight="@+id/signup_btn_auth"
-        android:layout_below="@id/signup_btn_auth"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="40dp"
+        android:layout_alignRight="@+id/signup_password"
+        android:layout_alignBottom="@+id/signup_ok" />
 
 
 </RelativeLayout>

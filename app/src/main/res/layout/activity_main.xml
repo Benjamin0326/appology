@@ -11,7 +11,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/backgroundmodify">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -70,6 +71,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:src="@drawable/limitspeed"
                                     android:id="@+id/limitspeedBackground2"
+                                    android:visibility="invisible"
                                     />
 
                                 <TextView
@@ -206,8 +208,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/carNumber"
-                android:text="12가3456"
+                android:id="@+id/name"
                 android:textSize="20dp"
                 android:layout_toRightOf="@+id/userPhoto"
                 android:layout_alignTop="@+id/userPhoto"
@@ -218,9 +219,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/infoModify"
-                android:text="수정"
-                android:layout_alignLeft="@+id/carNumber"
-                android:layout_below="@+id/carNumber"
+                android:text="로그아웃"
+                android:layout_alignLeft="@+id/name"
+                android:layout_below="@+id/name"
                 android:layout_marginTop="10dp"/>
 
         </RelativeLayout>

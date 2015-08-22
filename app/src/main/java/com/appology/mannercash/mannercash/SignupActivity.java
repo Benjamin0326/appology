@@ -56,12 +56,9 @@ public class SignupActivity extends ActionBarActivity {
         EditText email;
         EditText passWord;
         EditText passWord2;
-        EditText phoneNum;
-        EditText authNum;
+        EditText name;
         Button btnOk;
         Button btnCancel;
-        Button btnPhone;
-        Button btnAuth;
 
         public SignUpFragment1() {
         }
@@ -73,13 +70,10 @@ public class SignupActivity extends ActionBarActivity {
             email = (EditText) rootView.findViewById(R.id.signup_email);
             passWord = (EditText) rootView.findViewById(R.id.signup_password);
             passWord2 = (EditText) rootView.findViewById(R.id.signup_password2);
-            phoneNum = (EditText) rootView.findViewById(R.id.signup_phone_num);
-            authNum = (EditText) rootView.findViewById(R.id.signup_auth_num);
+            name = (EditText) rootView.findViewById(R.id.signup_name);
 
             btnOk = (Button) rootView.findViewById(R.id.signup_ok);
             btnCancel = (Button) rootView.findViewById(R.id.signup_cancel);
-            btnPhone = (Button) rootView.findViewById(R.id.signup_btn_phone);
-            btnAuth = (Button) rootView.findViewById(R.id.signup_btn_auth);
 
             btnOk.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -89,8 +83,8 @@ public class SignupActivity extends ActionBarActivity {
                         Toast.makeText(mContext.getApplicationContext(), "비밀번호는 8자리 이상이여야 합니다.", Toast.LENGTH_LONG).show();
                     else if(!isValidPasswordConfirm(passWord.getText().toString(), passWord2.getText().toString()))
                         Toast.makeText(mContext.getApplicationContext(), "비밀번호가 같지 않습니다.", Toast.LENGTH_LONG).show();
-                    else if(phoneNum.getText().toString().isEmpty())
-                        Toast.makeText(mContext.getApplicationContext(), "휴대폰 번호를 입력해주세요.", Toast.LENGTH_LONG).show();
+                    else if(name.getText().toString().isEmpty())
+                        Toast.makeText(mContext.getApplicationContext(), "이름을 입력해주세요.", Toast.LENGTH_LONG).show();
                     else
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, signUpFrag2).commit();
                 }
@@ -103,19 +97,7 @@ public class SignupActivity extends ActionBarActivity {
                     getActivity().finish();
                 }
             });
-/*
-            btnPhone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    phoNumStr = phoneNum.getText().toString();
-                    if(phoneNum != null) {
-                        smsSend(phoNumStr);
-                    } else {
-                        Toast.makeText(mContext.getApplicationContext(), "휴대폰 번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-*/
+
             return rootView;
         }
 
@@ -142,22 +124,13 @@ public class SignupActivity extends ActionBarActivity {
             }
             return false;
         }
-/*
-        void smsSend(String phoneNum) {
-            SmsManager mSmsManager = SmsManager.getDefault();
-            Random rand = new Random();
-            Integer randNum = rand.nextInt(8999) + 1000;
-            String smsText = randNum.toString();
 
-            mSmsManager.sendTextMessage(phoneNum, null, smsText, null, null);
-        }
-*/
         public EditText getEmail() {
             return email;
         }
 
-        public EditText getPhoneNum() {
-            return phoneNum;
+        public EditText getName() {
+            return name;
         }
 
         public EditText getPasswd() {
@@ -197,11 +170,11 @@ public class SignupActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     EditText email = signUpFrag1.getEmail();
                     EditText password = signUpFrag1.getPasswd();
-                    EditText phoneNum = signUpFrag1.getPhoneNum();
+                    EditText name = signUpFrag1.getName();
 
                     String emailString = email.getText().toString();
                     String passwordString = password.getText().toString();
-                    String phoneNumString = phoneNum.getText().toString();
+                    String nameString = name.getText().toString();
                     String cardNumString = cardNum1.getText().toString() +
                                         cardNum2.getText().toString() +
                                         cardNum3.getText().toString() +
@@ -214,7 +187,7 @@ public class SignupActivity extends ActionBarActivity {
                         Toast.makeText(mContext.getApplicationContext(),  "카드번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                     else {
                         task = new Signup();
-                        task.execute(emailString, passwordString, phoneNumString, cardNumString);
+                        task.execute(emailString, passwordString, nameString, cardNumString);
                         getActivity().finish();
                     }
                     /*SharedPreferences settings = mContext.getSharedPreferences("MannerCash", MODE_PRIVATE);
@@ -246,12 +219,12 @@ public class SignupActivity extends ActionBarActivity {
             try {
                 String id = (String) arg[0];
                 String password = (String) arg[1];
-                String phoneNum = (String) arg[2];
+                String name = (String) arg[2];
                 String cardNum = (String) arg[3];
                 String link = "http://10.0.2.2/mannercash_server.php?code=1&id=" +
                         URLEncoder.encode(id, "UTF-8") + "&password=" +
-                        URLEncoder.encode(password, "UTF-8") + "&phoneNum=" +
-                        URLEncoder.encode(phoneNum, "UTF-8") + "&cardNum=" +
+                        URLEncoder.encode(password, "UTF-8") + "&name=" +
+                        URLEncoder.encode(name, "UTF-8") + "&cardNum=" +
                         URLEncoder.encode(cardNum, "UTF-8") + "&point=" +
                         URLEncoder.encode("", "UTF-8");
 

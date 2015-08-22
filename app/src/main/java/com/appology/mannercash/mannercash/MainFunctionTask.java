@@ -265,7 +265,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
                                     reverseCount++;
                                 } else if(directionData[directionIndex] == reverseDirection) {
                                 } else {
-                                    forwardCount--;
+                                    reverseCount++;
                                 }
                                 directionData[directionIndex] = reverseDirection;
                             }
@@ -577,8 +577,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             if(!isSetImageExpressWay) {
                 isSetImageExpressWay = true;
                 //speedImage.setImageResource(R.drawable.limitspeed);
-                //speedImage.setVisibility(View.INVISIBLE);
-                //speedImage2.setVisibility(View.VISIBLE);
+                speedImage.setVisibility(View.INVISIBLE);
+                speedImage2.setVisibility(View.VISIBLE);
             }
             speedText.setText(String.valueOf(speed));
         }
@@ -587,8 +587,8 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
     void exit(){
         if(isSetImageExpressWay) {
             isSetImageExpressWay = false;
-            //speedImage.setVisibility(View.VISIBLE);
-            //speedImage2.setVisibility(View.INVISIBLE);
+            speedImage.setVisibility(View.VISIBLE);
+            speedImage2.setVisibility(View.INVISIBLE);
             //speedImage.setImageResource(R.drawable.limitspeed);
         }
         speedText.setText("");

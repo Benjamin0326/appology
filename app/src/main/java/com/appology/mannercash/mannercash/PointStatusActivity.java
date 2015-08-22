@@ -2,6 +2,7 @@ package com.appology.mannercash.mannercash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +41,7 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
     Intent intent;
 
     ImageView userPhoto;
-    TextView carNumber;
+    TextView name;
     Button infoModify;
 
     Context mContext;
@@ -48,6 +49,8 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     final static int SECTION_PAGE_COUNT = 2;
+
+    MainActivity mainActivityClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +101,26 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
 
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
 
-        carNumber = (TextView) findViewById(R.id.carNumber);
+        name = (TextView) findViewById(R.id.name);
 
+        mainActivityClass = (MainActivity) MainActivity.mainActivity;
         infoModify = (Button) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(mContext, InfoModifyActivity.class);
+                SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("logged", "");
+                editor.putString("email", "");
+                editor.putString("password", "");
+                editor.putString("tutorialRead", "");
+                editor.commit();
+
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
+                mainActivityClass.finish();
+                finish();
             }
         });
 

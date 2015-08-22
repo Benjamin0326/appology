@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
     Intent intent;
 
     ImageView userPhoto;
-    TextView carNumber;
+    TextView name;
     Button infoModify;
 
     Context mContext;
@@ -76,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
     LocationManager locationManager;
 
     public static Activity mainActivity;
+    MainActivity mainActivityClass;
 
     TextView speedText;
     TextView pointText;
@@ -97,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
 
         int point = getPoint(); //point 불러옴. (error ㅠㅠ)
         speedText=(TextView)findViewById(R.id.limitspeed);
-        //speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
+        speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
         speedImage2=(ImageView)findViewById(R.id.limitspeedBackground2);
         //animAppear = AnimationUtils.loadAnimation(this, R.anim.alpha);
         //animAppear.setFillAfter(true);
@@ -157,15 +158,26 @@ public class MainActivity extends ActionBarActivity {
 
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
 
-        carNumber = (TextView) findViewById(R.id.carNumber);
+        name = (TextView) findViewById(R.id.name);
 
+        mainActivityClass = (MainActivity) MainActivity.mainActivity;
         infoModify = (Button) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(mContext, InfoModifyActivity.class);
+                SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("logged", "");
+                editor.putString("email", "");
+                editor.putString("password", "");
+                editor.putString("tutorialRead", "");
+                editor.commit();
+
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
+                mainActivityClass.finish();
+                finish();
             }
         });
 
