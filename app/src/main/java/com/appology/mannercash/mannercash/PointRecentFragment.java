@@ -51,7 +51,6 @@ public class PointRecentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_point_recent, container, false);
 
         mHelper = new WordDBHelper(MainActivity.mainActivity);
-        db=mHelper.getReadableDatabase();
 
 
         textView = (TextView) view.findViewById(R.id.textView);
@@ -60,13 +59,31 @@ public class PointRecentFragment extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.listView);
         ArrayList<String> item = new ArrayList<String>();
-
-        // 이부분을 수정하여 리스트뷰에 넣을 DB 데이터 불러오면 됨.
-        task = new PointRecentTask();
-        task.execute();
-        // 이부분을 수정하여 리스트뷰에 넣을 DB 데이터 불러오면 됨.
-
         adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
+
+        db=mHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM point where id='"+"admin"+"'", null);
+        int point;
+        cursor.moveToFirst();
+        int index=cursor.getCount();
+        if(index==0){
+            adp.add("적립된 포인트 내역이 없습니다.");
+        }
+        while (index>0) {
+            point = cursor.getInt(1);
+            String routeName = cursor.getString(2);
+            String date = cursor.getString(3);
+            String time = cursor.getString(4);
+            adp.add(date+" "+time+" "+routeName+" "+Integer.toString(point));
+
+            //adp.add(point+" "+routeName+" "+date+" "+time);
+            //adp.notifyDataSetChanged();
+            index--;
+            cursor.moveToNext();
+        }
+
+
         listView.setAdapter(adp);
 
         swipeView = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
@@ -77,12 +94,28 @@ public class PointRecentFragment extends Fragment {
             public void onRefresh() {
                 swipeView.setRefreshing(true);
 
-                // 여기에 새로고침 했을 시 동작하는 부분 삽입
-                task = new PointRecentTask();
-                task.execute();
-                testPrint();
-                // 여기에 새로고침 했을 시 동작하는 부분 삽입
+                adp.clear();
+                db=mHelper.getReadableDatabase();
+                Cursor cursor;
+                cursor = db.rawQuery("SELECT * FROM point where id='"+"admin"+"'", null);
+                int point;
+                cursor.moveToFirst();
+                int index=cursor.getCount();
+                if(index==0){
+                    adp.add("적립된 포인트 내역이 없습니다.");
+                }
+                while (index>0) {
+                    point = cursor.getInt(1);
+                    String routeName = cursor.getString(2);
+                    String date = cursor.getString(3);
+                    String time = cursor.getString(4);
+                    adp.add(date+" "+time+" "+routeName+" "+Integer.toString(point));
 
+                    //adp.add(point+" "+routeName+" "+date+" "+time);
+                    //adp.notifyDataSetChanged();
+                    index--;
+                    cursor.moveToNext();
+                }
                 //swipeView.setRefreshing(false);
 
                 Handler hd = new Handler();

@@ -189,7 +189,7 @@ public class MainActivity extends ActionBarActivity {
 
         mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct,
                                                 pointText, speedText, speedImage, speedImage2, speedExceed);
-        mainFunctionTask.execute();
+        //mainFunctionTask.execute();
     }
 
     public void showGpsSwitchDialog() {

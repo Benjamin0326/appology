@@ -625,9 +625,9 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         String strCurDate = CurDateFormat.format(date);
         String strCurTime = CurTimeFormat.format(date);
 
-        //db = mHelper.getWritableDatabase();
-        //db.execSQL("INSERT INTO point VALUES ('"+id+"',"+point+",'"+RouteName+"',"+strCurDate+","+strCurTime+");");
-        //mHelper.close();
+        db = mHelper.getWritableDatabase();
+        db.execSQL("INSERT INTO point VALUES ('"+id+"',"+point+",'"+RouteName+"','"+strCurDate+"','"+strCurTime+"');");
+        mHelper.close();
 
         soundTurnOn(R.raw.pointsave);
     }
