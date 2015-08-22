@@ -7,9 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -41,7 +41,38 @@ public class LoginActivity extends ActionBarActivity {
             startTutorialActivity();
         }
 
-        Button btn = (Button) findViewById(R.id.login_login);
+        final ImageButton signUp = (ImageButton) findViewById(R.id.login_join);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
+        final FrameLayout mail=(FrameLayout)findViewById(R.id.emailFrame);
+        final FrameLayout pw=(FrameLayout)findViewById(R.id.pwFrame);
+        final ImageButton btn = (ImageButton) findViewById(R.id.login_login);
+        final ImageButton toLogin = (ImageButton)findViewById(R.id.login_tologin);
+
+        signUp.setVisibility(View.VISIBLE);
+        toLogin.setVisibility(View.VISIBLE);
+        btn.setVisibility(View.INVISIBLE);
+        mail.setVisibility(View.INVISIBLE);
+        pw.setVisibility(View.INVISIBLE);
+
+        toLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                signUp.setVisibility(View.INVISIBLE);
+                toLogin.setVisibility(View.INVISIBLE);
+                btn.setVisibility(View.VISIBLE);
+                mail.setVisibility(View.VISIBLE);
+                pw.setVisibility(View.VISIBLE);
+            }
+        });
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +96,8 @@ public class LoginActivity extends ActionBarActivity {
                             editor.putString("email", emailString);
                             editor.putString("password", passwordString);
                             editor.commit();
+
+
                             startTutorialActivity();
                         }
                     }
@@ -72,15 +105,7 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        TextView signUp = (TextView) findViewById(R.id.login_join);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-                //finish();
-            }
-        });
+
     }
 
     void startTutorialActivity() {

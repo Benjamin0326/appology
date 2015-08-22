@@ -1,72 +1,98 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/login_background"
     tools:context="com.appology.mannercash.mannercash.LoginActivity">
 
-    <TextView
-        android:text="Manner\nCash"
+
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:id="@+id/login_textView" />
+        android:layout_height="0dp"
+        android:layout_weight="60"/>
+    <FrameLayout
+        android:id="@+id/emailFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        android:layout_weight="15">
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/email_background"
+            android:src="@drawable/email"/>
+        <EditText
+            android:id="@+id/login_email"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="60dp"
+            android:inputType="textEmailAddress"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal"/>
+        </FrameLayout>
+    <FrameLayout
+        android:id="@+id/pwFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        android:layout_weight="15">
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/password"/>
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="40dp"
+            android:inputType="textPassword"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal" />
 
-    <EditText
-        android:id="@+id/login_email"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:hint="   이메일 주소"
-        android:inputType="textEmailAddress"
-        android:layout_below="@+id/login_textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="30dp"/>
 
-    <EditText
-        android:id="@+id/login_password"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:hint="   비밀번호"
-        android:inputType="textPassword"
-        android:layout_below="@+id/login_email"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="30dp" />
-
-    <Button
+        </FrameLayout>
+    <ImageButton
         android:id="@+id/login_login"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:text="로그인"
-        android:layout_alignTop="@+id/login_email"
-        android:layout_toRightOf="@+id/login_email"
-        android:layout_toEndOf="@+id/login_email" />
+        android:layout_width="90dp"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:scaleType="centerInside"
+        android:background="@android:color/transparent"
+        android:src="@drawable/login_login2"
+        android:visibility="invisible"
+        android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="계정이 없나요?"
-        android:textSize="18dp"
-        android:layout_below="@+id/login_login"
-        android:layout_alignLeft="@+id/login_password"
-        android:layout_alignStart="@+id/login_password"
-        android:layout_marginTop="40dp" />
-    
-    <TextView
+    <ImageButton
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:scaleType="centerInside"
+        android:src="@drawable/login_join"
         android:id="@+id/login_join"
+        android:background="@android:color/transparent"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"/>
+    
+    <ImageButton
+        android:id="@+id/login_tologin"
+        android:layout_width="280dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="@android:color/transparent"
+        android:src="@drawable/login_login"
+        android:visibility="visible"
+        android:scaleType="centerInside"/>
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_signup"
-        android:textSize="18dp"
-        android:layout_below="@+id/login_login"
-        android:layout_alignLeft="@+id/login_login"
-        android:layout_marginTop="40dp" />
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
 
-</RelativeLayout>
+</LinearLayout>

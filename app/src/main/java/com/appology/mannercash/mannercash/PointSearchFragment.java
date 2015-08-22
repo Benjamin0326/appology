@@ -1,6 +1,8 @@
 package com.appology.mannercash.mannercash;
 
 import android.app.DatePickerDialog;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,12 +31,15 @@ public class PointSearchFragment extends Fragment {
     String startDateStr = "";
     String endDateStr = "";
 
+    ArrayAdapter<String> adp;
 
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
 
     int initYear;
     int initMonth;
     int initDay;
-
+    ListView listView;
     Calendar c1;
     Calendar c2;
 
@@ -59,7 +64,7 @@ public class PointSearchFragment extends Fragment {
         inquiry = (Button) view.findViewById(R.id.inquiry);
 
         Date date = new Date();
-        SimpleDateFormat curDateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat curDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String curDate = curDateFormat.format(date);
 
         startDate.setText(curDate);
@@ -76,10 +81,11 @@ public class PointSearchFragment extends Fragment {
         c2.set(initYear, initMonth, initDay);
 
 
-        ListView listView = (ListView) view.findViewById(R.id.listView);
+
+        listView = (ListView) view.findViewById(R.id.listView);
         ArrayList<String> item = new ArrayList<String>();
 
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
+        adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
         listView.setAdapter(adp);
 
 
@@ -103,8 +109,34 @@ public class PointSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(c1.before(c2) || c1.equals(c2)) {
+
+                    adp.clear();
+                    mHelper = new WordDBHelper(MainActivity.mainActivity);
+                    db=mHelper.getReadableDatabase();
+                    Cursor cursor;
+                    cursor = db.rawQuery("SELECT * FROM point where id='"+"admin"+"' and date>='"+c1.toString()+"' and date<='"+c2.toString()+"'", null);
+                    int point;
+                    cursor.moveToFirst();
+                    int index=cursor.getCount();
+                    if(index==0){
+                        adp.add("적립된 포인트 내역이 없습니다.");
+                    }
+                    while (index>0) {
+                        point = cursor.getInt(1);
+                        String routeName = cursor.getString(2);
+                        String date = cursor.getString(3);
+                        String time = cursor.getString(4);
+                        adp.add(date+" "+time+" "+routeName+" "+Integer.toString(point));
+
+                        //adp.add(point+" "+routeName+" "+date+" "+time);
+                        //adp.notifyDataSetChanged();
+                        index--;
+                        cursor.moveToNext();
+                    }
+
                     task = new PointSearchTask();
                     task.execute();
+                    listView.setAdapter(adp);
                 } else {
                     Toast.makeText(getActivity(), "시작일이 종료일보다 빠를 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
