@@ -159,7 +159,16 @@ public class MainActivity extends ActionBarActivity {
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
 
         name = (TextView) findViewById(R.id.name);
-
+        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+        String id=settings.getString("email","");
+        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
+        if (cursor.moveToFirst()) {
+            //String nameStr = cursor.getString(3);
+            //name.setText(nameStr);
+        }
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
         infoModify = (Button) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
@@ -182,14 +191,15 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
+
         debugTextView = (TextView) findViewById(R.id.debugTextView);
         speedExceed = (ImageView) findViewById(R.id.speedExceed);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
         mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct,
-                                                pointText, speedText, speedImage, speedImage2, speedExceed);
-        //mainFunctionTask.execute();
+                pointText, speedText, speedImage, speedImage2, speedExceed);
+        mainFunctionTask.execute();
     }
 
     public void showGpsSwitchDialog() {
@@ -296,12 +306,11 @@ public class MainActivity extends ActionBarActivity {
         if (cursor.moveToFirst()) {
             point = cursor.getInt(2);
         } else {
-            db = mHelper.getWritableDatabase();
-            db.execSQL("INSERT INTO user VALUES ('"+id+"', '"+pw+"',0);");
-            mHelper.close();
             point=0;
         }
+
         return point;
+
 
     }
 
@@ -510,11 +519,11 @@ class JCT{
 
 class WordDBHelper extends SQLiteOpenHelper {
     public WordDBHelper(Context context){
-        super(context, "mannercash.db", null, 3);
+        super(context, "mannercash.db", null, 4);
     }
 
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE user (id VARCHAR PRIMARY KEY not null, password VARCHAR not null, point INTEGER);");
+        db.execSQL("CREATE TABLE user (id VARCHAR PRIMARY KEY not null, password VARCHAR not null, point INTEGER, name VARCHAR);");
         db.execSQL("CREATE TABLE point (id VARCHAR not null, point INTEGER not null, routeName VARCHAR, date DATE, time TIME);");
     }
 

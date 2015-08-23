@@ -2,6 +2,8 @@ package com.appology.mannercash.mannercash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -57,8 +60,8 @@ public class SignupActivity extends ActionBarActivity {
         EditText passWord;
         EditText passWord2;
         EditText name;
-        Button btnOk;
-        Button btnCancel;
+        ImageButton btnOk;
+        ImageButton btnCancel;
 
         public SignUpFragment1() {
         }
@@ -72,8 +75,8 @@ public class SignupActivity extends ActionBarActivity {
             passWord2 = (EditText) rootView.findViewById(R.id.signup_password2);
             name = (EditText) rootView.findViewById(R.id.signup_name);
 
-            btnOk = (Button) rootView.findViewById(R.id.signup_ok);
-            btnCancel = (Button) rootView.findViewById(R.id.signup_cancel);
+            btnOk = (ImageButton) rootView.findViewById(R.id.signup_ok);
+            btnCancel = (ImageButton) rootView.findViewById(R.id.signup_cancel);
 
             btnOk.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -85,8 +88,20 @@ public class SignupActivity extends ActionBarActivity {
                         Toast.makeText(mContext.getApplicationContext(), "비밀번호가 같지 않습니다.", Toast.LENGTH_LONG).show();
                     else if(name.getText().toString().isEmpty())
                         Toast.makeText(mContext.getApplicationContext(), "이름을 입력해주세요.", Toast.LENGTH_LONG).show();
-                    else
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, signUpFrag2).commit();
+                    else{
+                        WordDBHelper mHelper = new WordDBHelper(mContext);
+                        SQLiteDatabase db=mHelper.getReadableDatabase();
+                        Cursor cursor;
+                        cursor = db.rawQuery("SELECT * FROM user where id='"+email.getText().toString()+"'", null);
+                        if (cursor.moveToFirst()) {
+                            Toast.makeText(mContext.getApplicationContext(), "이미 회원가입 되신 E-Mail 주소입니다.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            db = mHelper.getWritableDatabase();
+                            db.execSQL("INSERT INTO user VALUES ('" + email.getText().toString() + "','" + passWord.getText().toString() + "'," + 0 + ",'"+name.getText().toString()+"');");
+                            getActivity().finish();
+                        }
+                    }
                 }
             });
 
@@ -176,14 +191,14 @@ public class SignupActivity extends ActionBarActivity {
                     String passwordString = password.getText().toString();
                     String nameString = name.getText().toString();
                     String cardNumString = cardNum1.getText().toString() +
-                                        cardNum2.getText().toString() +
-                                        cardNum3.getText().toString() +
-                                        cardNum4.getText().toString();
+                            cardNum2.getText().toString() +
+                            cardNum3.getText().toString() +
+                            cardNum4.getText().toString();
 
                     if(cardNum1.getText().toString().isEmpty() ||
-                                cardNum2.getText().toString().isEmpty() ||
-                                cardNum3.getText().toString().isEmpty() ||
-                                cardNum4.getText().toString().isEmpty())
+                            cardNum2.getText().toString().isEmpty() ||
+                            cardNum3.getText().toString().isEmpty() ||
+                            cardNum4.getText().toString().isEmpty())
                         Toast.makeText(mContext.getApplicationContext(),  "카드번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                     else {
                         task = new Signup();

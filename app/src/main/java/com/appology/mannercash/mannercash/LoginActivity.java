@@ -3,6 +3,8 @@ package com.appology.mannercash.mannercash;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +29,8 @@ public class LoginActivity extends ActionBarActivity {
 
     BackgroundLogin task;
     Context mContext;
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,8 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login_activity);
 
         mContext = this;
-
-
+        mHelper = new WordDBHelper(this);
+        db=mHelper.getReadableDatabase();
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
         if (settings.getString("logged", "").toString().equals("logged")) { // 로그인 기록이 있다면 바로 튜토리얼로 전환
             startTutorialActivity();
@@ -86,6 +90,23 @@ public class LoginActivity extends ActionBarActivity {
                 } else if(passwordString.isEmpty()) {
                     Toast.makeText(mContext, "Password를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    Cursor cursor;
+                    cursor = db.rawQuery("SELECT * FROM user where id='"+emailString+"' and password='"+passwordString+"'", null);
+                    if (cursor.moveToFirst()) {
+                        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("logged", "logged");   // 자동 로그인을 위해 logged 기록
+                        editor.putString("email", emailString);
+                        editor.putString("password", passwordString);
+                        editor.commit();
+
+                        startTutorialActivity();
+                    }
+                    else{
+                        Toast.makeText(mContext, "회원정보가 잘못 되었습니다.", Toast.LENGTH_LONG).show();
+                    }
+
                     task = new BackgroundLogin();
                     task.execute(emailString, passwordString);
                     if (emailString.length() > 0 && passwordString.length() > 0) {
@@ -170,3 +191,4 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 }
+

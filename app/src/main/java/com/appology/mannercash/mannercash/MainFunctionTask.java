@@ -685,8 +685,10 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onCancelled() {
-        locationManager.removeUpdates(locationListener);
-        locationManager.removeUpdates(speedListener);
+        if(locationListener!=null)
+            locationManager.removeUpdates(locationListener);
+        if(speedListener!=null)
+            locationManager.removeUpdates(speedListener);
         if(countThread != null) {
             countThread.stopThread(false);
             countThread = null;
