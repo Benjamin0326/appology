@@ -7,12 +7,44 @@
     android:id="@+id/dl_activity_ranking"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:background="@drawable/rank_skybar">
+            <TextView
+                android:id="@+id/rank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tester님"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="30dp"
+                android:textColor="#ffffffff"/>
+            <TextView
+                android:id="@+id/rank_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1000원"
+                android:textSize="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="right|bottom"
+                android:textColor="#ffffffff"/>
+            </FrameLayout>
 
-    </RelativeLayout>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:id="@+id/rank_listView" >
+
+        </ListView>
+    </LinearLayout>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

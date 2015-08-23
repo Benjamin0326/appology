@@ -61,9 +61,11 @@ public class PointRecentFragment extends Fragment {
         ArrayList<String> item = new ArrayList<String>();
         adp = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, item);
 
+        SharedPreferences settings = MainActivity.mainActivity.getSharedPreferences("MannerCash", MainActivity.MODE_PRIVATE);
+        String id=settings.getString("email","");
         db=mHelper.getReadableDatabase();
         Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM point where id='"+"admin"+"'", null);
+        cursor = db.rawQuery("SELECT * FROM point where id='"+id+"'", null);
         int point;
         cursor.moveToFirst();
         int index=cursor.getCount();
@@ -93,11 +95,12 @@ public class PointRecentFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeView.setRefreshing(true);
-
+                SharedPreferences settings = MainActivity.mainActivity.getSharedPreferences("MannerCash", MainActivity.MODE_PRIVATE);
+                String id=settings.getString("email","");
                 adp.clear();
                 db=mHelper.getReadableDatabase();
                 Cursor cursor;
-                cursor = db.rawQuery("SELECT * FROM point where id='"+"admin"+"'", null);
+                cursor = db.rawQuery("SELECT * FROM point where id='"+id+"'", null);
                 int point;
                 cursor.moveToFirst();
                 int index=cursor.getCount();

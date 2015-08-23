@@ -4,20 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class RankingActivity extends ActionBarActivity {
@@ -35,9 +42,12 @@ public class RankingActivity extends ActionBarActivity {
     TextView name;
     Button infoModify;
 
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
+
     Context mContext;
     MainActivity mainActivityClass;
-
+    CustomAdapter adp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +120,46 @@ public class RankingActivity extends ActionBarActivity {
                 finish();
             }
         });
-    }
 
+
+
+        ListView listView = (ListView)findViewById(R.id.rank_listView);
+        adp = new CustomAdapter();
+
+        mHelper = new WordDBHelper(this);
+        db=mHelper.getReadableDatabase();
+        TextView nameText = (TextView)findViewById(R.id.rank_name);
+        TextView pointText = (TextView)findViewById(R.id.rank_point);
+        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+        String id=settings.getString("email","");
+        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
+        if (cursor.moveToFirst()) {
+            String nameStr = cursor.getString(3);
+            nameText.setText(nameStr+" 님");
+            int myPoint=cursor.getInt(2);
+            pointText.setText(Integer.toString(myPoint)+" 원");
+        }
+
+        cursor = db.rawQuery("SELECT * FROM user order by point desc", null);
+
+        cursor.moveToFirst();
+        int index=cursor.getCount();
+        int rank=1;
+        while (index>0) {
+            int point = cursor.getInt(2);
+            String name = cursor.getString(3);
+            item tmpItem=new item(rank, name, point);
+            adp.add(tmpItem);
+
+            index--;
+            cursor.moveToNext();
+        }
+
+        listView.setAdapter(adp);
+    }
 
 
     @Override
@@ -139,5 +187,71 @@ public class RankingActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+}
+
+class CustomAdapter extends BaseAdapter{
+    private ArrayList<item> m_List;
+
+    public CustomAdapter(){
+        m_List=new ArrayList<item>();
+    }
+
+    @Override
+    public int getCount(){
+        return m_List.size();
+    }
+
+    @Override
+    public Object getItem(int position){
+        return m_List.get(position);
+    }
+
+    @Override
+    public long getItemId(int position){
+        return position;
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent){
+        final int pos=position;
+        final Context context=parent.getContext();
+
+        if(convertView==null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView=inflater.inflate(R.layout.rank_item, parent, false);
+            item tmpItem=m_List.get(pos);
+
+            TextView t1 = (TextView)convertView.findViewById(R.id.rank_item_num);
+            if(tmpItem.item_rank==1){
+                t1.setBackgroundResource(R.drawable.first);
+            }
+            else {
+                t1.setText(Integer.toString(tmpItem.item_rank));
+            }
+            TextView t2= (TextView)convertView.findViewById(R.id.rank_item_name);
+            t2.setText(tmpItem.item_name);
+            TextView t3=(TextView)convertView.findViewById(R.id.rank_item_point);
+            t3.setText(Integer.toString(tmpItem.item_point));
+        }
+        return convertView;
+    }
+    public void add(item addItem){
+        m_List.add(addItem);
+    }
+
+    public void remove(int _position){
+        m_List.remove(_position);
+    }
+}
+
+class item{
+    int item_rank;
+    String item_name;
+    int item_point;
+
+    public item(int _rank, String _name, int _point){
+        item_rank=_rank;
+        item_name=_name;
+        item_point=_point;
     }
 }

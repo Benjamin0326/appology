@@ -4,15 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,10 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Locale;
 
-
-public class PointStatusActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class PointStatusActivity extends ActionBarActivity {
 
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
@@ -45,11 +37,6 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
     Button infoModify;
 
     Context mContext;
-
-    SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
-    final static int SECTION_PAGE_COUNT = 2;
-
     MainActivity mainActivityClass;
 
     @Override
@@ -125,27 +112,7 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
         });
 
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
     }
 
     @Override
@@ -172,50 +139,5 @@ public class PointStatusActivity extends ActionBarActivity implements ActionBar.
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0)
-                return new PointRecentFragment().newInstance();
-            else
-                return new PointSearchFragment().newInstance();
-        }
-
-        @Override
-        public int getCount() {
-            return SECTION_PAGE_COUNT;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.point_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.point_section2).toUpperCase(l);
-            }
-            return null;
-        }
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 }

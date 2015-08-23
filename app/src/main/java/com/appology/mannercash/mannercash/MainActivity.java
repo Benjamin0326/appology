@@ -166,8 +166,8 @@ public class MainActivity extends ActionBarActivity {
         Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
-            //String nameStr = cursor.getString(3);
-            //name.setText(nameStr);
+            String nameStr = cursor.getString(3);
+            name.setText(nameStr);
         }
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
         infoModify = (Button) findViewById(R.id.infoModify);

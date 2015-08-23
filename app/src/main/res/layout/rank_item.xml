@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:layout_marginLeft="20dp"
+        android:layout_height="30dp"
+        android:textSize="30dp"
+        android:text=""
+        android:id="@+id/rank_item_num"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="30dp"
+        android:textSize="30dp"
+        android:text=""/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="11"
+        android:layout_height="30dp"
+        android:textSize="30dp"
+        android:text=""
+        android:id="@+id/rank_item_name"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text=""/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="12"
+        android:layout_height="30dp"
+        android:textSize="30dp"
+        android:text=""
+        android:id="@+id/rank_item_point"/>
+
+</LinearLayout>
