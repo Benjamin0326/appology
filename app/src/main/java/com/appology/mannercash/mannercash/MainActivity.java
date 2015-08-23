@@ -91,6 +91,21 @@ public class MainActivity extends ActionBarActivity {
         mHelper = new WordDBHelper(this);
         db=mHelper.getReadableDatabase();
 
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user where id='"+"admin"+"'", null);
+        if (cursor.moveToFirst()) {
+
+        } else {
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"Test고속도로"+"','"+"2015-08-23"+"','"+"22:22:44"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"Test(2)고속도로"+"','"+"2015-08-22"+"','"+"22:22:44"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO user VALUES ('admin','1234', 120, 'admin');");
+        }
+
+
+
         mContext = this;
         mainActivity = MainActivity.this;
 
@@ -163,7 +178,6 @@ public class MainActivity extends ActionBarActivity {
         String id=settings.getString("email","");
         WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
         SQLiteDatabase db=mHelper.getReadableDatabase();
-        Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             String nameStr = cursor.getString(3);
@@ -305,8 +319,6 @@ public class MainActivity extends ActionBarActivity {
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             point = cursor.getInt(2);
-
-
         } else {
             point=0;
         }
@@ -317,6 +329,7 @@ public class MainActivity extends ActionBarActivity {
             db.execSQL("INSERT INTO point VALUES ('"+id+"',"+60+",'"+"Test(2)고속도로"+"','"+"2015-08-22"+"','"+"22:22:44"+"');");
             db = mHelper.getWritableDatabase();
             db.execSQL("UPDATE user set Point=" + 120 + " where ID='" + id + "';");
+            point=120;
         }
         return point;
 

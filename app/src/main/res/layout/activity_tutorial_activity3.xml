@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tutorial_3"
+
+    android:id="@+id/tutorial_main3"
+    tools:context="com.appology.mannercash.mannercash.TutorialActivity3">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorial_close"
+        android:text="시작하기"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <CheckBox
+        android:id="@+id/tutorial_chkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="다시 보지 않기"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
