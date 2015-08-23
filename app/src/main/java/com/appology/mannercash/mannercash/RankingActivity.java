@@ -100,6 +100,7 @@ public class RankingActivity extends ActionBarActivity {
 
         name = (TextView) findViewById(R.id.name);
 
+
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
         infoModify = (Button) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +139,7 @@ public class RankingActivity extends ActionBarActivity {
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             String nameStr = cursor.getString(3);
+            name.setText(nameStr);
             nameText.setText(nameStr+" 님");
             int myPoint=cursor.getInt(2);
             pointText.setText(Integer.toString(myPoint)+" 원");

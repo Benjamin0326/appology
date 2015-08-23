@@ -135,6 +135,7 @@ public class PointStatusActivity extends ActionBarActivity {
         if (cursor.moveToFirst()) {
             String nameStr = cursor.getString(3);
             nameText.setText(nameStr+"님");
+            name.setText(nameStr);
             int myPoint=cursor.getInt(2);
             pointText.setText("총 잔액 "+Integer.toString(myPoint)+"원");
         }
