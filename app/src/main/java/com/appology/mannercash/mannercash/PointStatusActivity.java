@@ -4,20 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class PointStatusActivity extends ActionBarActivity {
@@ -36,8 +43,13 @@ public class PointStatusActivity extends ActionBarActivity {
     TextView name;
     Button infoModify;
 
+    WordDBHelper mHelper;
+    SQLiteDatabase db;
+
     Context mContext;
     MainActivity mainActivityClass;
+
+    CustomAdapter2 adp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +122,42 @@ public class PointStatusActivity extends ActionBarActivity {
                 finish();
             }
         });
+        mHelper = new WordDBHelper(this);
+        db=mHelper.getReadableDatabase();
+        TextView nameText = (TextView)findViewById(R.id.point_name);
+        TextView pointText = (TextView)findViewById(R.id.point_point);
+        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+        String id=settings.getString("email","");
+        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
+        if (cursor.moveToFirst()) {
+            String nameStr = cursor.getString(3);
+            nameText.setText(nameStr+"님");
+            int myPoint=cursor.getInt(2);
+            pointText.setText("총 잔액 "+Integer.toString(myPoint)+"원");
+        }
 
+        ListView listView = (ListView)findViewById(R.id.point_listView);
+        adp = new CustomAdapter2();
 
+        cursor = db.rawQuery("SELECT * FROM point order by date desc", null);
+
+        cursor.moveToFirst();
+        int index=cursor.getCount();
+        while (index>0) {
+            int point = cursor.getInt(1);
+            String routeName = cursor.getString(2);
+            String date = cursor.getString(3);
+            point_item tmpItem=new point_item(date, routeName, point);
+            adp.add(tmpItem);
+
+            index--;
+            cursor.moveToNext();
+        }
+
+        listView.setAdapter(adp);
 
     }
 
@@ -139,5 +185,66 @@ public class PointStatusActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+}
+
+class CustomAdapter2 extends BaseAdapter {
+    private ArrayList<point_item> m_List;
+
+    public CustomAdapter2(){
+        m_List=new ArrayList<point_item>();
+    }
+
+    @Override
+    public int getCount(){
+        return m_List.size();
+    }
+
+    @Override
+    public Object getItem(int position){
+        return m_List.get(position);
+    }
+
+    @Override
+    public long getItemId(int position){
+        return position;
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent){
+        final int pos=position;
+        final Context context=parent.getContext();
+
+        if(convertView==null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView=inflater.inflate(R.layout.point_item, parent, false);
+            point_item tmpItem=m_List.get(pos);
+
+            TextView t1 = (TextView)convertView.findViewById(R.id.point_item_date);
+            t1.setText(tmpItem.date);
+            TextView t2= (TextView)convertView.findViewById(R.id.point_item_route);
+            t2.setText(tmpItem.routeName);
+            TextView t3=(TextView)convertView.findViewById(R.id.point_item_point);
+            t3.setText("적립 "+Integer.toString(tmpItem.point)+"원");
+        }
+        return convertView;
+    }
+    public void add(point_item addItem){
+        m_List.add(addItem);
+    }
+
+    public void remove(int _position){
+        m_List.remove(_position);
+    }
+}
+
+class point_item{
+    String date;
+    String routeName;
+    int point;
+
+    public point_item(String _date, String _routeName, int _point){
+        date=_date;
+        routeName=_routeName;
+        point=_point;
     }
 }

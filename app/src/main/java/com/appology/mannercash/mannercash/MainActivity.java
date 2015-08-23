@@ -305,12 +305,20 @@ public class MainActivity extends ActionBarActivity {
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             point = cursor.getInt(2);
+
+
         } else {
             point=0;
         }
-
+        if(point==0){
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+id+"',"+60+",'"+"Test고속도로"+"','"+"2015-08-23"+"','"+"22:22:44"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+id+"',"+60+",'"+"Test(2)고속도로"+"','"+"2015-08-22"+"','"+"22:22:44"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("UPDATE user set Point=" + 120 + " where ID='" + id + "';");
+        }
         return point;
-
 
     }
 
