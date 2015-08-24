@@ -38,6 +38,44 @@
                 android:textColor="#ffffffff"/>
 
             </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+<ImageButton
+    android:id="@+id/point_today"
+    android:layout_width="70dp"
+    android:layout_height="wrap_content"
+    android:scaleType="centerInside"
+    android:background="@android:color/transparent"
+    android:src="@drawable/today"/>
+            <ImageButton
+                android:id="@+id/point_week"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:src="@drawable/week"/>
+            <ImageButton
+                android:id="@+id/point_month"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="100dp"
+                android:layout_gravity="right"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:src="@drawable/month"/>
+            <ImageButton
+
+                android:id="@+id/point_month_3"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:layout_gravity="right"
+                android:background="@android:color/transparent"
+                android:src="@drawable/month3"/>
+            </FrameLayout>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"

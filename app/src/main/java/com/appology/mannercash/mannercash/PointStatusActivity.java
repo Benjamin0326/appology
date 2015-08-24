@@ -19,11 +19,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -43,6 +45,7 @@ public class PointStatusActivity extends ActionBarActivity {
     TextView name;
     Button infoModify;
 
+    int i;
     WordDBHelper mHelper;
     SQLiteDatabase db;
 
@@ -51,6 +54,11 @@ public class PointStatusActivity extends ActionBarActivity {
 
     CustomAdapter2 adp;
 
+    ImageButton today;
+    ImageButton week;
+    ImageButton month;
+    ImageButton month3;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +135,120 @@ public class PointStatusActivity extends ActionBarActivity {
         TextView nameText = (TextView)findViewById(R.id.point_name);
         TextView pointText = (TextView)findViewById(R.id.point_point);
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
-        String id=settings.getString("email","");
+        final String id=settings.getString("email","");
+        today=(ImageButton)findViewById(R.id.point_today);
+
+        today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                cal.add(cal.DATE,-0);
+                String dateStr=format.format(cal.getTime());
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc", null);
+                cursor.moveToFirst();
+
+
+
+                int index=cursor.getCount();
+                while (index>0) {
+                    int point = cursor.getInt(1);
+                    String routeName = cursor.getString(2);
+                    String date = cursor.getString(3);
+                    point_item tmpItem=new point_item(date, routeName, point);
+                    adp.add(tmpItem);
+
+                    index--;
+                    cursor.moveToNext();
+                }
+                listView = (ListView)findViewById(R.id.point_listView);
+                listView.setAdapter(adp);
+
+            }
+        });
+        week=(ImageButton)findViewById(R.id.point_week);
+        week.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                cal.add(cal.DATE,-7);
+                String dateStr=format.format(cal.getTime());
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"' order by date desc", null);
+                cursor.moveToFirst();
+                int index=cursor.getCount();
+                while (index>0) {
+                    int point = cursor.getInt(1);
+                    String routeName = cursor.getString(2);
+                    String date = cursor.getString(3);
+                    point_item tmpItem=new point_item(date, routeName, point);
+                    adp.add(tmpItem);
+
+                    index--;
+                    cursor.moveToNext();
+                }
+                listView = (ListView)findViewById(R.id.point_listView);
+
+                listView.setAdapter(adp);
+            }
+        });
+        month=(ImageButton)findViewById(R.id.point_month);
+        month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                cal.add(cal.DATE,-30);
+                String dateStr=format.format(cal.getTime());
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc", null);
+
+
+                cursor.moveToFirst();
+                int index=cursor.getCount();
+                while (index>0) {
+                    int point = cursor.getInt(1);
+                    String routeName = cursor.getString(2);
+                    String date = cursor.getString(3);
+                    point_item tmpItem=new point_item(date, routeName, point);
+                    adp.add(tmpItem);
+
+                    index--;
+                    cursor.moveToNext();
+                }
+                listView = (ListView)findViewById(R.id.point_listView);
+                listView.setAdapter(adp);
+            }
+        });
+        month3=(ImageButton)findViewById(R.id.point_month_3);
+        month3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                cal.add(cal.DATE,-90);
+                String dateStr=format.format(cal.getTime());
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"'and id='"+id+"' order by date desc", null);
+                i=listView.getCount();
+                for(int temp=0;temp<i;temp++){
+                    adp.remove(i);
+                }
+                cursor.moveToFirst();
+                int index=cursor.getCount();
+                while (index>0) {
+                    int point = cursor.getInt(1);
+                    String routeName = cursor.getString(2);
+                    String date = cursor.getString(3);
+                    point_item tmpItem=new point_item(date, routeName, point);
+                    adp.add(tmpItem);
+
+                    index--;
+                    cursor.moveToNext();
+                }
+                listView = (ListView)findViewById(R.id.point_listView);
+
+                listView.setAdapter(adp);
+            }
+        });
         WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
         SQLiteDatabase db=mHelper.getReadableDatabase();
         Cursor cursor;
@@ -140,7 +261,8 @@ public class PointStatusActivity extends ActionBarActivity {
             pointText.setText("총 잔액 "+Integer.toString(myPoint)+"원");
         }
 
-        ListView listView = (ListView)findViewById(R.id.point_listView);
+        listView = (ListView)findViewById(R.id.point_listView);
+
         adp = new CustomAdapter2();
 
         cursor = db.rawQuery("SELECT * FROM point order by date desc", null);
@@ -157,7 +279,7 @@ public class PointStatusActivity extends ActionBarActivity {
             index--;
             cursor.moveToNext();
         }
-
+        listView.deferNotifyDataSetChanged();
         listView.setAdapter(adp);
 
     }
@@ -236,6 +358,7 @@ class CustomAdapter2 extends BaseAdapter {
     public void remove(int _position){
         m_List.remove(_position);
     }
+
 }
 
 class point_item{

@@ -145,7 +145,7 @@ public class RankingActivity extends ActionBarActivity {
             pointText.setText(Integer.toString(myPoint)+" 원");
         }
 
-        cursor = db.rawQuery("SELECT * FROM user order by point desc", null);
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'order by point desc", null);
 
         cursor.moveToFirst();
         int index=cursor.getCount();
@@ -153,7 +153,7 @@ public class RankingActivity extends ActionBarActivity {
         while (index>0) {
             int point = cursor.getInt(2);
             String name = cursor.getString(3);
-            item tmpItem=new item(rank, name, point);
+            item tmpItem=new item(rank++, name, point);
             adp.add(tmpItem);
 
             index--;
