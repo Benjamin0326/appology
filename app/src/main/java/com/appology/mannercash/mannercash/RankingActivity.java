@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,7 +40,7 @@ public class RankingActivity extends ActionBarActivity {
 
     ImageView userPhoto;
     TextView name;
-    Button infoModify;
+    ImageButton infoModify;
 
     WordDBHelper mHelper;
     SQLiteDatabase db;
@@ -102,7 +102,7 @@ public class RankingActivity extends ActionBarActivity {
 
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
-        infoModify = (Button) findViewById(R.id.infoModify);
+        infoModify = (ImageButton) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

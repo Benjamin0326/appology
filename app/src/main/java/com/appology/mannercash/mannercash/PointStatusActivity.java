@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +42,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
     ImageView userPhoto;
     TextView name;
-    Button infoModify;
+    ImageButton infoModify;
 
     int i;
     WordDBHelper mHelper;
@@ -111,7 +110,7 @@ public class PointStatusActivity extends ActionBarActivity {
         name = (TextView) findViewById(R.id.name);
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
-        infoModify = (Button) findViewById(R.id.infoModify);
+        infoModify = (ImageButton) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +140,7 @@ public class PointStatusActivity extends ActionBarActivity {
         today.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-0);
@@ -170,6 +170,7 @@ public class PointStatusActivity extends ActionBarActivity {
         week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-7);
@@ -196,6 +197,7 @@ public class PointStatusActivity extends ActionBarActivity {
         month.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-30);
@@ -223,15 +225,12 @@ public class PointStatusActivity extends ActionBarActivity {
         month3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-90);
                 String dateStr=format.format(cal.getTime());
                 Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"'and id='"+id+"' order by date desc", null);
-                i=listView.getCount();
-                for(int temp=0;temp<i;temp++){
-                    adp.remove(i);
-                }
                 cursor.moveToFirst();
                 int index=cursor.getCount();
                 while (index>0) {
@@ -265,7 +264,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
         adp = new CustomAdapter2();
 
-        cursor = db.rawQuery("SELECT * FROM point order by date desc", null);
+        cursor = db.rawQuery("SELECT * FROM point where id='"+id+"'order by date desc", null);
 
         cursor.moveToFirst();
         int index=cursor.getCount();

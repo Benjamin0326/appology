@@ -8,20 +8,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="2015-08-25"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:id="@+id/point_item_date"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="test고속도로"
             android:layout_gravity="right"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="17dp"
+            android:textSize="12dp"
             android:id="@+id/point_item_route"
             android:textStyle="bold"
             />
@@ -30,10 +30,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text=""
+        android:text="적립 30원"
         android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:id="@+id/point_item_point"
         android:textColor="@color/wallet_holo_blue_light"
         android:textStyle="bold"/>

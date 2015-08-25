@@ -38,30 +38,32 @@
                 android:textColor="#ffffffff"/>
 
             </FrameLayout>
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:orientation="horizontal">
 <ImageButton
     android:id="@+id/point_today"
-    android:layout_width="70dp"
+    android:layout_width="0dp"
+    android:layout_weight="1"
     android:layout_height="wrap_content"
     android:scaleType="centerInside"
     android:background="@android:color/transparent"
     android:src="@drawable/today"/>
             <ImageButton
                 android:id="@+id/point_week"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
                 android:scaleType="centerInside"
                 android:background="@android:color/transparent"
                 android:src="@drawable/week"/>
             <ImageButton
                 android:id="@+id/point_month"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
                 android:layout_gravity="right"
                 android:scaleType="centerInside"
                 android:background="@android:color/transparent"
@@ -69,13 +71,14 @@
             <ImageButton
 
                 android:id="@+id/point_month_3"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
                 android:layout_gravity="right"
                 android:background="@android:color/transparent"
                 android:src="@drawable/month3"/>
-            </FrameLayout>
+            </LinearLayout>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -89,14 +92,16 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/menubackground"
         android:id="@+id/dlLayout"
-        android:orientation="vertical"
-        android:layout_gravity="start" >
+        android:layout_gravity="start"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:background="#1EDDFF">
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:background="@android:color/transparent">
 
             <ImageView
                 android:layout_width="85dp"
@@ -113,27 +118,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
-                android:textSize="20dp"
+                android:textSize="25dp"
+                android:text="admin"
+                android:textColor="#ffffffff"
                 android:layout_toRightOf="@+id/userPhoto"
                 android:layout_alignTop="@+id/userPhoto"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="30dp"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:layout_width="70dp"
+                android:layout_height="50dp"
                 android:id="@+id/infoModify"
-                android:text="로그아웃"
-                android:layout_alignLeft="@+id/name"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/logout"
+                android:layout_alignRight="@+id/name"
                 android:layout_below="@+id/name"
                 android:layout_marginTop="10dp"/>
 
         </RelativeLayout>
 
+
+
         <ListView android:id="@+id/lv_activity_point_status"
-            android:background="#EDEDED"
+
+            android:background="@android:color/transparent"
             android:layout_width="240dp"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="10"/>
+        <ImageButton
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@android:color/transparent"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:src="@drawable/notice" />
 
     </LinearLayout>
 
