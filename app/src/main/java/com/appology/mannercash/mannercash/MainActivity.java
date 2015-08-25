@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -90,7 +91,8 @@ public class MainActivity extends ActionBarActivity {
 
         mHelper = new WordDBHelper(this);
         db=mHelper.getReadableDatabase();
-
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_main);
         Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+"admin"+"'", null);
         if (cursor.moveToFirst()) {
@@ -164,8 +166,10 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         //Drawable actionbarDrawable = getResources().getDrawable(R.drawable.actionbar);
         //getSupportActionBar().setBackgroundDrawable(actionbarDrawable);
+
 
 
 
