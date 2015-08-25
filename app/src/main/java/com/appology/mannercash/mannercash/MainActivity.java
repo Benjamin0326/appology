@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
     ListView lvDrawerList;
     ArrayAdapter<String> adtDrawerList;
     LinearLayout dlLayout;
-    String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴사 안내", "보호구역 안내"};
+    String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴 안내"};
 
     Intent intent;
 
@@ -83,6 +83,8 @@ public class MainActivity extends ActionBarActivity {
     TextView pointText;
     ImageView speedImage;
     ImageView speedImage2;
+    ImageView muteOn;
+    ImageView muteOff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +153,9 @@ public class MainActivity extends ActionBarActivity {
                         startActivity(intent);
                         break;
                     case 3:
-                        break;
-                    case 4:
+                        intent = new Intent(getApplicationContext(), PartnerShipActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
                         break;
                 }
                 dlDrawer.closeDrawer(dlLayout);
@@ -206,7 +209,27 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        muteOn = (ImageView) findViewById(R.id.muteon);
+        muteOff = (ImageView) findViewById(R.id.muteoff);
+        muteOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                muteOff.setVisibility(View.VISIBLE);
+                muteOn.setVisibility(View.INVISIBLE);
+            }
+        });
 
+        muteOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                muteOff.setVisibility(View.INVISIBLE);
+                muteOn.setVisibility(View.VISIBLE);
+            }
+        });
 
         debugTextView = (TextView) findViewById(R.id.debugTextView);
         speedExceed = (ImageView) findViewById(R.id.speedExceed);
@@ -214,7 +237,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         mainFunctionTask = new MainFunctionTask(mContext, locationManager, debugTextView, data, limitSpeed, jct,
-                pointText, speedText, speedImage, speedImage2, speedExceed);
+                                                pointText, speedText, speedImage, speedImage2, speedExceed);
         mainFunctionTask.execute();
     }
 
@@ -302,6 +325,9 @@ public class MainActivity extends ActionBarActivity {
         if(mainFunctionTask != null) {
             mainFunctionTask.cancel(true);
         }
+
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
     }
 
     int getPoint(){

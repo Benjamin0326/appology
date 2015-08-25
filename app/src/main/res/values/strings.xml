@@ -20,4 +20,5 @@
     <string name="title_activity_info_modify">InfoModifyActivity</string>
     <string name="title_activity_tutorial_activity2">TutorialActivity2</string>
     <string name="title_activity_tutorial_activity3">TutorialActivity3</string>
+    <string name="title_activity_partner_ship">PartnerShipActivity</string>
 </resources>

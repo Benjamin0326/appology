@@ -576,7 +576,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         if(!isChangeRoadName) {
             if(!isSetImageExpressWay) {
                 isSetImageExpressWay = true;
-                //speedImage.setImageResource(R.drawable.limitspeed);
                 speedImage.setVisibility(View.INVISIBLE);
                 speedImage2.setVisibility(View.VISIBLE);
             }
@@ -589,7 +588,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
             isSetImageExpressWay = false;
             speedImage.setVisibility(View.VISIBLE);
             speedImage2.setVisibility(View.INVISIBLE);
-            //speedImage.setImageResource(R.drawable.limitspeed);
         }
         speedText.setText("");
         speedLimit = 0;

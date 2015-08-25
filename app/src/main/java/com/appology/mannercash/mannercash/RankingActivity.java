@@ -36,7 +36,7 @@ public class RankingActivity extends ActionBarActivity {
     ListView lvDrawerList;
     ArrayAdapter<String> adtDrawerList;
     LinearLayout dlLayout;
-    String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴사 안내", "보호구역 안내"};
+    String[] menuItems = new String[]{"Home", "포인트 내역", "랭킹", "제휴 안내"};
     Intent intent;
 
     ImageView userPhoto;
@@ -82,8 +82,9 @@ public class RankingActivity extends ActionBarActivity {
                         startActivity(intent);
                         break;
                     case 3:
-                        break;
-                    case 4:
+                        intent = new Intent(getApplicationContext(), PartnerShipActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
                         break;
                 }
                 dlDrawer.closeDrawer(dlLayout);

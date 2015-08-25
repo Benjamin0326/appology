@@ -107,8 +107,8 @@ public class LoginActivity extends ActionBarActivity {
                         Toast.makeText(mContext, "회원정보가 잘못 되었습니다.", Toast.LENGTH_LONG).show();
                     }
 
-                    task = new BackgroundLogin();
-                    task.execute(emailString, passwordString);
+                    //task = new BackgroundLogin();
+                    //task.execute(emailString, passwordString);
                     if (emailString.length() > 0 && passwordString.length() > 0) {
                         if (emailString.equals("1") && passwordString.equals("1")) {    // 테스트 (아이디 : 1, 비번 : 1)
                             SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
