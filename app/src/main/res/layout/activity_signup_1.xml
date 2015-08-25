@@ -13,16 +13,17 @@
         />
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="25"
         android:layout_gravity="center_horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/signup_mail"
             android:layout_gravity="center"
+            android:scaleType="fitXY"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
@@ -33,21 +34,23 @@
             android:background="@android:color/transparent"
             android:inputType="textEmailAddress"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="20dp"
+            android:singleLine="true" />
 
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="25"
         android:layout_gravity="center_horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/signup_pw1"
             android:layout_gravity="center"
+            android:scaleType="fitXY"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
@@ -59,23 +62,25 @@
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="20dp"
+            android:singleLine="true" />
 
     </FrameLayout>
 
     <FrameLayout
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="25"
         >
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/signup_pw2"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY" />
         <EditText
             android:id="@+id/signup_password2"
             android:layout_width="170dp"
@@ -83,21 +88,23 @@
             android:background="@android:color/transparent"
             android:inputType="textPassword"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="25dp"
-            android:layout_gravity="center_vertical|right" />
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_vertical|right"
+            android:singleLine="true" />
     </FrameLayout>
     <FrameLayout
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="25"
         >
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/signup_name"
 
             android:layout_gravity="center"
+            android:scaleType="fitXY"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
         <EditText
@@ -106,7 +113,8 @@
             android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="20dp"
+            android:singleLine="true" />
     </FrameLayout>
     <TextView
         android:layout_width="wrap_content"

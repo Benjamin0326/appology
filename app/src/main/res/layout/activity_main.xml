@@ -72,27 +72,25 @@
                                 android:layout_weight="36"/>
 
                             <FrameLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="306">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:src="@drawable/limitspeedbackground"
                                     android:id="@+id/limitspeedBackground"
                                     android:visibility="visible"
-                                    />
+                                    android:layout_gravity="center" />
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
                                     android:src="@drawable/limitspeed"
                                     android:id="@+id/limitspeedBackground2"
-                                    android:visibility="invisible"
-                                    />
+                                    android:visibility="invisible" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -102,7 +100,7 @@
                                     android:textColor="#ffffff"
                                     android:layout_gravity="center_vertical|center_horizontal"
                                     android:id="@+id/limitspeed"
-                                    />
+                                    android:layout_marginBottom="5dp" />
 
                             </FrameLayout>
 
@@ -150,7 +148,7 @@
                         android:layout_weight="10"/>
 
                     <FrameLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="74">
 
