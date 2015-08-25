@@ -48,23 +48,25 @@
     android:layout_width="0dp"
     android:layout_weight="1"
     android:layout_height="wrap_content"
-    android:scaleType="centerInside"
     android:background="@android:color/transparent"
-    android:src="@drawable/today"/>
+    android:src="@drawable/today"
+    android:layout_gravity="left|center_vertical"
+    android:scaleType="centerInside" />
             <ImageButton
                 android:id="@+id/point_week"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
                 android:background="@android:color/transparent"
-                android:src="@drawable/week"/>
+                android:src="@drawable/week"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside" />
             <ImageButton
                 android:id="@+id/point_month"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center_vertical"
                 android:scaleType="centerInside"
                 android:background="@android:color/transparent"
                 android:src="@drawable/month"/>
@@ -75,7 +77,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
-                android:layout_gravity="right"
+                android:layout_gravity="center_vertical|right"
                 android:background="@android:color/transparent"
                 android:src="@drawable/month3"/>
             </LinearLayout>
