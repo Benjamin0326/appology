@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,7 +151,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
                 WordDBHelper mHelper = new WordDBHelper(mContext);
                 SQLiteDatabase db=mHelper.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc", null);
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc, time desc", null);
                 cursor.moveToFirst();
 
 
@@ -183,7 +184,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
                 WordDBHelper mHelper = new WordDBHelper(mContext);
                 SQLiteDatabase db=mHelper.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"' order by date desc", null);
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"' order by date desc, time desc", null);
                 cursor.moveToFirst();
                 int index=cursor.getCount();
                 while (index>0) {
@@ -213,7 +214,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
                 WordDBHelper mHelper = new WordDBHelper(mContext);
                 SQLiteDatabase db=mHelper.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc", null);
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc, time desc", null);
 
 
                 cursor.moveToFirst();
@@ -244,9 +245,10 @@ public class PointStatusActivity extends ActionBarActivity {
 
                 WordDBHelper mHelper = new WordDBHelper(mContext);
                 SQLiteDatabase db=mHelper.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"'and id='"+id+"' order by date desc", null);
+                Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"'and id='"+id+"' order by date desc, time desc", null);
                 cursor.moveToFirst();
                 int index=cursor.getCount();
+                Log.i("mannercash", "1 : "+ index + ", " + adp.getCount());
                 while (index>0) {
                     int point = cursor.getInt(1);
                     String routeName = cursor.getString(2);
@@ -257,6 +259,7 @@ public class PointStatusActivity extends ActionBarActivity {
                     index--;
                     cursor.moveToNext();
                 }
+                Log.i("mannercash", "1 : "+ adp.getCount());
                 listView = (ListView)findViewById(R.id.point_listView);
 
                 listView.setAdapter(adp);
@@ -279,7 +282,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
         adp = new CustomAdapter2();
 
-        cursor = db.rawQuery("SELECT * FROM point where id='"+id+"'order by date desc", null);
+        cursor = db.rawQuery("SELECT * FROM point where id='"+id+"'order by date desc, time desc", null);
 
         cursor.moveToFirst();
         int index=cursor.getCount();

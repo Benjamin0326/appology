@@ -19,8 +19,8 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="35dp"
                 android:src="@drawable/muteon"
                 android:layout_gravity="right"
                 android:id="@+id/muteon"
@@ -29,8 +29,8 @@
                 android:visibility="invisible"/>
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="35dp"
                 android:src="@drawable/muteoff"
                 android:layout_gravity="right"
                 android:id="@+id/muteoff"
@@ -54,8 +54,8 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
                             android:src="@drawable/speedexceed"
                             android:id="@+id/speedExceed"

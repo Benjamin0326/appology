@@ -338,52 +338,6 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         return null;
     }
 
-    class CountThread extends Thread {
-
-        boolean isExecute;
-
-        CountThread(boolean isExecute) {
-            this.isExecute = isExecute;
-        }
-
-        void stopThread(boolean isExecute) {
-            this.isExecute = isExecute;
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            speedCount = 5;
-            try {
-                Thread.sleep(100);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            soundTurnOn(R.raw.exceed);
-            while(speedCount > 0 && isExecute) {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                Log.i("mannercash", "speedCount = " + String.valueOf(speedCount));
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isSpeedExceed) {
-                            speedExceed.setVisibility(View.VISIBLE);
-                        } else {
-                            speedExceed.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                });
-                soundTurnOn(R.raw.exceedwarning);
-                speedCount--;
-            }
-            isSpeedExceed = false;
-        }
-    }
-
     StringBuilder sb = new StringBuilder("");
     @Override
     protected void onProgressUpdate(Integer... values) {
@@ -455,6 +409,52 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
         if(showGpsDialog) {
             showGpsDialog();
+        }
+    }
+
+    class CountThread extends Thread {
+
+        boolean isExecute;
+
+        CountThread(boolean isExecute) {
+            this.isExecute = isExecute;
+        }
+
+        void stopThread(boolean isExecute) {
+            this.isExecute = isExecute;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            speedCount = 5;
+            try {
+                Thread.sleep(100);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            soundTurnOn(R.raw.exceed);
+            while(speedCount > 0 && isExecute) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                Log.i("mannercash", "speedCount = " + String.valueOf(speedCount));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isSpeedExceed) {
+                            speedExceed.setVisibility(View.VISIBLE);
+                        } else {
+                            speedExceed.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+                soundTurnOn(R.raw.exceedwarning);
+                speedCount--;
+            }
+            isSpeedExceed = false;
         }
     }
 
@@ -599,32 +599,35 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
         WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
         SQLiteDatabase db=mHelper.getReadableDatabase();
 
-        int point;
+        int curPoint;
         Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
-            point = cursor.getInt(2);
-            Log.i("mannercash", String.valueOf(point));
+            curPoint = cursor.getInt(2);
+            Log.i("mannercash", String.valueOf(curPoint));
         }
         else{
-            point=0;
+            curPoint=0;
         }
 
-        point=point+(int)(distance*StaticVariable.pointSaveUnit);
-        db = mHelper.getWritableDatabase();
-        db.execSQL("UPDATE user set Point=" + point + " where ID='" + id + "';");
+        int savePoint;
+        savePoint = (int)(distance*StaticVariable.pointSaveUnit);
+        curPoint = curPoint + savePoint;
 
-        pointText.setText(String.valueOf(point));
+        db = mHelper.getWritableDatabase();
+        db.execSQL("UPDATE user set Point=" + curPoint + " where ID='" + id + "';");
+
+        pointText.setText(String.valueOf(curPoint));
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat CurTimeFormat = new SimpleDateFormat("HH:mm:ss");
         String strCurDate = CurDateFormat.format(date);
         String strCurTime = CurTimeFormat.format(date);
 
         db = mHelper.getWritableDatabase();
-        db.execSQL("INSERT INTO point VALUES ('"+id+"',"+point+",'"+RouteName+"','"+strCurDate+"','"+strCurTime+"');");
+        db.execSQL("INSERT INTO point VALUES ('"+id+"',"+savePoint+",'"+RouteName+"','"+strCurDate+"','"+strCurTime+"');");
         mHelper.close();
 
         soundTurnOn(R.raw.pointsave);
