@@ -48,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
-
+        getSupportActionBar().hide();
         mContext = this;
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
         if (settings.getString("logged", "").toString().equals("logged")) { // 로그인 기록이 있다면 바로 튜토리얼로 전환

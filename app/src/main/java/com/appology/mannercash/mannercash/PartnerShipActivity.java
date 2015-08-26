@@ -3,16 +3,17 @@ package com.appology.mannercash.mannercash;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,7 +33,7 @@ public class PartnerShipActivity extends ActionBarActivity {
 
     ImageView userPhoto;
     TextView name;
-    Button infoModify;
+    ImageButton infoModify;
 
     MainActivity mainActivityClass;
 
@@ -41,7 +42,8 @@ public class PartnerShipActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_ship);
-
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_main);
         dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_partner_ship);
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
@@ -90,7 +92,7 @@ public class PartnerShipActivity extends ActionBarActivity {
 
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
-        infoModify = (Button) findViewById(R.id.infoModify);
+        infoModify = (ImageButton) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

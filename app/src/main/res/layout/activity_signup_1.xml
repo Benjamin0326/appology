@@ -131,7 +131,7 @@
             android:id="@+id/signup_ok"
             android:layout_width="110dp"
             android:layout_height="50dp"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:layout_marginLeft="50dp"
             android:background="@android:color/transparent"
             android:src="@drawable/signup_ok"/>
@@ -140,7 +140,7 @@
             android:id="@+id/signup_cancel"
             android:layout_width="110dp"
             android:layout_height="50dp"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:background="@android:color/transparent"
             android:src="@drawable/signup_cancel"
             android:layout_gravity="right"
