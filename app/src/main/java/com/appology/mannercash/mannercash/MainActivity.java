@@ -41,9 +41,6 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends ActionBarActivity {
 
-    WordDBHelper mHelper;
-    SQLiteDatabase db;
-
     Data[] data;
     LimitSpeed[] limitSpeed;
     JCT[] jct;
@@ -91,22 +88,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mHelper = new WordDBHelper(this);
-        db=mHelper.getReadableDatabase();
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_main);
-        Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM user where id='"+"admin"+"'", null);
-        if (cursor.moveToFirst()) {
-
-        } else {
-            db = mHelper.getWritableDatabase();
-            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"Test고속도로"+"','"+"2015-08-23"+"','"+"22:22:44"+"');");
-            db = mHelper.getWritableDatabase();
-            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"Test(2)고속도로"+"','"+"2015-08-22"+"','"+"22:22:44"+"');");
-            db = mHelper.getWritableDatabase();
-            db.execSQL("INSERT INTO user VALUES ('admin','1234', 120, 'admin');");
-        }
 
         mContext = this;
         mainActivity = MainActivity.this;
@@ -117,11 +100,6 @@ public class MainActivity extends ActionBarActivity {
         speedText=(TextView)findViewById(R.id.limitspeed);
         speedImage=(ImageView)findViewById(R.id.limitspeedBackground);
         speedImage2=(ImageView)findViewById(R.id.limitspeedBackground2);
-        //animAppear = AnimationUtils.loadAnimation(this, R.anim.alpha);
-        //animAppear.setFillAfter(true);
-        //animDisAppear = AnimationUtils.loadAnimation(this, R.anim.alpha2);
-        //animDisAppear.setFillAfter(true);
-        //speedImage.startAnimation(animDisAppear);
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -174,20 +152,21 @@ public class MainActivity extends ActionBarActivity {
         //getSupportActionBar().setBackgroundDrawable(actionbarDrawable);
 
 
-
-
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
 
         name = (TextView) findViewById(R.id.name);
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
-        String id=settings.getString("email","");
-        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+        String id=settings.getString("email", "");
+
+        WordDBHelper mHelper = new WordDBHelper(this);
         SQLiteDatabase db=mHelper.getReadableDatabase();
+        Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             String nameStr = cursor.getString(3);
             name.setText(nameStr);
         }
+
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
         infoModify = (ImageButton) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
@@ -335,13 +314,9 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences settings = mContext.getSharedPreferences("MannerCash", mContext.MODE_PRIVATE);
         int point;
         String id=settings.getString("email", "email");
-        String pw=settings.getString("password","password");
-        //SharedPreferences.Editor editor = settings.edit();
-        //editor.putInt("point", point+1);
-        //editor.commit();
-        //point=settings.getInt("point", 0);
 
-        db=mHelper.getReadableDatabase();
+        WordDBHelper mHelper = new WordDBHelper(this);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
 
         Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);

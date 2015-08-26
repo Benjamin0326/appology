@@ -19,8 +19,8 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="50dp"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
                 android:src="@drawable/muteon"
                 android:layout_gravity="right"
                 android:id="@+id/muteon"
@@ -29,8 +29,8 @@
                 android:visibility="invisible"/>
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="50dp"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
                 android:src="@drawable/muteoff"
                 android:layout_gravity="right"
                 android:id="@+id/muteoff"

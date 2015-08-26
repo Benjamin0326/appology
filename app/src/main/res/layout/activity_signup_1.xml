@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/login_background"
-    tools:context="com.appology.mannercash.mannercash.SignupActivity">
+    tools:context="com.appology.mannercash.mannercash.SignupActivity"
+    android:id="@+id/layout">
 
     <View
         android:layout_width="wrap_content"

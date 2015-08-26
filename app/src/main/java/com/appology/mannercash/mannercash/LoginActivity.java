@@ -9,9 +9,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -29,8 +31,18 @@ public class LoginActivity extends ActionBarActivity {
 
     BackgroundLogin task;
     Context mContext;
-    WordDBHelper mHelper;
-    SQLiteDatabase db;
+
+    InputMethodManager imm;
+
+    EditText email;
+    EditText password;
+
+    FrameLayout mail;
+    FrameLayout pw;
+    ImageButton btn;
+    ImageButton toLogin;
+    LinearLayout layout;
+    ImageButton signUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +50,45 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login_activity);
 
         mContext = this;
-        mHelper = new WordDBHelper(this);
-        db=mHelper.getReadableDatabase();
         SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
         if (settings.getString("logged", "").toString().equals("logged")) { // 로그인 기록이 있다면 바로 튜토리얼로 전환
             startTutorialActivity();
         }
 
-        final ImageButton signUp = (ImageButton) findViewById(R.id.login_join);
+        WordDBHelper mHelper = new WordDBHelper(this);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user where id='" + "admin" + "'", null);
+        if (cursor.moveToFirst()) {
+
+        } else {
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO user VALUES ('admin','1234', 240, 'admin');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"경부 고속도로"+"','"+"2015-07-18"+"','"+"21:34:18"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"서울외곽순환 고속도로"+"','"+"2015-07-22"+"','"+"23:15:21"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"서울외곽순환 고속도로"+"','"+"2015-08-22"+"','"+"16:53:35"+"');");
+            db = mHelper.getWritableDatabase();
+            db.execSQL("INSERT INTO point VALUES ('"+"admin"+"',"+60+",'"+"서해안 고속도로"+"','"+"2015-08-23"+"','"+"22:22:44"+"');");
+        }
+
+        signUp = (ImageButton) findViewById(R.id.login_join);
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
-                //finish();
+                finish();
             }
         });
-        final FrameLayout mail=(FrameLayout)findViewById(R.id.emailFrame);
-        final FrameLayout pw=(FrameLayout)findViewById(R.id.pwFrame);
-        final ImageButton btn = (ImageButton) findViewById(R.id.login_login);
-        final ImageButton toLogin = (ImageButton)findViewById(R.id.login_tologin);
+
+        mail=(FrameLayout)findViewById(R.id.emailFrame);
+        pw=(FrameLayout)findViewById(R.id.pwFrame);
+        btn = (ImageButton) findViewById(R.id.login_login);
+        toLogin = (ImageButton)findViewById(R.id.login_tologin);
+        layout = (LinearLayout) findViewById(R.id.layout);
 
         signUp.setVisibility(View.VISIBLE);
         toLogin.setVisibility(View.VISIBLE);
@@ -65,9 +96,9 @@ public class LoginActivity extends ActionBarActivity {
         mail.setVisibility(View.INVISIBLE);
         pw.setVisibility(View.INVISIBLE);
 
-        toLogin.setOnClickListener(new View.OnClickListener(){
+        toLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 signUp.setVisibility(View.INVISIBLE);
                 toLogin.setVisibility(View.INVISIBLE);
                 btn.setVisibility(View.VISIBLE);
@@ -76,12 +107,12 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
+        email = (EditText) findViewById(R.id.login_email);
+        password = (EditText) findViewById(R.id.login_password);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText email = (EditText) findViewById(R.id.login_email);
-                EditText password = (EditText) findViewById(R.id.login_password);
 
                 String emailString = email.getText().toString();
                 String passwordString = password.getText().toString();
@@ -91,6 +122,8 @@ public class LoginActivity extends ActionBarActivity {
                     Toast.makeText(mContext, "Password를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
 
+                    WordDBHelper mHelper = new WordDBHelper(mContext);
+                    SQLiteDatabase db=mHelper.getReadableDatabase();
                     Cursor cursor;
                     cursor = db.rawQuery("SELECT * FROM user where id='"+emailString+"' and password='"+passwordString+"'", null);
                     if (cursor.moveToFirst()) {
@@ -109,7 +142,7 @@ public class LoginActivity extends ActionBarActivity {
 
                     //task = new BackgroundLogin();
                     //task.execute(emailString, passwordString);
-                    if (emailString.length() > 0 && passwordString.length() > 0) {
+                    /*if (emailString.length() > 0 && passwordString.length() > 0) {
                         if (emailString.equals("1") && passwordString.equals("1")) {    // 테스트 (아이디 : 1, 비번 : 1)
                             SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
                             SharedPreferences.Editor editor = settings.edit();
@@ -121,18 +154,49 @@ public class LoginActivity extends ActionBarActivity {
 
                             startTutorialActivity();
                         }
-                    }
+                    }*/
                 }
             }
         });
 
-
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+            }
+        });
     }
 
     void startTutorialActivity() {
         Intent intent = new Intent(LoginActivity.this, TutorialActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private final long FINSH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+    @Override
+    public void onBackPressed() {
+        if(btn.getVisibility() == View.VISIBLE) {
+            signUp.setVisibility(View.VISIBLE);
+            toLogin.setVisibility(View.VISIBLE);
+            btn.setVisibility(View.INVISIBLE);
+            mail.setVisibility(View.INVISIBLE);
+            pw.setVisibility(View.INVISIBLE);
+        } else {
+            long tempTime = System.currentTimeMillis();
+            long intervalTime = tempTime - backPressedTime;
+
+            if( intervalTime >= 0 && intervalTime <= FINSH_INTERVAL_TIME ) {
+                super.onBackPressed();
+            }
+            else {
+                backPressedTime = tempTime;
+                Toast.makeText(getApplicationContext(), "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private class BackgroundLogin extends AsyncTask<String, Void, String>{

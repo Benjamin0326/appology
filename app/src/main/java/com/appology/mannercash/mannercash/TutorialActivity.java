@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
 public class TutorialActivity extends ActionBarActivity{
@@ -49,5 +50,21 @@ public class TutorialActivity extends ActionBarActivity{
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private final long FINSH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if( intervalTime >= 0 && intervalTime <= FINSH_INTERVAL_TIME ) {
+            super.onBackPressed();
+        }
+        else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -601,7 +601,7 @@ public class MainFunctionTask extends AsyncTask<Void, Integer, Void> {
 
         int point;
         Cursor cursor;
-        cursor = db.rawQuery("SELECT * FROM user", null);
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
         if (cursor.moveToFirst()) {
             point = cursor.getInt(2);
             Log.i("mannercash", String.valueOf(point));

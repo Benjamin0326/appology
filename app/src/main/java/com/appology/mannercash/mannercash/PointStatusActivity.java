@@ -45,10 +45,6 @@ public class PointStatusActivity extends ActionBarActivity {
     TextView name;
     ImageButton infoModify;
 
-    int i;
-    WordDBHelper mHelper;
-    SQLiteDatabase db;
-
     Context mContext;
     MainActivity mainActivityClass;
 
@@ -133,13 +129,15 @@ public class PointStatusActivity extends ActionBarActivity {
                 finish();
             }
         });
-        mHelper = new WordDBHelper(this);
-        db=mHelper.getReadableDatabase();
+
+
         TextView nameText = (TextView)findViewById(R.id.point_name);
         TextView pointText = (TextView)findViewById(R.id.point_point);
-        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
-        final String id=settings.getString("email","");
         today=(ImageButton)findViewById(R.id.point_today);
+
+        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+        final String id=settings.getString("email", "");
+
 
         today.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +147,9 @@ public class PointStatusActivity extends ActionBarActivity {
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-0);
                 String dateStr=format.format(cal.getTime());
+
+                WordDBHelper mHelper = new WordDBHelper(mContext);
+                SQLiteDatabase db=mHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc", null);
                 cursor.moveToFirst();
 
@@ -179,6 +180,9 @@ public class PointStatusActivity extends ActionBarActivity {
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-7);
                 String dateStr=format.format(cal.getTime());
+
+                WordDBHelper mHelper = new WordDBHelper(mContext);
+                SQLiteDatabase db=mHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"' order by date desc", null);
                 cursor.moveToFirst();
                 int index=cursor.getCount();
@@ -206,6 +210,9 @@ public class PointStatusActivity extends ActionBarActivity {
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-30);
                 String dateStr=format.format(cal.getTime());
+
+                WordDBHelper mHelper = new WordDBHelper(mContext);
+                SQLiteDatabase db=mHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"' and id='"+id+"'order by date desc", null);
 
 
@@ -234,6 +241,9 @@ public class PointStatusActivity extends ActionBarActivity {
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-90);
                 String dateStr=format.format(cal.getTime());
+
+                WordDBHelper mHelper = new WordDBHelper(mContext);
+                SQLiteDatabase db=mHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM point where date>='"+dateStr+"'and id='"+id+"' order by date desc", null);
                 cursor.moveToFirst();
                 int index=cursor.getCount();
@@ -252,7 +262,8 @@ public class PointStatusActivity extends ActionBarActivity {
                 listView.setAdapter(adp);
             }
         });
-        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+
+        WordDBHelper mHelper = new WordDBHelper(this);
         SQLiteDatabase db=mHelper.getReadableDatabase();
         Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);

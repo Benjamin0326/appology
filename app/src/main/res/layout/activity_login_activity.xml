@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/login_background"
-    tools:context="com.appology.mannercash.mannercash.LoginActivity">
+    tools:context="com.appology.mannercash.mannercash.LoginActivity"
+    android:id="@+id/layout">
 
 
     <View
@@ -16,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:visibility="invisible"
-        android:layout_weight="15">
+        android:visibility="visible"
+        android:layout_weight="12">
 
         <ImageView
             android:layout_width="match_parent"
@@ -36,7 +37,8 @@
             android:inputType="textEmailAddress"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="25dp"
+            android:singleLine="true" />
 
     </FrameLayout>
 
@@ -45,8 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:visibility="invisible"
-        android:layout_weight="15">
+        android:visibility="visible"
+        android:layout_weight="12">
 
         <ImageView
             android:layout_width="match_parent"
@@ -64,7 +66,8 @@
             android:inputType="textPassword"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="25dp"
+            android:singleLine="true" />
 
     </FrameLayout>
 

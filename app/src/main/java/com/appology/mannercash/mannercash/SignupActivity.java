@@ -2,6 +2,7 @@ package com.appology.mannercash.mannercash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -11,9 +12,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -52,6 +55,13 @@ public class SignupActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     // 회원 가입 첫번째 페이지
     public static class SignUpFragment1 extends Fragment {
@@ -62,6 +72,9 @@ public class SignupActivity extends ActionBarActivity {
         EditText name;
         ImageButton btnOk;
         ImageButton btnCancel;
+        LinearLayout layout;
+
+        InputMethodManager imm;
 
         public SignUpFragment1() {
         }
@@ -74,6 +87,7 @@ public class SignupActivity extends ActionBarActivity {
             passWord = (EditText) rootView.findViewById(R.id.signup_password);
             passWord2 = (EditText) rootView.findViewById(R.id.signup_password2);
             name = (EditText) rootView.findViewById(R.id.signup_name);
+            layout = (LinearLayout) rootView.findViewById(R.id.layout);
 
             btnOk = (ImageButton) rootView.findViewById(R.id.signup_ok);
             btnCancel = (ImageButton) rootView.findViewById(R.id.signup_cancel);
@@ -97,8 +111,17 @@ public class SignupActivity extends ActionBarActivity {
                             Toast.makeText(mContext.getApplicationContext(), "이미 회원가입 되신 E-Mail 주소입니다.", Toast.LENGTH_LONG).show();
                         }
                         else {
+                            SharedPreferences settings = getActivity().getSharedPreferences("MannerCash", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("logged", "logged");   // 자동 로그인을 위해 logged 기록
+                            editor.putString("email", email.getText().toString());
+                            editor.putString("password", passWord.getText().toString());
+                            editor.commit();
+
                             db = mHelper.getWritableDatabase();
                             db.execSQL("INSERT INTO user VALUES ('" + email.getText().toString() + "','" + passWord.getText().toString() + "'," + 0 + ",'"+name.getText().toString()+"');");
+                            Intent intent = new Intent(mContext, TutorialActivity.class);
+                            startActivity(intent);
                             getActivity().finish();
                         }
                     }
@@ -110,6 +133,17 @@ public class SignupActivity extends ActionBarActivity {
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
+                }
+            });
+
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(passWord.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(passWord2.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(name.getWindowToken(), 0);
                 }
             });
 
