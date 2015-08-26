@@ -254,7 +254,7 @@
 
 
         <ListView android:id="@+id/lv_activity_main"
-
+            android:textColor="#ffffffff"
             android:background="@android:color/transparent"
             android:layout_width="240dp"
             android:layout_height="0dp"

@@ -108,6 +108,7 @@ public class MainActivity extends ActionBarActivity {
 
         dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_main);
+
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
         lvDrawerList.setAdapter(adtDrawerList);
 
@@ -534,7 +535,7 @@ class JCT{
 
 class WordDBHelper extends SQLiteOpenHelper {
     public WordDBHelper(Context context){
-        super(context, "mannercash.db", null, 4);
+        super(context, "mannercash.db", null, 5);
     }
 
     public void onCreate(SQLiteDatabase db){
