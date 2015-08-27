@@ -124,7 +124,6 @@ public class SignupActivity extends ActionBarActivity {
                             getActivity().finish();
                         }
                     }
-                    btnOk.setImageResource(R.drawable.signup_ok);
                 }
             });
 

@@ -3,6 +3,8 @@ package com.appology.mannercash.mannercash;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -13,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -43,7 +44,7 @@ public class PartnerShipActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_ship);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar_main);
+        getSupportActionBar().setCustomView(R.layout.actionbar_partnership);
         dlLayout = (LinearLayout) findViewById(R.id.dlLayout);
         lvDrawerList = (ListView) findViewById(R.id.lv_activity_partner_ship);
         adtDrawerList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItems);
@@ -89,6 +90,18 @@ public class PartnerShipActivity extends ActionBarActivity {
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
 
         name = (TextView) findViewById(R.id.name);
+
+        SharedPreferences settings = getSharedPreferences("MannerCash", MODE_PRIVATE);
+        String id=settings.getString("email","");
+        WordDBHelper mHelper = new WordDBHelper(MainActivity.mainActivity);
+        SQLiteDatabase db=mHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM user where id='"+id+"'", null);
+        if (cursor.moveToFirst()) {
+            String nameStr = cursor.getString(3);
+            name.setText(nameStr);
+        }
+
 
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
