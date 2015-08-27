@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -70,8 +70,8 @@ public class SignupActivity extends ActionBarActivity {
         EditText passWord;
         EditText passWord2;
         EditText name;
-        ImageButton btnOk;
-        ImageButton btnCancel;
+        ImageView btnOk;
+        ImageView btnCancel;
         LinearLayout layout;
 
         InputMethodManager imm;
@@ -89,8 +89,8 @@ public class SignupActivity extends ActionBarActivity {
             name = (EditText) rootView.findViewById(R.id.signup_name);
             layout = (LinearLayout) rootView.findViewById(R.id.layout);
 
-            btnOk = (ImageButton) rootView.findViewById(R.id.signup_ok);
-            btnCancel = (ImageButton) rootView.findViewById(R.id.signup_cancel);
+            btnOk = (ImageView) rootView.findViewById(R.id.signup_ok);
+            btnCancel = (ImageView) rootView.findViewById(R.id.signup_cancel);
             btnOk.setImageResource(R.drawable.signup_ok);
             btnCancel.setImageResource(R.drawable.signup_cancel);
             btnOk.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +128,7 @@ public class SignupActivity extends ActionBarActivity {
                             getActivity().finish();
                         }
                     }
+                    btnOk.setImageResource(R.drawable.signup_ok);
                 }
             });
 

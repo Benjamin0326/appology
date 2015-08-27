@@ -10,7 +10,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="60"/>
+        android:layout_weight="328"/>
 
     <FrameLayout
         android:id="@+id/emailFrame"
@@ -18,30 +18,37 @@
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:visibility="visible"
-        android:layout_weight="12">
+        android:layout_weight="37"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/email_background"
-            android:src="@drawable/email"
+            android:src="@drawable/login_email"
             android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:scaleType="fitXY" />
 
         <EditText
             android:id="@+id/login_email"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="textEmailAddress"
             android:background="@android:color/transparent"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp"
+            android:layout_gravity="center"
             android:singleLine="true"
-            android:textColor="#ffffff" />
+            android:textColor="#000000"
+            android:hint="  이메일 주소"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
     </FrameLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="17"/>
 
     <FrameLayout
         android:id="@+id/pwFrame"
@@ -49,59 +56,70 @@
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:visibility="visible"
-        android:layout_weight="12"
-        android:layout_marginTop="10dp">
+        android:layout_weight="37"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/password"
+            android:layout_height="match_parent"
+            android:src="@drawable/login_password"
             android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:scaleType="fitXY" />
 
         <EditText
             android:id="@+id/login_password"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="textPassword"
             android:background="@android:color/transparent"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="25dp"
+            android:layout_gravity="center"
             android:singleLine="true"
-            android:textColor="#ffffff" />
+            android:textColor="#000000"
+            android:hint="  비밀번호"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
     </FrameLayout>
 
-    <ImageButton
-        android:id="@+id/login_login"
-        android:layout_width="90dp"
+    <View
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="20"
+        android:layout_weight="105"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:id="@+id/login_login"
         android:scaleType="centerInside"
         android:background="@android:color/transparent"
-        android:src="@drawable/login_login2"
-        android:visibility="invisible"
+        android:src="@drawable/login_button"
+        android:visibility="visible"
         android:layout_gravity="center_horizontal" />
 
     <ImageButton
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="20"
+        android:layout_weight="50"
         android:scaleType="centerInside"
         android:src="@drawable/login_join"
         android:id="@+id/login_join"
         android:background="@android:color/transparent"
         android:visibility="visible"
         android:layout_gravity="center_horizontal"/>
-    
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="20"/>
+
     <ImageButton
         android:id="@+id/login_tologin"
-        android:layout_width="280dp"
+        android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="17"
         android:background="@android:color/transparent"
         android:src="@drawable/login_login"
         android:visibility="visible"
@@ -110,6 +128,6 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="5"/>
+        android:layout_weight="31"/>
 
 </LinearLayout>

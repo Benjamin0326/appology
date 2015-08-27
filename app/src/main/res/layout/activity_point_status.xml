@@ -12,18 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="9"
             android:background="@drawable/point_bluebar">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:id="@+id/point_name"
                 android:textColor="#ffffffff"/>
             <TextView
@@ -31,27 +33,32 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_gravity="right|bottom"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="30dp"
                 android:layout_marginBottom="20dp"
-                android:textSize="25dp"
+                android:textSize="18dp"
                 android:id="@+id/point_point"
                 android:textColor="#ffffffff"/>
 
-            </FrameLayout>
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
             android:orientation="horizontal">
-<ImageButton
-    android:id="@+id/point_today"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:src="@drawable/today"
-    android:layout_gravity="left|center_vertical"
-    android:scaleType="centerInside" />
+
+            <ImageButton
+                android:id="@+id/point_today"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/today"
+                android:layout_gravity="left|center_vertical"
+                android:scaleType="centerInside"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="5dp" />
+
             <ImageButton
                 android:id="@+id/point_week"
                 android:layout_width="0dp"
@@ -60,7 +67,10 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/week"
                 android:layout_gravity="center_vertical"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+
             <ImageButton
                 android:id="@+id/point_month"
                 android:layout_width="0dp"
@@ -69,9 +79,11 @@
                 android:layout_gravity="center_vertical"
                 android:scaleType="centerInside"
                 android:background="@android:color/transparent"
-                android:src="@drawable/month"/>
-            <ImageButton
+                android:src="@drawable/month"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
 
+            <ImageButton
                 android:id="@+id/point_month_3"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -79,8 +91,12 @@
                 android:scaleType="centerInside"
                 android:layout_gravity="center_vertical|right"
                 android:background="@android:color/transparent"
-                android:src="@drawable/month3"/>
-            </LinearLayout>
+                android:src="@drawable/month3"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="5dp" />
+
+        </LinearLayout>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -91,70 +107,99 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="223dp"
         android:layout_height="match_parent"
-        android:background="@drawable/menubackground"
         android:id="@+id/dlLayout"
-        android:layout_gravity="start"
-        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="240dp"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"
-            android:background="@android:color/transparent">
+            android:layout_weight="223"
+            android:orientation="horizontal"
+            android:background="@drawable/menuupperbg">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10" />
 
             <ImageView
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:id="@+id/userPhoto"
-                android:src="@drawable/user"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/name"
-                android:textSize="25dp"
-                android:text="admin"
-                android:textColor="#ffffffff"
-                android:layout_toRightOf="@+id/userPhoto"
-                android:layout_alignTop="@+id/userPhoto"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="30dp"/>
+                android:layout_weight="78"
+                android:id="@+id/userPhoto"
+                android:src="@drawable/menuuser" />
 
-            <ImageButton
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:id="@+id/infoModify"
-                android:background="@android:color/transparent"
-                android:scaleType="centerInside"
-                android:src="@drawable/logout"
-                android:layout_alignRight="@+id/name"
-                android:layout_below="@+id/name"
-                android:layout_marginTop="10dp"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="20" />
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="68" >
 
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="30" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="25"
+                    android:text="11"
+                    android:id="@+id/name"
+                    android:textSize="25dp"
+                    android:textColor="#ffffffff"
+                    android:layout_gravity="center_horizontal" />
 
-        <ListView android:id="@+id/lv_activity_point_status"
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="64" />
 
-            android:background="@android:color/transparent"
-            android:layout_width="240dp"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="22"
+                    android:id="@+id/infoModify"
+                    android:src="@drawable/menulogout"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center_horizontal" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="10" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10" />
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"/>
-        <ImageButton
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:background="@android:color/transparent"
-            android:layout_width="70dp"
+            android:layout_weight="392"
+            android:id="@+id/lv_activity_point_status" />
+
+        <ImageView
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/notice" />
+            android:layout_weight="35"
+            android:scaleType="fitXY"
+            android:src="@drawable/menunotice" />
 
     </LinearLayout>
 

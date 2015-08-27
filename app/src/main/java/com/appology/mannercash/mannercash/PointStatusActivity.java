@@ -44,7 +44,7 @@ public class PointStatusActivity extends ActionBarActivity {
 
     ImageView userPhoto;
     TextView name;
-    ImageButton infoModify;
+    ImageView infoModify;
 
     Context mContext;
     MainActivity mainActivityClass;
@@ -111,7 +111,7 @@ public class PointStatusActivity extends ActionBarActivity {
         name = (TextView) findViewById(R.id.name);
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
-        infoModify = (ImageButton) findViewById(R.id.infoModify);
+        infoModify = (ImageView) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

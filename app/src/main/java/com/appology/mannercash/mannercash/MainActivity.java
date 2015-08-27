@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -65,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
     ImageView userPhoto;
     TextView name;
-    ImageButton infoModify;
+    ImageView infoModify;
 
     Context mContext;
     MainFunctionTask mainFunctionTask;
@@ -169,7 +168,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
-        infoModify = (ImageButton) findViewById(R.id.infoModify);
+        infoModify = (ImageView) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

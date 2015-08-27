@@ -33,7 +33,7 @@ public class PartnerShipActivity extends ActionBarActivity {
 
     ImageView userPhoto;
     TextView name;
-    ImageButton infoModify;
+    ImageView infoModify;
 
     MainActivity mainActivityClass;
 
@@ -92,7 +92,7 @@ public class PartnerShipActivity extends ActionBarActivity {
 
 
         mainActivityClass = (MainActivity) MainActivity.mainActivity;
-        infoModify = (ImageButton) findViewById(R.id.infoModify);
+        infoModify = (ImageView) findViewById(R.id.infoModify);
         infoModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
