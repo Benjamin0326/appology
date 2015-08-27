@@ -60,7 +60,6 @@ public class PointStatusActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_status);
-
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_point);
         mContext = this;
@@ -147,10 +146,6 @@ public class PointStatusActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 CustomAdapter2 adp=new CustomAdapter2();
-                today.setImageResource(R.drawable.today_pressed);
-                week.setImageResource(R.drawable.week);
-                month.setImageResource(R.drawable.month);
-                month3.setImageResource(R.drawable.month3);
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 cal.add(cal.DATE,-0);
@@ -183,10 +178,6 @@ public class PointStatusActivity extends ActionBarActivity {
         week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                today.setImageResource(R.drawable.today);
-                week.setImageResource(R.drawable.week_pressed);
-                month.setImageResource(R.drawable.month);
-                month3.setImageResource(R.drawable.month3);
                 CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -217,10 +208,6 @@ public class PointStatusActivity extends ActionBarActivity {
         month.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                today.setImageResource(R.drawable.today);
-                week.setImageResource(R.drawable.week);
-                month.setImageResource(R.drawable.month_pressed);
-                month3.setImageResource(R.drawable.month3);
                 CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -252,10 +239,6 @@ public class PointStatusActivity extends ActionBarActivity {
         month3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                today.setImageResource(R.drawable.today);
-                week.setImageResource(R.drawable.week);
-                month.setImageResource(R.drawable.month);
-                month3.setImageResource(R.drawable.month3_pressed);
                 CustomAdapter2 adp=new CustomAdapter2();
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd");

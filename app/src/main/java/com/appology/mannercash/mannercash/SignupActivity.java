@@ -91,12 +91,8 @@ public class SignupActivity extends ActionBarActivity {
 
             btnOk = (ImageView) rootView.findViewById(R.id.signup_ok);
             btnCancel = (ImageView) rootView.findViewById(R.id.signup_cancel);
-            btnOk.setImageResource(R.drawable.signup_ok);
-            btnCancel.setImageResource(R.drawable.signup_cancel);
             btnOk.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    btnOk.setImageResource(R.drawable.signup_ok_pressed);
-                    btnCancel.setImageResource(R.drawable.signup_cancel);
                     if(!isValidEmail(email.getText().toString()))
                         Toast.makeText(mContext.getApplicationContext(), "메일주소를 정확히 입력해주세요.", Toast.LENGTH_LONG).show();
                     else if(!isValidPasswordLength(passWord.getText().toString()))
@@ -134,8 +130,6 @@ public class SignupActivity extends ActionBarActivity {
 
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    btnOk.setImageResource(R.drawable.signup_ok);
-                    btnCancel.setImageResource(R.drawable.signup_cancel_pressed);
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();

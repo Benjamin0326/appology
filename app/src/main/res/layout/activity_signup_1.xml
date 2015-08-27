@@ -173,14 +173,8 @@
                 android:id="@+id/signup_ok"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/signup_ok" />
+                android:src="@drawable/ok_btn" />
 
-            <ImageView
-                android:id="@+id/signup_ok_pressed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/signup_ok_pressed"
-                android:visibility="invisible" />
 
         </FrameLayout>
 
@@ -198,14 +192,7 @@
                 android:id="@+id/signup_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/signup_cancel" />
-
-            <ImageView
-                android:id="@+id/signup_cancel_pressed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/signup_cancel_pressed"
-                android:visibility="invisible" />
+                android:src="@drawable/cancel_btn" />
 
         </FrameLayout>
 
