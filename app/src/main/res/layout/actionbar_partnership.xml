@@ -7,18 +7,18 @@
     <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="131" />
+        android:layout_weight="104" />
 
     <ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="57"
+        android:layout_weight="108"
         android:layout_gravity="center"
-        android:src="@drawable/actionbar_rank" />
+        android:src="@drawable/actionbar_partnership" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="171" />
+        android:layout_weight="144" />
 
 </LinearLayout>
